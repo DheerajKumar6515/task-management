@@ -1,3 +1,5 @@
+import FieldsMenu from "@/components/tasks/FieldsMenu";
+import { useState } from "react";
 import {
   Columns3,
   Filter,
@@ -6,6 +8,7 @@ import {
 } from "lucide-react";
 
 function TaskHeader() {
+   const [fieldsOpen, setFieldsOpen] = useState(false);
   return (
         <div className="flex w-full h-8 shrink-0 items-center justify-between px-4 sm:px-5 mt-4 mb-4">
 
@@ -23,13 +26,26 @@ function TaskHeader() {
           <Search className="h-4 w-4" />
         </button>
 
-        <button
+        <button onClick={() =>
+            setFieldsOpen((previous) => !previous)
+          }
           type="button"
-          className="hidden w-19 h-8 items-center gap-1.5 rounded-md border border-gray-200 px-3 cursor-pointer sm:flex"
+          className={`hidden w-19 h-8 items-center gap-1.5 rounded-md border border-gray-200 px-3 cursor-pointer sm:flex ${
+              fieldsOpen
+                ? "bg-gray-50"
+                : "bg-white"
+            }`}
         >
           <Columns3 className="h-3.5 w-3.5" />
           <span className="text-xs font-sans font-medium leading-4 text-[#171717]">Fields</span>
         </button>
+
+         {/* Fields Dropdown */}
+        {fieldsOpen && (
+          <FieldsMenu
+            onClose={() => setFieldsOpen(false)}
+          />
+        )}
 
         <button
           type="button"

@@ -1,11 +1,7 @@
 "use client";
 
-import {
-  Columns3,
-  Filter,
+import { 
   PanelLeft,
-  Plus,
-  Search,
 } from "lucide-react";
 
 interface TopbarProps {
