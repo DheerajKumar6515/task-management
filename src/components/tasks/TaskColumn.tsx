@@ -9,22 +9,24 @@ interface TaskColumnProps {
 
 function TaskColumn({ column }: TaskColumnProps) {
   return (
-     <section className="flex w-62.5 shrink-0 flex-col rounded-lg bg-[#f5f5f5] p-1.5 sm:w-65 h-fit">
+     <section className="flex w-72.5 h-fit shrink-0 flex-col bg-[#f5f5f5] rounded-lg border border-[#E5E5E5]">
       {/* Column header */}
-      <header className="flex h-7 items-center justify-between px-1.5">
-        <div className="flex items-center gap-1.5">
-          <GripVertical className="h-3.5 w-3.5 text-gray-500" />
+      <header className="flex h-9.75 items-center justify-between px-3">
+        <div className="w-17.5 h-3.5 flex items-center gap-2">
+          <span className="w-3.5 h-3.5 cursor-pointer">
+           <GripVertical className="h-3.5 w-3.5 text-[#171717]" />
+          </span>
 
-          <h2 className="text-[11px] font-medium text-gray-900">
+          <h2 className="w-12 h-3 text-xs font-sans font-semibold text-[#171717]">
             {column.title}
           </h2>
         </div>
 
-        <div className="flex items-center gap-1">
+        <div className="w-9 h-3.5 flex items-center">
           <button
             type="button"
             aria-label={`Add task to ${column.title}`}
-            className="rounded-md p-1 text-gray-600 hover:bg-white"
+            className="rounded-md p-1 cursor-pointer text-[#171717] hover:bg-white"
           >
             <Plus className="h-3.5 w-3.5" />
           </button>
@@ -32,7 +34,7 @@ function TaskColumn({ column }: TaskColumnProps) {
           <button
             type="button"
             aria-label={`${column.title} options`}
-            className="rounded-md p-1 text-gray-600 hover:bg-white"
+            className="rounded-md cursor-pointer p-1 text-[#171717] hover:bg-white"
           >
             <MoreHorizontal className="h-3.5 w-3.5" />
           </button>
@@ -40,7 +42,7 @@ function TaskColumn({ column }: TaskColumnProps) {
       </header>
 
       {/* Tasks */}
-      <div className="space-y-1.5">
+      <div className="h-fit px-2 space-y-2">
         {column.tasks.map((task) => (
           <TaskCard key={task.id} task={task} />
         ))}
@@ -49,9 +51,9 @@ function TaskColumn({ column }: TaskColumnProps) {
       {/* Add task */}
       <button
         type="button"
-        className="mt-1.5 flex h-8 items-center gap-1 px-2 text-[10px] text-gray-700 hover:text-gray-950"
+        className="mt-1.5 cursor-pointer flex h-8 items-center gap-1 px-2 text-[10px] text-gray-700 hover:text-gray-950"
       >
-        <Plus className="h-3.5 w-3.5" />
+        <Plus className="h-3.5 w-3.5 " />
         Add Task
       </button>
     </section>

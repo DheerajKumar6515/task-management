@@ -29,10 +29,9 @@ function LoginCard() {
       {/* Login Actions */}
       <div className="w-full md:w-84 h-21 mt-2.5 md:mt-4 space-y-3 ">
         {/* Guest Login */}
-        <div className='w-full h-9 flex items-center justify-center rounded-4xl bg-[#171717] px-3 py-2 gap-1.5 cursor-pointer'>
+        <div onClick={handleGuestLogin} className='w-full h-9 flex items-center justify-center rounded-4xl bg-[#171717] px-3 py-2 gap-1.5 cursor-pointer'>
             <button
           type="button"
-          onClick={handleGuestLogin}
           className="w-31 h-5 font-sans text-xs md:text-sm font-medium text-[#FAFAFA] leading-5 cursor-pointer"
         >
           Continue as Guest

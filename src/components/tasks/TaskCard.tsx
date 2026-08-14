@@ -9,40 +9,43 @@ interface TaskCardProps {
 
 function TaskCard({ task }: TaskCardProps) {
   return (
-   <article className="rounded-lg border border-gray-200 bg-white p-2.5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-shadow hover:shadow-sm">
+   <article className="w-68.25 h-28.5 rounded-md border border-[#E5E5E5] bg-white p-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-shadow hover:shadow-sm gap-2">
       {/* Task title */}
-      <div className="flex items-start justify-between gap-2">
-        <h3 className="min-w-0 text-[12px] font-medium leading-5 text-gray-900">
+      <div className="w-61.75 h-5 flex items-start justify-between gap-2">
+        <h3 className="w-50 h-5 text-sm font-sans font-medium leading-5 text-[#0A0A0A]">
           {task.title}
         </h3>
 
         <button
           type="button"
           aria-label="Task options"
-          className="shrink-0 rounded-md p-0.5 text-gray-500 hover:bg-gray-100"
+          className="w-3.5 h-3.5 shrink-0 rounded-md p-0.5 text-[#171717] hover:bg-gray-100"
         >
-          <MoreHorizontal className="h-4 w-4" />
+          <MoreHorizontal className="h-3.5 w-3.5" />
         </button>
       </div>
 
       {/* Assignee + Date */}
-      <div className="mt-2.5 flex items-center justify-between gap-2">
-        <div className="flex min-w-0 items-center gap-1.5">
+      <div className="w-61.75 h-13 flex items-center justify-between">
+        <div className="w-22.5 h-5 flex min-w-0 items-center gap-1">
+          {/* Avatar IMage here */}
+          <span className="w-5 h-5 rounded-full">
           <Avatar name={task.assignee} />
+          </span>
 
-          <span className="truncate text-[10px] text-gray-800">
+          <span className="w-full h-3 text-xs font-sans font-medium text-[#0A0A0A]">
             {task.assignee}
           </span>
         </div>
 
-        <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-[9px] font-medium text-red-500">
+        <span className="w-16.75 h-5 inline-flex shrink-0 items-center justify-center gap-1 rounded-3xl border border-white bg-red-50 py-0.5 text-xs font-sans leading-4 font-medium text-[#DC2626] ">
           <CalendarDays className="h-3 w-3" />
           {task.dueDate}
         </span>
       </div>
 
       {/* Tags */}
-      <div className="mt-2.5 flex flex-wrap gap-1.5">
+      <div className="w-52.5 h-5 flex flex-wrap gap-1.5">
         {task.tags.map((tag, index) => (
           <TaskTag
             key={`${task.id}-${tag}-${index}`}
@@ -50,6 +53,7 @@ function TaskCard({ task }: TaskCardProps) {
           />
         ))}
       </div>
+       
     </article>
   )
 }

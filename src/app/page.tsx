@@ -30,3 +30,18 @@ export default function Home() {
     </main>
   );
 }
+
+/* 
+ git commit msg
+ chore: initialize Next.js project
+feat: create login page
+feat: add sidebar navigation
+feat: implement dashboard layout
+feat: add task management UI
+feat: implement theme switching
+feat: add responsive mobile layout
+feat: connect backend APIs
+fix: improve mobile responsiveness
+docs: add project documentation
+ 
+*/
