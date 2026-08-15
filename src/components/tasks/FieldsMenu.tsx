@@ -46,13 +46,17 @@ const initialFields: FieldOption[] = [
 
 interface FieldsMenuProps {
   onClose: () => void;
+  viewMode: "list" | "board";
+  onViewChange: (view: "list" | "board") => void;
 }
 
 export default function FieldsMenu({
   onClose,
+  viewMode,
+  onViewChange,
 }: FieldsMenuProps) {
-  const [viewMode, setViewMode] =
-    useState<ViewMode>("board");
+  // const [viewMode, setViewMode] =
+  //   useState<ViewMode>("board");
 
   const [fields, setFields] =
     useState<FieldOption[]>(initialFields);
@@ -91,7 +95,7 @@ export default function FieldsMenu({
           {/* List */}
           <button
             type="button"
-            onClick={() => setViewMode("list")}
+           onClick={() => onViewChange("board")}
             className={` w-[133.5px] h-9 rounded-md cursor-pointer border border-[#E5E5E5] px-3 py-2.5
               flex flex-1 items-center justify-center gap-1
               text-base font-medium
@@ -110,7 +114,7 @@ export default function FieldsMenu({
           {/* Board */}
           <button
             type="button"
-            onClick={() => setViewMode("board")}
+            onClick={() => onViewChange("list")}
             className={`w-[133.5px] h-9 rounded-md cursor-pointer border border-[#E5E5E5] px-3 py-2.5
               flex flex-1 items-center justify-center gap-2
               text-base font-medium

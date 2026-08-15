@@ -7,7 +7,15 @@ import {
   Search,
 } from "lucide-react";
 
-function TaskHeader() {
+interface TaskHeaderProps {
+  onMenuClick: () => void;
+  viewMode: "list" | "board";
+  onViewChange: (view: "list" | "board") => void;
+}
+
+function TaskHeader({
+  viewMode,
+  onViewChange,}:TaskHeaderProps) {
    const [fieldsOpen, setFieldsOpen] = useState(false);
   return (
         <div className="flex w-full h-8 shrink-0 items-center justify-between px-4 sm:px-5 mt-4 mb-4">
@@ -44,6 +52,8 @@ function TaskHeader() {
         {fieldsOpen && (
           <FieldsMenu
             onClose={() => setFieldsOpen(false)}
+           viewMode={viewMode}
+           onViewChange={onViewChange}
           />
         )}
 
