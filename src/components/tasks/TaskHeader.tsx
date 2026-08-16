@@ -1,4 +1,5 @@
 import FieldsMenu from "@/components/tasks/FieldsMenu";
+import SearchInput from "@/components/tasks/SearchInput";
 import { useState } from "react";
 import {
   Columns3,
@@ -11,28 +12,39 @@ interface TaskHeaderProps {
   onMenuClick: () => void;
   viewMode: "list" | "board";
   onViewChange: (view: "list" | "board") => void;
+  searchQuery: string;
+  onSearchChange: (value: string) => void;
 }
 
 function TaskHeader({
   viewMode,
-  onViewChange,}:TaskHeaderProps) {
+  onViewChange,
+  searchQuery,
+  onSearchChange,
+}:TaskHeaderProps) {
    const [fieldsOpen, setFieldsOpen] = useState(false);
+   //const [searchOpen,setSearchopen] = useState(false);
+
   return (
         <div className="flex w-full h-8 shrink-0 items-center justify-between px-4 sm:px-5 mt-4 mb-4">
 
-        <h1 className="w-11.5 h-4 text-base font-sans font-semibold text-[#171717]">
+        <h1 className="w-11.5 h-4 text-base font-sans font-semibold text-[#171717] flex items-center justify-center">
         Tasks
         </h1>
 
          {/* Actions */}
       <div className="ml-auto flex items-center gap-1.5">
-        <button
+        {viewMode === "list" ?  <SearchInput
+                value={searchQuery}
+                onChange={onSearchChange}
+              /> : <button
           type="button"
           aria-label="Search"
           className="rounded-md w-8 h-8 border border-gray-200 hover:bg-gray-50 flex items-center justify-center cursor-pointer"
         >
           <Search className="h-4 w-4" />
-        </button>
+        </button> }
+       
 
         <button onClick={() =>
             setFieldsOpen((previous) => !previous)
@@ -67,10 +79,10 @@ function TaskHeader({
 
         <button
           type="button"
-          className=" w-10 md:w-24 h-8 flex items-center justify-center gap-1.5 rounded-md bg-[#171717] md:px-3 py-2 hover:bg-black cursor-pointer"
+          className={`w-10 md:w-24 h-8 flex items-center justify-center gap-1 rounded-md bg-[#171717] md:px-3 py-2 hover:bg-black cursor-pointer`}
         >
-          <Plus className="h-3.5 w-3.5 text-white hidden md:inline" />
-          <span className="font-sans font-medium text-[#FAFAFA] text-xs leading-4 hidden md:inline">Add Task</span>
+          <Plus className="h-4 w-4 text-white hidden md:inline" />
+          <span className={`${viewMode === "list"? 'w-28':'w-full'} font-sans font-medium text-[#FAFAFA] text-xs leading-4 hidden md:inline`}>Add Task</span>
           <span className="sm:hidden text-white text-xs font-sans ">Add</span>
         </button>
       </div>

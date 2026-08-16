@@ -1,7 +1,12 @@
 import { taskColumns } from "@/data/tasks";
 import TaskColumn from "./TaskColumn";
+import { TaskColumn as taskColumn} from "@/types/task";
 
-function TaskBoard() {
+interface TaskBoardProps {
+ taskColumns: taskColumn[];
+}
+
+function TaskBoard({taskColumns,}: TaskBoardProps) {
   return (
     <div className="min-w-0 flex-1 overflow-hidden">
       <div

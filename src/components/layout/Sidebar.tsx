@@ -64,6 +64,7 @@ function Sidebar({
           </div>
 
           <button
+          onClick={onClose}
             type="button"
             className="flex w-full items-center gap-2 rounded-xl bg-gray-100 px-2 py-2 "
           >
@@ -72,6 +73,7 @@ function Sidebar({
           </button>
 
           <button
+          onClick={onClose}
             type="button"
             className="mt-1 flex w-full items-center gap-2 rounded-xl px-2 py-2 text-left text-gray-800 hover:bg-gray-100"
           >

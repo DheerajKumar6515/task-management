@@ -1,14 +1,16 @@
 import { ChevronDown, Plus } from "lucide-react";
 
-import type { TaskColumn } from "@/types/task";
+import type { Task, TaskColumn } from "@/types/task";
 import TaskRow from "./TaskRow";
 
 interface TaskListSectionProps {
-  column: TaskColumn;
+  title: string;
+  tasks: Task[];
 }
 
 export default function TaskListSection({
-  column,
+  title,
+  tasks,
 }: TaskListSectionProps) {
   return (
     <section className="mb-3">
@@ -19,7 +21,7 @@ export default function TaskListSection({
       >
         <ChevronDown className="h-3.5 w-3.5" />
 
-        {column.title}
+        {title}
       </button>
 
       {/* Table */}
@@ -35,7 +37,7 @@ export default function TaskListSection({
         </div>
 
         {/* Tasks */}
-        {column.tasks.map((task) => (
+        {tasks.map((task) => (
           <TaskRow
             key={task.id}
             task={task}
