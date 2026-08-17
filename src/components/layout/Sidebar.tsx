@@ -8,6 +8,7 @@ import {
   GalleryVerticalEnd
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface SidebarProps {
   open: boolean;
@@ -63,14 +64,13 @@ function Sidebar({
             <ChevronDown className="h-3.5 w-3.5" />
           </div>
 
-          <button
+          <Link href="/dashboard"
           onClick={onClose}
-            type="button"
             className="flex w-full items-center gap-2 rounded-xl bg-gray-100 px-2 py-2 "
           >
             <LayoutDashboard className="h-4 w-4" />
             <span className="w-48 h-3.5 text-left text-sm text-gray-900/82 font-sans font-medium tracking-wide">Tasks</span>
-          </button>
+          </Link>
 
           <button
           onClick={onClose}

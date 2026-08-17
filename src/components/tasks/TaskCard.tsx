@@ -2,6 +2,7 @@ import { CalendarDays, MoreHorizontal } from "lucide-react";
 import type { Task } from "@/types/task";
 import Avatar from "@/components/ui/Avatar";
 import TaskTag from "./TaskTag";
+import Link from "next/link";
 
 interface TaskCardProps {
   task: Task;
@@ -9,7 +10,8 @@ interface TaskCardProps {
 
 function TaskCard({ task }: TaskCardProps) {
   return (
-   <article className="w-68.25 h-28.5 rounded-md border border-[#E5E5E5] bg-white p-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-shadow hover:shadow-sm gap-2">
+    <Link href={`/task/${task.id}`}>
+   <article className="w-68.25 h-28.5 rounded-md border border-[#E5E5E5] bg-white p-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-shadow hover:shadow-sm gap-2 mb-1.5">
       {/* Task title */}
       <div className="w-61.75 h-5 flex items-start justify-between gap-2">
         <h3 className="w-50 h-5 text-sm font-sans font-medium leading-5 text-[#0A0A0A]">
@@ -46,7 +48,7 @@ function TaskCard({ task }: TaskCardProps) {
 
       {/* Tags */}
       <div className="w-52.5 h-5 flex flex-wrap gap-1.5">
-        {task.tags.map((tag, index) => (
+        {task.tags.slice(0,2).map((tag, index) => (
           <TaskTag
             key={`${task.id}-${tag}-${index}`}
             label={tag}
@@ -55,6 +57,7 @@ function TaskCard({ task }: TaskCardProps) {
       </div>
        
     </article>
+    </Link>
   )
 }
 
