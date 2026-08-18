@@ -1,5 +1,6 @@
 import FieldsMenu from "@/components/tasks/FieldsMenu";
 import SearchInput from "@/components/tasks/SearchInput";
+import FilterDropdown from "@/components/tasks/filters/FilterDropdown";
 import { useState } from "react";
 import {
   Columns3,
@@ -23,7 +24,7 @@ function TaskHeader({
   onSearchChange,
 }:TaskHeaderProps) {
    const [fieldsOpen, setFieldsOpen] = useState(false);
-   //const [searchOpen,setSearchopen] = useState(false);
+    const [filterOpen, setFilterOpen] = useState(false);
 
   return (
         <div className="flex w-full h-8 shrink-0 items-center justify-between px-4 sm:px-5 mt-4 mb-4">
@@ -68,14 +69,30 @@ function TaskHeader({
            onViewChange={onViewChange}
           />
         )}
-
+         {/* Filter */}
+        <div className="relative">     
         <button
+        onClick={() =>
+              setFilterOpen(
+                (previous) => !previous
+              )
+            }
           type="button"
           aria-label="Filter"
-          className="w-8 h-8 rounded-md border border-gray-200 p-2 hover:bg-gray-50 cursor-pointer"
+          className={`w-8 h-8 rounded-md border border-gray-200 p-2 hover:bg-gray-50 cursor-pointer ${
+                filterOpen
+                  ? "bg-gray-100"
+                  : "hover:bg-gray-50"
+              }`}
+              
         >
           <Filter className="h-3.5 w-3.5" />
         </button>
+            {filterOpen && (
+            <FilterDropdown />
+          )}
+
+         </div>
 
         <button
           type="button"
