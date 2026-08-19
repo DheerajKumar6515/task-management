@@ -1,20 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import {useState } from "react";
 import {
   ChevronRight,
   Moon,
   Settings,
   Sun,
+  User,
 } from "lucide-react";
 
+
 import ThemeMenu from "@/components/layout/ThemeMemu";
+import ColorMode from "@/components/layout/ColorMode";
+import Link from "next/link";
 
 export default function ProfileMenu() {
   const [themeOpen, setThemeOpen] = useState(false);
+  const [colorModeOpen,setColorModeOpen] = useState(false);
 
+ 
   return (
-    <div className="relative">
+    <div className="relative rounded-md">
 
       {/* Profile Card */}
       <div className="border-b border-gray-100 px-4 py-4 dark:border-gray-800">
@@ -41,9 +47,17 @@ export default function ProfileMenu() {
         </div>
       </div>
 
+      {/*profile */}
+      <div>
+          <Link href="/profile" className="flex w-full items-center justify-between px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800">
+          <span className="flex items-center gap-2"><User size={13}/> Profile</span>
+        </Link>
+
+         </div>
+
       {/* Change Theme */}
       <div className="relative">
-
+       
         <button
           type="button"
           onClick={() =>
@@ -65,7 +79,11 @@ export default function ProfileMenu() {
       </div>
 
       {/* Color Mode */}
+      <div>
       <button
+       onClick={() =>
+            setColorModeOpen((previous) => !previous)
+          }
         type="button"
         className="flex w-full items-center justify-between px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800"
       >
@@ -76,6 +94,10 @@ export default function ProfileMenu() {
 
         <ChevronRight size={12} />
       </button>
+
+        {/* Theme submenu */}
+        {colorModeOpen && <ColorMode />}
+      </div>
 
       {/* Settings */}
       <button

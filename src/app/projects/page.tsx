@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
 import TaskHeader from "@/components/tasks/TaskHeader";
-import { SidebarClose } from "lucide-react";
 import ProjectRow from "@/components/projects/ProjectRow";
+
 
 
 type ViewMode = "list" | "board";
@@ -16,6 +16,7 @@ function page() {
       const [sidebarOpen, setSidebarOpen] = useState(false);
       // Board / List state
       const [viewMode, setViewMode] = useState<ViewMode>("board");
+      //colormode
 
   return (
     <div className="flex h-screen overflow-hidden bg-white">

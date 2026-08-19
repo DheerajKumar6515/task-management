@@ -1,6 +1,5 @@
 import LoginCard from "@/components/auth/LoginCard";
 import Image from "next/image";
-//import Image from "next/image";
 
 export default function Home() {
   return (
