@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📋 Task Management Platform
 
-## Getting Started
+A modern, full-stack Task Management application built using **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**, and **Supabase**. Designed to help users organize, filter, and manage tasks seamlessly with dynamic column views, interactive board layouts, dark/light theme persistence, and secure authentication.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Key Features
+* **Task & Board Management:**
+  * **Dual Views:** Switch between **Board View** (`TaskBoard`) and **List View** (`TaskList`) seamlessly.
+  * **Column Organization:** Categorize tasks across columns (`TaskColumn`) with state-based grouping and real-time filtering.
+  * **Subtask & Tag Support:** Task cards feature tags (`TaskTag`), detailed status updates, and interactive modal management (`UpdateTaskModal`, `TaskActions`).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* **Theme & UI:**
+  * **Dark & Light Mode:** Custom class-based theme toggle utilizing Tailwind CSS and client-side `localStorage` state synchronization.
+  * **Responsive Design:** Mobile-first layout with collapsible sidebars and responsive navigation components (`Topbar`, `Sidebar`, `TaskHeader`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+### **Frontend**
+* **Framework:** Next.js (App Router)
+* **Language:** TypeScript
+* **Styling:** Tailwind CSS (v4 configuration with custom CSS directives)
+* **Icons & Components:** Lucide React 
 
-To learn more about Next.js, take a look at the following resources:
+### **Backend & Database**
+* **Backend as a Service (BaaS):**Nest.js, Supabase
+* **Auth SDK:** `@supabase/supabase-js`
+* **Session Strategy:** Local browser storage & Supabase Auth Tokens
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Project Structure
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+task-management/
+├── backend/                  # Additional backend configuration/scripts
+├── src/
+│   ├── app/                  # Next.js App Router routes
+│   │   ├── dashboard/        # Main Dashboard view
+│   │   ├── task/[id]/        # Dynamic task details page
+│   │   ├── globals.css       # Tailwind directives & dark mode overrides
+│   │   └── page.tsx          # Landing / Entry page
+│   ├── components/
+│   │   ├── auth/             # Auth UI components (LoginCard, etc.)
+│   │   └── tasks/            # Task management UI components
+│   │       ├── TaskBoard.tsx
+│   │       ├── TaskCard.tsx
+│   │       ├── TaskColumn.tsx
+│   │       ├── TaskList.tsx
+│   │       ├── TaskRow.tsx
+│   │       ├── TaskTag.tsx
+│   │       ├── TaskActions.tsx
+│   │       └── UpdateTaskModal.tsx
+│   ├── lib/                  # Helper utilities and Supabase client setup
+│   │   └── supabaseClient.ts
+│   ├── data/                 # Sample data & mock fallbacks (tasks.ts)
+│   └── types/                # TypeScript interfaces (task.ts)
+├── .gitignore
+├── package.json
+├── package-lock.json
+└── README.md
