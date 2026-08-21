@@ -1,5 +1,5 @@
 import { taskColumns } from "@/data/tasks";
-import TaskColumn from "./TaskColumn";
+import TaskColumn from "@/components/tasks/TaskColumn";
 import { TaskColumn as taskColumn} from "@/types/task";
 
 interface TaskBoardProps {

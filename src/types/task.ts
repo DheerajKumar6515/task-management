@@ -14,6 +14,7 @@ export interface Task {
   id: string;
   title: string;
   status: TaskStatus;
+  column_id:string;
   priority: TaskPriority;
   assignee: string;
   avatar?: string;

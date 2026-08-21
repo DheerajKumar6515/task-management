@@ -1,13 +1,14 @@
 "use client";
 
-import { useState,useMemo } from "react";
+import { useState,useMemo, useEffect } from "react";
 
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
 import TaskHeader from "@/components/tasks/TaskHeader";
 import TaskBoard from "@/components/tasks/TaskBoard";
 import TaskList from "@/components/tasks/TaskList";
-import { taskColumns } from "@/data/tasks";
+//import { taskColumns } from "@/data/tasks";
+import type {TaskColumn} from '@/types/task'
 
 
 type ViewMode = "list" | "board";
@@ -19,6 +20,8 @@ function page() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // Board / List state
   const [viewMode, setViewMode] = useState<ViewMode>("board");
+  //Arraydata
+  const [taskColumns,setTaskColumns]=useState<TaskColumn[]>([])
 
    // Filter tasks based on search
     const filteredTasks = useMemo(() => {
@@ -32,11 +35,30 @@ function page() {
 
     return taskColumns.filter((task)=> task.title.toLowerCase().includes(query));
 
-  }, [searchQuery]);
+  }, [searchQuery,taskColumns]);
 
+   const fetchTask = async () => {
+      try {
+      
+        const response = await fetch(`http://localhost:4000/tasks`);
+
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: Task not found`);
+        }
+
+        const data = await response.json();
+        setTaskColumns(data);
+      } catch (err: any) {
+        console.log(err.message || 'Failed to fetch task');
+      } 
+    };
+
+    useEffect(()=>{
+       fetchTask();
+    },[])
 
   return (
-   <div className="flex h-screen overflow-hidden bg-white">
+   <div className="flex h-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
       {/* Sidebar */}
       <Sidebar
         open={sidebarOpen}
@@ -44,7 +66,8 @@ function page() {
       />
 
       {/* Main */}
-      <main className="flex min-w-0 flex-1 flex-col">
+      <main className="flex min-w-0 flex-1 flex-col bg-gray-50 dark:bg-gray-900">
+    {/* Topbar */}
         {/* Topbar */}
         <Topbar
           onMenuClick={() => setSidebarOpen(true)}
@@ -62,7 +85,7 @@ function page() {
         {viewMode === "list" ? (
           <TaskList taskColumns={filteredTasks}/>
         ) : (
-          <div className="min-h-0 flex-1 px-3 sm:px-4">
+          <div className="min-h-0 flex-1 px-3 sm:px-4 bg-gray-50 dark:bg-gray-900">
             <TaskBoard taskColumns={filteredTasks}/>
           </div>
         )}

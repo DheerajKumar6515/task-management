@@ -3,6 +3,7 @@ import type { Task } from "@/types/task";
 import Avatar from "@/components/ui/Avatar";
 import TaskTag from "./TaskTag";
 import Link from "next/link";
+import TaskActions from "@/components/tasks/TaskActions";
 
 interface TaskCardProps {
   task: Task;
@@ -11,54 +12,48 @@ interface TaskCardProps {
 function TaskCard({ task }: TaskCardProps) {
   return (
     <Link href={`/task/${task.id}`}>
-   <article className="w-68.25 h-28.5 rounded-md border border-[#E5E5E5] bg-white p-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-shadow hover:shadow-sm gap-2 mb-1.5">
-      {/* Task title */}
-      <div className="w-61.75 h-5 flex items-start justify-between gap-2">
-        <h3 className="w-50 h-5 text-sm font-sans font-medium leading-5 text-[#0A0A0A]">
-          {task.title}
-        </h3>
+      <article className="w-68.25 h-28.5 rounded-md border border-[#E5E5E5] bg-white p-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-shadow hover:shadow-sm gap-2 mb-1.5">
+        {/* Task title */}
+        <div className="w-61.75 h-5 flex items-start justify-between gap-2">
+          <h3 className="w-50 h-5 text-sm font-sans font-medium leading-5 text-[#0A0A0A]">
+            {task.title}
+          </h3>
 
-        <button
-          type="button"
-          aria-label="Task options"
-          className="w-3.5 h-3.5 shrink-0 rounded-md p-0.5 text-[#171717] hover:bg-gray-100"
-        >
-          <MoreHorizontal className="h-3.5 w-3.5" />
-        </button>
-      </div>
+          <TaskActions
+            taskId={task.id}
+            task={task}
+          />
 
-      {/* Assignee + Date */}
-      <div className="w-61.75 h-13 flex items-center justify-between">
-        <div className="w-22.5 h-5 flex min-w-0 items-center gap-1">
-          {/* Avatar IMage here */}
-          <span className="w-5 h-5 rounded-full">
-          <Avatar name={task.assignee} />
-          </span>
+        </div>
 
-          <span className="w-full h-3 text-xs font-sans font-medium text-[#0A0A0A]">
-            {task.assignee}
+        {/* Assignee + Date */}
+        <div className="w-61.75 h-13 flex items-center justify-between">
+          <div className="w-22.5 h-5 flex min-w-0 items-center gap-1">
+            {/* Avatar IMage here */}
+            <span className="w-5 h-5 rounded-full">
+              <Avatar name={task.assignee} />
+            </span>
+
+            <span className="w-full capitalize h-3 text-xs font-sans font-medium text-[#0A0A0A]">
+              {task.assignee}
+            </span>
+          </div>
+
+          <span className="w-16.75 capitalize h-5 inline-flex shrink-0 items-center justify-center gap-1 rounded-3xl border border-white bg-red-50 py-0.5 text-xs font-sans leading-4 font-medium text-[#DC2626] ">
+            <CalendarDays className="h-3 w-3" />
+            {task.dueDate}
           </span>
         </div>
 
-        <span className="w-16.75 h-5 inline-flex shrink-0 items-center justify-center gap-1 rounded-3xl border border-white bg-red-50 py-0.5 text-xs font-sans leading-4 font-medium text-[#DC2626] ">
-          <CalendarDays className="h-3 w-3" />
-          {task.dueDate}
-        </span>
-      </div>
-
-      {/* Tags */}
-      <div className="w-52.5 h-5 flex flex-wrap gap-1.5">
-        {task.tags.slice(0,2).map((tag, index) => (
-          <TaskTag
-            key={`${task.id}-${tag}-${index}`}
-            label={tag}
-          />
-        ))}
-      </div>
-       
-    </article>
+        {/* Tags */}
+        <div className="w-full h-5 flex flex-wrap gap-1.5">
+          {task.tags.slice(0, 2).map((tag, index) => (
+            <TaskTag key={`${task.id}-${tag}-${index}`} label={tag} />
+          ))}
+        </div>
+      </article>
     </Link>
-  )
+  );
 }
 
-export default TaskCard
+export default TaskCard;

@@ -4,7 +4,7 @@ import {
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
-
+import TaskActions from "@/components/tasks/TaskActions";
 import type { Task } from "@/types/task";
 import Avatar from "@/components/ui/Avatar";
 
@@ -65,13 +65,16 @@ export default function TaskRow({
 
       {/* Actions */}
       <div className="flex justify-end">
-        <button
+
+        {/* <button
           type="button"
           aria-label="Task options"
           className="rounded-md p-1 hover:bg-gray-100"
         >
           <MoreHorizontal className="h-4 w-4 text-gray-500" />
-        </button>
+        </button> */}
+        <TaskActions taskId={task.id}/>
+
       </div>
     </div>
   );

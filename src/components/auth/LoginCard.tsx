@@ -1,15 +1,27 @@
 'use client';
 import Image from 'next/image';
 import { redirect } from "next/navigation";
+import { createClient } from '@/lib/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 function LoginCard() {
+
+  const supabase = createClient();
+  const router = useRouter();
+
   const handleGuestLogin = () => {
     redirect("/dashboard");
     //console.log("Continue as Guest");
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Login with Google"); 
+  const handleGoogleLogin = async() => {
+    redirect("/dashboard");
+    // await supabase.auth.signInWithOAuth({
+    //   provider: 'google',
+    //   options: {
+    //     redirectTo: `${location.origin}/dashboard`,
+    //   },
+    // });
   };
 
 

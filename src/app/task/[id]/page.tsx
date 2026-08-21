@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 import Sidebar from "@/components/layout/Sidebar";
@@ -13,17 +13,41 @@ import SubtaskTable from "@/components/tasks/TaskDetails/SubtaskTable";
 import DetailsPanel from "@/components/tasks/TaskDetails/DetailsPanel";
 import CommentSection from "@/components/tasks/TaskDetails/CommentSection";
 import ActivityUpdates from "@/components/tasks/TaskDetails/ActivityUpdates";
-
+import type {Task,TaskColumn} from '@/types/task'
 import { taskColumns } from "@/data/tasks";
 
 function page() {
      const params = useParams();
      const taskId = params.id as string;
       const [sidebarOpen, setSidebarOpen] = useState(false);
+     const [task,setTask]=useState<Task | null>(null)
 
-     const task = taskColumns
-    .flatMap((column) => column.tasks)
-    .find((task) => task.id === taskId);
+  //    const task = Array.isArray(taskdata)
+  // ? taskdata.flatMap((column) => column.tasks || []).find((task) => task.id === taskId)
+  // : undefined;
+
+   const fetchTaskById = async () => {
+      try {
+      
+        const response = await fetch(`http://localhost:4000/tasks/${taskId}`);
+
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: Task not found`);
+        }
+
+        const data = await response.json();
+        //console.log(data)
+        setTask(data);
+      } catch (err: any) {
+        setTask(null);
+        console.log(err.message || 'Failed to fetch task');
+      } 
+    };
+
+    useEffect(()=>{
+      if (!taskId) return;
+       fetchTaskById();
+    },[taskId])
 
   // Agar task nahi mila
   if (!task) {
@@ -76,7 +100,7 @@ function page() {
                 />
 
                 <TaskLabels
-                  labels={task.tags}
+                  labels={task?.tags}
                 />
 
                 <TaskResources />
