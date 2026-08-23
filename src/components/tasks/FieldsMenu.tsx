@@ -58,8 +58,7 @@ export default function FieldsMenu({
   // const [viewMode, setViewMode] =
   //   useState<ViewMode>("board");
 
-  const [fields, setFields] =
-    useState<FieldOption[]>(initialFields);
+  const [fields, setFields] = useState<FieldOption[]>(initialFields);
 
   const toggleField = (fieldId: string) => {
     setFields((currentFields) =>
@@ -69,8 +68,8 @@ export default function FieldsMenu({
               ...field,
               checked: !field.checked,
             }
-          : field
-      )
+          : field,
+      ),
     );
   };
 
@@ -85,88 +84,89 @@ export default function FieldsMenu({
       />
 
       {/* Fields Menu */}
-      <div className="absolute right-10 top-30 z-50 w-75.25 h-77.5 max-w-[calc(100vw-24px)] rounded-md border border-[#E5E5E5] bg-white p-4 shadow-md">
-        
+      <div className="absolute right-10 top-30 z-50 w-75.25 h-77.5 max-w-[calc(100vw-24px)] rounded-md border border-[#E5E5E5] dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-md transition-colors duration-200">
         {/* View Switcher */}
-        <div className="w-66.75 h-69 border border-gray-200/40 rounded-md ">
-
-        <div className="w-full h-9 flex overflow-hidden rounded-xl bg-gray-50 ">
-          
-          {/* List */}
-          <button
-            type="button"
-           onClick={() => onViewChange("board")}
-            className={` w-[133.5px] h-9 rounded-md cursor-pointer border border-[#E5E5E5] px-3 py-2.5
-              flex flex-1 items-center justify-center gap-1
-              text-base font-medium
-              transition
-              ${
-                viewMode === "list"
-                  ? "bg-white shadow-sm"
-                  : "text-gray-700"
-              }
-            `}
-          >
-            <List className="h-4 w-4" />
-            <span className="w-6.25 h-5 text-sm font-sans font-medium leading-5 text-[#171717]">List</span>
-          </button>
-
-          {/* Board */}
-          <button
-            type="button"
-            onClick={() => onViewChange("list")}
-            className={`w-[133.5px] h-9 rounded-md cursor-pointer border border-[#E5E5E5] px-3 py-2.5
-              flex flex-1 items-center justify-center gap-2
-              text-base font-medium
-              transition
-              ${
-                viewMode === "board"
-                  ? "bg-white shadow-sm"
-                  : "text-gray-700"
-              }
-            `}
-          >
-            <Grid2X2 className="h-4 w-4" />
-           <span className="text-sm font-sans font-medium leading-5 text-[#171717]">Board</span>
-          </button>
-        </div>
-
-        {/* Fields */}
-        <div className="w-66.75 h-56 mt-2 space-y-1">
-        <div className="w-full h-8 ">
-          {fields.map((field) => (
+        <div className="w-66.75 h-69 border border-gray-200/40 dark:border-gray-800 rounded-md">
+          <div className="w-full h-9 flex overflow-hidden rounded-xl bg-gray-50 dark:bg-gray-800 p-0.5">
+            {/* List */}
             <button
-              key={field.id}
               type="button"
-              onClick={() => toggleField(field.id)}
-              className="flex w-full items-center justify-between rounded-lg px-1 py-2.5 text-left hover:bg-gray-50"
+              onClick={() => onViewChange("board")}
+              className={`w-[133.5px] h-9 rounded-md cursor-pointer border border-[#E5E5E5] dark:border-gray-700 px-3 py-2.5
+            flex flex-1 items-center justify-center gap-1
+            text-base font-medium
+            transition
+            ${
+              viewMode === "list"
+                ? "bg-white dark:bg-gray-950 text-black dark:text-white shadow-sm"
+                : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+            }
+          `}
             >
-              <span className="w-20 min-w-20 h-4 text-xs font-sans font-medium leading-4 text-[#171717]">
-                {field.label}
+              <List className="h-4 w-4 text-gray-700 dark:text-gray-300" />
+              <span className="w-6.25 h-5 text-sm font-sans font-medium leading-5 text-[#171717] dark:text-gray-100">
+                List
               </span>
+            </button>
 
-              <div
-                className={`flex h-4 w-4 items-center justify-center
+            {/* Board */}
+            <button
+              type="button"
+              onClick={() => onViewChange("list")}
+              className={`w-[133.5px] h-9 rounded-md cursor-pointer border border-[#E5E5E5] dark:border-gray-700 px-3 py-2.5
+            flex flex-1 items-center justify-center gap-2
+            text-base font-medium
+            transition
+            ${
+              viewMode === "board"
+                ? "bg-white dark:bg-gray-950 text-black dark:text-white shadow-sm"
+                : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+            }
+          `}
+            >
+              <Grid2X2 className="h-4 w-4 text-gray-700 dark:text-gray-300" />
+              <span className="text-sm font-sans font-medium leading-5 text-[#171717] dark:text-gray-100">
+                Board
+              </span>
+            </button>
+          </div>
+
+          {/* Fields */}
+          <div className="w-66.75 h-56 mt-2 space-y-1">
+            <div className="w-full h-8">
+              {fields.map((field) => (
+                <button
+                  key={field.id}
+                  type="button"
+                  onClick={() => toggleField(field.id)}
+                  className="flex w-full items-center justify-between rounded-lg px-1 py-2.5 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                >
+                  <span className="w-20 min-w-20 h-4 text-xs font-sans font-medium leading-4 text-[#171717] dark:text-gray-200">
+                    {field.label}
+                  </span>
+
+                  <div
+                    className={`flex h-4 w-4 items-center justify-center
                   rounded
                   transition
                   ${
                     field.checked
-                      ? "bg-gray-900"
-                      : "bg-gray-200"
+                      ? "bg-gray-900 dark:bg-white"
+                      : "bg-gray-200 dark:bg-gray-700"
                   }
                 `}
-              >
-                <span className="w-4 h-4 gap-2">
-                {field.checked && (
-                    <Check className="h-4 w-4 text-white" />
-                )}
-                </span>
-              </div>
-            </button>
-          ))}
+                  >
+                    <span className="w-4 h-4 flex items-center justify-center">
+                      {field.checked && (
+                        <Check className="h-4 w-4 text-white dark:text-gray-900" />
+                      )}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-        </div>
-      </div>
       </div>
     </>
   );

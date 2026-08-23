@@ -25,6 +25,8 @@ export default function TaskModal({
   onSuccess,
 }: TaskModalProps) {
 
+  const backendUrl=process.env.NEXT_PUBLIC_baCKEND_URL;
+
   // Tab state: 'task' | 'subtask'
   const [activeTab, setActiveTab] = useState<'task' | 'subtask'>('task');
 
@@ -72,7 +74,7 @@ export default function TaskModal({
     };
 
     try {
-      const res = await fetch('http://localhost:4000/tasks/create', {
+      const res = await fetch(`${backendUrl}/tasks/create`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -110,7 +112,7 @@ export default function TaskModal({
     
     try {
       const res = await fetch(
-        `http://localhost:4000/tasks/${subtaskData.task_id}/subtasks`,
+        `${backendUrl}/tasks/${subtaskData.task_id}/subtasks`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -138,31 +140,31 @@ export default function TaskModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
+      <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-900">
         {/* Header & Toggle Tabs (Login/Signup style) */}
-        <div className="flex items-center justify-between border-b pb-3">
-          <div className="flex gap-2 rounded-lg bg-gray-100 p-1">
+        <div className="flex items-center justify-between border-b pb-3 ">
+          <div className="flex gap-2 rounded-lg bg-gray-100 dark:bg-gray-900 p-1">
             <button
               type="button"
               onClick={() => setActiveTab('task')}
-              className={`rounded-md cursor-pointer px-4 py-1.5 text-sm font-semibold transition-all ${
+              className={`rounded-md cursor-pointer px-4 py-1.5 text-sm font-semibold transition-all dark:bg-gray-200 ${
                 activeTab === 'task'
                   ? 'bg-white text-black shadow'
                   : 'text-gray-500 hover:text-black'
               }`}
             >
-              + Add Task
+               Add Task
             </button>
             <button
               type="button"
               onClick={() => setActiveTab('subtask')}
-              className={`rounded-md cursor-pointer px-4 py-1.5 text-sm font-semibold transition-all ${
+              className={`rounded-md cursor-pointer px-4 py-1.5 text-sm font-semibold transition-all dark:bg-gray-200 ${
                 activeTab === 'subtask'
                   ? 'bg-white text-black shadow'
                   : 'text-gray-500 hover:text-black'
               }`}
             >
-              + Add Subtask
+               Add Subtask
             </button>
           </div>
 
@@ -185,12 +187,12 @@ export default function TaskModal({
                 type="text"
                 value={taskData.column_id}
                 disabled
-                className="mt-1 w-full rounded-md border bg-gray-100 p-2 text-sm font-semibold text-gray-600 uppercase"
+                className="mt-1 w-full rounded-md border bg-gray-100 dark:bg-gray-900 p-2 text-sm font-semibold text-gray-600 uppercase"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500">
+            <div className=''>
+              <label className="block text-xs font-semibold uppercase text-gray-500 ">
                 Task Title *
               </label>
               <input
@@ -201,7 +203,7 @@ export default function TaskModal({
                 onChange={(e) =>
                   setTaskData({ ...taskData, title: e.target.value })
                 }
-                className="mt-1 w-full rounded-md border p-2 text-sm focus:outline-none focus:border-black"
+                className="mt-1 w-full rounded-md border border-gray-600 p-2 text-sm focus:outline-none focus:border-black"
               />
             </div>
 
@@ -215,7 +217,7 @@ export default function TaskModal({
                   onChange={(e) =>
                     setTaskData({ ...taskData, assignee: e.target.value })
                   }
-                  className="mt-1 w-full rounded-md border p-2 text-sm focus:outline-none"
+                  className="mt-1 w-full rounded-md border border-gray-600 p-2 text-black dark:text-gray-400 text-sm focus:outline-none"
                 >
                   <option value="admin">Admin</option>
                   <option value="user">User</option>
@@ -238,7 +240,7 @@ export default function TaskModal({
                   onChange={(e) =>
                     setTaskData({ ...taskData, priority: e.target.value })
                   }
-                  className="mt-1 w-full rounded-md border p-2 text-sm focus:outline-none"
+                  className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none"
                 >
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
@@ -259,7 +261,7 @@ export default function TaskModal({
                   onChange={(e) =>
                     setTaskData({ ...taskData, due_date: e.target.value })
                   }
-                  className="mt-1 w-full rounded-md border p-2 text-sm focus:outline-none"
+                  className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none placeholder:text-gray-500"
                 />
               </div>
 
@@ -274,7 +276,7 @@ export default function TaskModal({
                   onChange={(e) =>
                     setTaskData({ ...taskData, tags: e.target.value })
                   }
-                  className="mt-1 w-full rounded-md border p-2 text-sm focus:outline-none"
+                  className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none placeholder:text-gray-500"
                 />
               </div>
             </div>
@@ -290,7 +292,7 @@ export default function TaskModal({
               onChange={(e) =>
                 setTaskData({ ...taskData, description: e.target.value })
               }
-              className="mt-1 w-full rounded-md border p-2 text-sm focus:outline-none focus:border-black resize-none"
+              className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none focus:border-black resize-none placeholder:text-gray-500"
             />
           </div>
 
@@ -333,7 +335,7 @@ export default function TaskModal({
                 onChange={(e) =>
                   setSubtaskData({ ...subtaskData, task_id: e.target.value })
                 }
-                className="mt-1 w-full rounded-md border p-2 text-sm focus:outline-none focus:border-black"
+                className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none focus:border-black"
               >
                 {existingTasks.length === 0 ? (
                   <option value="">No tasks available</option>
@@ -359,7 +361,7 @@ export default function TaskModal({
                 onChange={(e) =>
                   setSubtaskData({ ...subtaskData, title: e.target.value })
                 }
-                className="mt-1 w-full rounded-md border p-2 text-sm focus:outline-none focus:border-black"
+                className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none focus:border-black placeholder:text-gray-400"
               />
             </div>
 
@@ -377,7 +379,7 @@ export default function TaskModal({
                       assignee: e.target.value,
                     })
                   }
-                  className="mt-1 w-full rounded-md border p-2 text-sm focus:outline-none"
+                  className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none"
                 />
               </div>
 
@@ -393,7 +395,7 @@ export default function TaskModal({
                       priority: e.target.value,
                     })
                   }
-                  className="mt-1 w-full rounded-md border p-2 text-sm focus:outline-none"
+                  className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none"
                 >
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
@@ -413,7 +415,7 @@ export default function TaskModal({
                 onChange={(e) =>
                   setSubtaskData({ ...subtaskData, due_date: e.target.value })
                 }
-                className="mt-1 w-full rounded-md border p-2 text-sm focus:outline-none"
+                className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none placeholder:text-gray-400"
               />
             </div>
 

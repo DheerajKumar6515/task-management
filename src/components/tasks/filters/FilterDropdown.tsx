@@ -13,7 +13,6 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-
 interface FilterDropdownProps {
   onClose?: () => void;
 }
@@ -64,23 +63,17 @@ const icons = {
   reporter: User,
 };
 
-export default function FilterDropdown({
-  onClose,
-}: FilterDropdownProps) {
-  const [activeFilter, setActiveFilter] =
-    useState<string | null>(null);
+export default function FilterDropdown({ onClose }: FilterDropdownProps) {
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
   return (
     <div className="absolute right-0 top-10 z-50 flex">
-
       {/* Main Filter Menu */}
-      <div className="w-32 rounded-md border border-gray-200 bg-white p-1 shadow-lg">
-
+      <div className="w-32 rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-1 shadow-lg dark:shadow-black/40 transition-colors duration-200">
         {filterItems.map((item) => {
           const Icon = icons[item.id as keyof typeof icons];
 
-          const isActive =
-            activeFilter === item.id;
+          const isActive = activeFilter === item.id;
 
           return (
             <button
@@ -88,56 +81,51 @@ export default function FilterDropdown({
               type="button"
               onClick={() => {
                 if (item.id === "priority") {
-                  setActiveFilter(
-                    isActive ? null : "priority"
-                  );
+                  setActiveFilter(isActive ? null : "priority");
                   return;
                 }
 
-                setActiveFilter(
-                  isActive ? null : item.id
-                );
+                setActiveFilter(isActive ? null : item.id);
               }}
               className={`
-                flex
-                w-full
-                items-center
-                justify-between
-                rounded
-                px-2
-                py-1.5
-                text-left
-                text-[10px]
-                text-gray-700
-                transition
+            flex
+            w-full
+            items-center
+            justify-between
+            rounded
+            px-2
+            py-1.5
+            text-left
+            text-[10px]
+            text-gray-700
+            dark:text-gray-200
+            transition-colors
+            cursor-pointer
 
-                ${
-                  isActive
-                    ? "bg-gray-50"
-                    : "hover:bg-gray-50"
-                }
-              `}
+            ${
+              isActive
+                ? "bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
+                : "hover:bg-gray-50 dark:hover:bg-gray-800/70"
+            }
+          `}
             >
               <span className="flex items-center gap-2">
-
-                <Icon size={12} />
+                <Icon size={12} className="text-gray-500 dark:text-gray-400" />
 
                 {item.label}
-
               </span>
 
-              <ChevronRight size={10} />
+              <ChevronRight
+                size={10}
+                className="text-gray-400 dark:text-gray-500"
+              />
             </button>
           );
         })}
-
       </div>
 
       {/* Priority Submenu */}
-      {activeFilter === "priority" && (
-        <PriorityFilter />
-      )}
-
+      {activeFilter === "priority" && <PriorityFilter />}
     </div>
   );
 }

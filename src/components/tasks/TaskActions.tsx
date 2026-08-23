@@ -13,6 +13,7 @@ interface TaskActionsProps {
 }
 
 export default function TaskActions({ taskId, task }: TaskActionsProps) {
+  const backendUrl=process.env.NEXT_PUBLIC_baCKEND_URL;
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -59,7 +60,7 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
 
     try {
       
-        const response = await fetch(`http://localhost:4000/tasks/${taskId}`);
+        const response = await fetch(`${backendUrl}/tasks/${taskId}`);
 
         if (!response.ok) {
           throw new Error(`Error ${response.status}: Task not found`);
@@ -90,11 +91,11 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full z-50 mt-1 w-32 overflow-hidden rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+        <div className="absolute right-0 top-full z-50 mt-1 w-32 overflow-hidden rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:bg-gray-900 ">
           <button
             type="button"
             onClick={handleUpdate}
-            className="flex cursor-pointer w-full items-center gap-2 px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+            className="flex cursor-pointer w-full items-center gap-2 px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-400 hover:bg-gray-100"
           >
             <Pencil size={15} />
             Update

@@ -17,6 +17,7 @@ import type {Task,TaskColumn} from '@/types/task'
 import { taskColumns } from "@/data/tasks";
 
 function page() {
+      const backendUrl=process.env.NEXT_PUBLIC_baCKEND_URL;
      const params = useParams();
      const taskId = params.id as string;
       const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -29,7 +30,7 @@ function page() {
    const fetchTaskById = async () => {
       try {
       
-        const response = await fetch(`http://localhost:4000/tasks/${taskId}`);
+        const response = await fetch(`${backendUrl}/tasks/${taskId}`);
 
         if (!response.ok) {
           throw new Error(`Error ${response.status}: Task not found`);
@@ -61,76 +62,76 @@ function page() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-white">
+   <div className="flex h-screen overflow-hidden bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
 
-      {/* Existing Sidebar */}
-      <Sidebar
-       open={sidebarOpen}
-       onClose={() => setSidebarOpen(false)}
-       />
+  {/* Existing Sidebar */}
+  <Sidebar
+    open={sidebarOpen}
+    onClose={() => setSidebarOpen(false)}
+  />
 
-      {/* Main */}
-      <main className="flex min-w-0 flex-1 flex-col">
+  {/* Main */}
+  <main className="flex min-w-0 flex-1 flex-col bg-white dark:bg-gray-950">
 
-        {/* Existing Topbar */}
-        <Topbar  onMenuClick={() => setSidebarOpen(true)}/>
+    {/* Existing Topbar */}
+    <Topbar onMenuClick={() => setSidebarOpen(true)} />
 
-        {/* Scrollable content */}
-        <div className="min-h-0 flex-1 overflow-auto">
+    {/* Scrollable content */}
+    <div className="min-h-0 flex-1 overflow-auto">
 
-          <div className="mx-auto max-w-7xl px-4 py-5 lg:px-6">
+      <div className="mx-auto max-w-7xl px-4 py-5 lg:px-6">
 
-            {/* Task title + description */}
-            <TaskDetailsHeader
-              title={task.title}
-              description={task.description}
+        {/* Task title + description */}
+        <TaskDetailsHeader
+          title={task.title}
+          description={task.description}
+        />
+
+        {/* Main + Right panel */}
+        <div className="mt-5 flex flex-col gap-6 lg:flex-row">
+
+          {/* =====================
+              LEFT / MAIN CONTENT
+          ====================== */}
+          <div className="min-w-0 flex-1 space-y-4">
+
+            <TaskProperties
+              assignee={task.assignee}
+              dueDate={task.dueDate}
             />
 
-            {/* Main + Right panel */}
-            <div className="mt-5 flex flex-col gap-6 lg:flex-row">
+            <TaskLabels
+              labels={task?.tags}
+            />
 
-              {/* =====================
-                  LEFT / MAIN CONTENT
-              ====================== */}
-              <div className="min-w-0 flex-1">
+            <TaskResources />
 
-                <TaskProperties
-                  assignee={task.assignee}
-                  dueDate={task.dueDate}
-                />
+            <SubtaskTable
+              subtasks={task.subtasks ?? []}
+            />
 
-                <TaskLabels
-                  labels={task?.tags}
-                />
+            <CommentSection />
 
-                <TaskResources />
-
-                <SubtaskTable
-                  subtasks={task.subtasks ?? []}
-                />
-
-                <CommentSection />
-
-              </div>
-
-              {/* =====================
-                  RIGHT CONTENT
-              ====================== */}
-              <div className="w-full lg:w-56">
-
-                <DetailsPanel
-                  priority={task.priority}
-                />
-
-                <ActivityUpdates />
-
-              </div>
-
-            </div>
           </div>
+
+          {/* =====================
+              RIGHT CONTENT
+          ====================== */}
+          <div className="w-full lg:w-56 space-y-4">
+
+            <DetailsPanel
+              priority={task.priority}
+            />
+
+            <ActivityUpdates />
+
+          </div>
+
         </div>
-      </main>
+      </div>
     </div>
+  </main>
+</div>
   )
 }
 

@@ -19,69 +19,72 @@ function page() {
       //colormode
 
   return (
-    <div className="flex h-screen overflow-hidden bg-white">
+    <div className="flex h-screen overflow-hidden bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
 
-      <Sidebar 
-        open={sidebarOpen}
-        onClose={()=>setSidebarOpen(false)}
-      />
+  <Sidebar 
+    open={sidebarOpen}
+    onClose={() => setSidebarOpen(false)}
+  />
 
-      <main className="flex min-w-0 flex-1 flex-col">
+  <main className="flex min-w-0 flex-1 flex-col bg-white dark:bg-gray-950">
 
-        <Topbar onMenuClick={() => setSidebarOpen(true)}/>
+    <Topbar onMenuClick={() => setSidebarOpen(true)} />
 
-        <TaskHeader 
-          onMenuClick={() => setSidebarOpen(true)}
-         viewMode={viewMode}
-          onViewChange={setViewMode}
-           searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-        />
+    <TaskHeader 
+      onMenuClick={() => setSidebarOpen(true)}
+      viewMode={viewMode}
+      onViewChange={setViewMode}
+      searchQuery={searchQuery}
+      onSearchChange={setSearchQuery}
+    />
 
-        <div className="px-3 sm:px-4">
+    <div className="px-3 sm:px-4 py-4">
 
-          <h1 className="mb-3 text-xs font-semibold">
-            Projects
-          </h1>
+      <h1 className="mb-3 text-xs font-semibold text-gray-900 dark:text-gray-100">
+        Projects
+      </h1>
 
-          {/* Projects table */}
-          <div className="overflow-hidden rounded-md border border-gray-200">
+      {/* Projects table */}
+      <div className="overflow-hidden rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors duration-200">
 
-            <div className="grid grid-cols-4 bg-gray-50 px-3 py-2 text-[10px] font-medium">
-              <span>Projects</span>
-              <span>Priority</span>
-              <span>Lead</span>
-              <span>Actions</span>
-            </div>
-
-            <ProjectRow
-              title="Design Homepage"
-              priority="High"
-            />
-
-            <ProjectRow
-              title="Develop Login Feature"
-              priority="Low"
-            />
-
-            <ProjectRow
-              title="Test Payment Gateway"
-              priority="Medium"
-            />
-
-            <button
-              type="button"
-              className="px-3 py-2 text-[10px]"
-            >
-              + Add Projects
-            </button>
-
-          </div>
-
+        {/* Table Header */}
+        <div className="grid grid-cols-4 bg-gray-50 dark:bg-gray-800/50 px-3 py-2 text-[10px] font-medium text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-800">
+          <span>Projects</span>
+          <span>Priority</span>
+          <span>Lead</span>
+          <span>Actions</span>
         </div>
 
-      </main>
+        {/* Project Rows */}
+        <ProjectRow
+          title="Design Homepage"
+          priority="High"
+        />
+
+        <ProjectRow
+          title="Develop Login Feature"
+          priority="Low"
+        />
+
+        <ProjectRow
+          title="Test Payment Gateway"
+          priority="Medium"
+        />
+
+        {/* Add Button */}
+        <button
+          type="button"
+          className="w-full border-t border-gray-200 dark:border-gray-800 px-3 py-2 text-left text-[10px] text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 transition-colors cursor-pointer"
+        >
+          + Add Projects
+        </button>
+
+      </div>
+
     </div>
+
+  </main>
+</div>
   )
 }
 

@@ -27,32 +27,35 @@ export default function ThemeMenu() {
   };
 
   return (
-    <div className={`absolute left-full top-38 ml-1 w-32 rounded-md border border-gray-200 bg-white p-1 shadow-lg dark:border-gray-700 dark:bg-gray-900`}>
+    <div className="absolute left-full top-2 ml-1 w-32 rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-1 shadow-lg dark:shadow-black/40 transition-colors duration-200">
 
-      <p className="px-2 py-2 text-[10px] text-gray-400">
-        Color Mode
-      </p>
+  <p className="px-2 py-1.5 text-[9px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+    Color Mode
+  </p>
 
-      {/* Light */}
-       <div className="mt-1">
-            {COLOR_OPTIONS.map((colors) => {
-              const isSelected = color === colors.id;
-              return (
-                <button
-                  key={colors.id}
-                  onClick={() => changeColor(colors.name)}
-                  className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className={`w-4 h-4 rounded ${colors.bgClass}`} />
-                    <span>{colors.name}</span>
-                  </div>
-                  {isSelected && <Check className="w-4 h-4 text-gray-700" />}
-                </button>
-              );
-            })}
+  <div className="mt-1">
+    {COLOR_OPTIONS.map((colors) => {
+      const isSelected = color === colors.id;
+      return (
+        <button
+          key={colors.id}
+          type="button"
+          onClick={() => changeColor(colors.name)}
+          className="flex w-full items-center justify-between rounded px-2 py-1.5 text-xs text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-colors"
+        >
+          <div className="flex items-center gap-2">
+            <span className={`h-3.5 w-3.5 rounded ${colors.bgClass}`} />
+            <span>{colors.name}</span>
           </div>
 
-    </div>
+          {isSelected && (
+            <Check className="h-3.5 w-3.5 text-gray-700 dark:text-gray-200" />
+          )}
+        </button>
+      );
+    })}
+  </div>
+
+</div>
   );
 }

@@ -12,18 +12,14 @@ interface TaskCardProps {
 function TaskCard({ task }: TaskCardProps) {
   return (
     <Link href={`/task/${task.id}`}>
-      <article className="w-68.25 h-28.5 rounded-md border border-[#E5E5E5] bg-white p-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-shadow hover:shadow-sm gap-2 mb-1.5">
+      <article className="w-68.25 h-28.5 rounded-md border border-[#E5E5E5] bg-white dark:bg-gray-900 dark:border-gray-800 p-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:shadow-sm gap-2 mb-1.5 dark:shadow-none transition-all dark:hover:border-gray-700">
         {/* Task title */}
         <div className="w-61.75 h-5 flex items-start justify-between gap-2">
-          <h3 className="w-50 h-5 text-sm font-sans font-medium leading-5 text-[#0A0A0A]">
+          <h3 className="w-50 h-5 text-sm font-sans font-medium leading-5 text-[#0A0A0A] dark:text-gray-100 truncate">
             {task.title}
           </h3>
 
-          <TaskActions
-            taskId={task.id}
-            task={task}
-          />
-
+          <TaskActions taskId={task.id} task={task} />
         </div>
 
         {/* Assignee + Date */}
@@ -34,12 +30,12 @@ function TaskCard({ task }: TaskCardProps) {
               <Avatar name={task.assignee} />
             </span>
 
-            <span className="w-full capitalize h-3 text-xs font-sans font-medium text-[#0A0A0A]">
+            <span className="w-full capitalize h-3 text-xs font-sans font-medium text-[#0A0A0A] dark:text-gray-300 truncate">
               {task.assignee}
             </span>
           </div>
 
-          <span className="w-16.75 capitalize h-5 inline-flex shrink-0 items-center justify-center gap-1 rounded-3xl border border-white bg-red-50 py-0.5 text-xs font-sans leading-4 font-medium text-[#DC2626] ">
+          <span className="w-16.75 capitalize h-5 inline-flex shrink-0 items-center justify-center gap-1 rounded-3xl border border-white dark:border-gray-800 bg-red-50 dark:bg-red-950/40 py-0.5 text-xs font-sans leading-4 font-medium text-[#DC2626] dark:text-red-400">
             <CalendarDays className="h-3 w-3" />
             {task.dueDate}
           </span>

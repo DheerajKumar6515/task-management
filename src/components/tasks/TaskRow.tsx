@@ -41,7 +41,7 @@ export default function TaskRow({
     <div className="grid min-w-162.5 grid-cols-[minmax(220px,1fr)_80px_110px_110px_40px] items-center border-t border-gray-200 px-2 py-2.5 text-xs">
       
       {/* Task */}
-      <div className="text-sm font-sans font-medium leading-5 truncate pr-4 text-[#171717]">
+      <div className="text-sm font-sans font-medium leading-5 truncate pr-4 text-[#171717] dark:text-gray-400">
         {task.title}
       </div>
 
@@ -59,7 +59,7 @@ export default function TaskRow({
       </div>
 
       {/* Due Date */}
-      <div className="text-gray-700">
+      <div className="text-gray-700 dark:text-gray-400">
         {task.dueDate}
       </div>
 
@@ -73,7 +73,7 @@ export default function TaskRow({
         >
           <MoreHorizontal className="h-4 w-4 text-gray-500" />
         </button> */}
-        <TaskActions taskId={task.id}/>
+        <TaskActions task={task} taskId={task.id}/>
 
       </div>
     </div>

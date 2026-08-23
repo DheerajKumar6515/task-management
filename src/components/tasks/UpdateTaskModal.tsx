@@ -154,37 +154,37 @@ const isSubtask = activeTab === 'subtask';
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/70 backdrop-blur-sm p-4"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl"
+        className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-white dark:bg-gray-900 dark:border dark:border-gray-800 p-6 shadow-2xl transition-colors duration-200"
         onClick={(e) => e.stopPropagation()} 
         onMouseDown={(e) => e.stopPropagation()} 
       >
         {/* Header with Close Icon */}
-        <div className="flex items-center justify-between pb-3 sticky top-0 bg-white z-10 border-b">
-          <h2 className="text-lg font-bold text-gray-800">
+        <div className="flex items-center justify-between pb-3 sticky top-0 bg-white dark:bg-gray-900 z-10 border-b dark:border-gray-800">
+          <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">
             Update Details ({taskToEdit.id})
           </h2>
           <button
             type="button"
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 font-bold text-lg cursor-pointer"
+            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 font-bold text-lg cursor-pointer"
           >
             ✕
           </button>
         </div>
 
         {/* Tab Switcher (Login / Signup Tab Style) */}
-        <div className="flex rounded-lg bg-gray-100 p-1 mt-4">
+        <div className="flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1 mt-4">
           <button
             type="button"
             onClick={() => setActiveTab('task')}
             className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all ${
               activeTab === 'task'
-                ? 'bg-white text-black shadow-sm'
-                : 'text-gray-500 hover:text-gray-900'
+                ? 'bg-white dark:bg-gray-950 text-black dark:text-white shadow-sm'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
             }`}
           >
             Update Task
@@ -194,8 +194,8 @@ const isSubtask = activeTab === 'subtask';
             onClick={() => setActiveTab('subtask')}
             className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all ${
               activeTab === 'subtask'
-                ? 'bg-white text-black shadow-sm'
-                : 'text-gray-500 hover:text-gray-900'
+                ? 'bg-white dark:bg-gray-950 text-black dark:text-white shadow-sm'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
             }`}
           >
             Update Subtask
@@ -207,7 +207,7 @@ const isSubtask = activeTab === 'subtask';
           {/* Column / Status (Task Only) */}
           {!isSubtask && (
             <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+              <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
                 Column / Status
               </label>
               <select
@@ -215,7 +215,7 @@ const isSubtask = activeTab === 'subtask';
                 onChange={(e) =>
                   setFormData({ ...formData, column_id: e.target.value })
                 }
-                className="w-full rounded-md border p-2 text-sm focus:outline-none bg-white uppercase font-medium"
+                className="w-full rounded-md border dark:border-gray-700 p-2 text-sm focus:outline-none bg-white dark:bg-gray-800 dark:text-gray-100 uppercase font-medium"
               >
                 <option value="todo">To Do</option>
                 <option value="doing">Doing</option>
@@ -227,7 +227,7 @@ const isSubtask = activeTab === 'subtask';
 
           {/* Title */}
           {!isSubtask && <div>
-            <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+            <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
               Title *
             </label>
             <input
@@ -237,14 +237,14 @@ const isSubtask = activeTab === 'subtask';
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
-              className="w-full rounded-md border p-2 text-sm focus:outline-none focus:border-black"
+              className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 p-2 text-sm focus:outline-none focus:border-black dark:focus:border-gray-400"
             />
           </div> }
 
-          {/*subtask title */}
+          {/*subtask ID Select */}
            {isSubtask && (
             <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+              <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
                  id
               </label>
               <select
@@ -252,7 +252,7 @@ const isSubtask = activeTab === 'subtask';
                 onChange={(e) =>
                   setsubFormData({ ...subformData, column_id: e.target.value })
                 }
-                className="w-full rounded-md border p-2 text-sm focus:outline-none bg-white uppercase font-medium"
+                className="w-full rounded-md border dark:border-gray-700 p-2 text-sm focus:outline-none bg-white dark:bg-gray-800 dark:text-gray-100 uppercase font-medium"
               >
                {taskToEdit?.subtasks?.map((task)=>(                
                 <option key={task.id} value={task.id}>{task.id}</option>
@@ -262,7 +262,7 @@ const isSubtask = activeTab === 'subtask';
           )}           
            
             {isSubtask && <div>
-            <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+            <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
               Title *
             </label>
             <input
@@ -272,14 +272,14 @@ const isSubtask = activeTab === 'subtask';
               onChange={(e) =>
                 setsubFormData({ ...subformData, title: e.target.value })
               }
-              className="w-full rounded-md border p-2 text-sm focus:outline-none focus:border-black"
+              className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 p-2 text-sm focus:outline-none focus:border-black dark:focus:border-gray-400"
             />
           </div> }
 
           {/* Assignee & Priority  for subtask*/}
          {isSubtask && <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+              <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
                 Assignee
               </label>
               <input
@@ -289,12 +289,12 @@ const isSubtask = activeTab === 'subtask';
                 onChange={(e) =>
                   setsubFormData({ ...subformData, assignee: e.target.value })
                 }
-                className="w-full rounded-md border p-2 text-sm focus:outline-none"
+                className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 p-2 text-sm focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+              <label className="block text-xs font-semibold uppercase text-gray-500 ark:text-gray-400 mb-1">
                 Priority
               </label>
               <select
@@ -302,7 +302,7 @@ const isSubtask = activeTab === 'subtask';
                 onChange={(e) =>
                   setsubFormData({ ...subformData, priority: e.target.value })
                 }
-                className="w-full rounded-md border p-2 text-sm focus:outline-none bg-white"
+                className="w-full rounded-md border dark:border-gray-700 p-2 text-sm focus:outline-none bg-white dark:bg-gray-800 dark:text-gray-100"
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
@@ -315,7 +315,7 @@ const isSubtask = activeTab === 'subtask';
           {/* Assignee & Priority */}
          {!isSubtask && <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+              <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
                 Assignee
               </label>
               <input
@@ -324,12 +324,12 @@ const isSubtask = activeTab === 'subtask';
                 onChange={(e) =>
                   setFormData({ ...formData, assignee: e.target.value })
                 }
-                className="w-full rounded-md border p-2 text-sm focus:outline-none"
+                className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 p-2 text-sm focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+              <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-g mb-1">
                 Priority
               </label>
               <select
@@ -337,7 +337,7 @@ const isSubtask = activeTab === 'subtask';
                 onChange={(e) =>
                   setFormData({ ...formData, priority: e.target.value })
                 }
-                className="w-full rounded-md border p-2 text-sm focus:outline-none bg-white"
+                className="w-full rounded-md border dark:border-gray-700 p-2 text-sm focus:outline-none bg-white dark:bg-gray-800 dark:text-gray-100"
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
@@ -350,7 +350,7 @@ const isSubtask = activeTab === 'subtask';
           {/* Due Date & Tags */}
           <div className="grid grid-cols-2 gap-4">
            {!isSubtask && <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+              <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
                 Due Date
               </label>
               <input
@@ -360,13 +360,13 @@ const isSubtask = activeTab === 'subtask';
                 onChange={(e) =>
                   setFormData({ ...formData, due_date: e.target.value })
                 }
-                className="w-full rounded-md border p-2 text-sm focus:outline-none"
+                className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 p-2 text-sm focus:outline-none"
               />
             </div>}
 
             {isSubtask &&
                <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+              <label className="block text-xs font-semibold uppercase text-gray-50 dark:text-gray-400 mb-1">
                 Due Date
               </label>
               <input
@@ -376,14 +376,14 @@ const isSubtask = activeTab === 'subtask';
                 onChange={(e) =>
                   setsubFormData({...subformData, due_date: e.target.value })
                 }
-                className="w-full rounded-md border p-2 text-sm focus:outline-none"
+                className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 p-2 text-sm focus:outline-none"
               />
             </div>
             }
 
             {!isSubtask && (
               <div>
-                <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+                <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
                   Tags (Comma separated)
                 </label>
                 <input
@@ -392,7 +392,7 @@ const isSubtask = activeTab === 'subtask';
                   onChange={(e) =>
                     setFormData({ ...formData, tags: e.target.value })
                   }
-                  className="w-full rounded-md border p-2 text-sm focus:outline-none"
+                  className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 p-2 text-sm focus:outline-none"
                 />
               </div>
             )}
@@ -401,7 +401,7 @@ const isSubtask = activeTab === 'subtask';
           {/* Description (Task Only) */}
           {!isSubtask && (
             <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+              <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
                 Description
               </label>
               <textarea
@@ -410,23 +410,23 @@ const isSubtask = activeTab === 'subtask';
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }
-                className="w-full rounded-md border p-2 text-sm focus:outline-none focus:border-black resize-none"
+                className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 p-2 text-sm focus:outline-none focus:border-black dark:focus:border-gray-400 resize-none"
               />
             </div>
           )}
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-end gap-2 border-t pt-4">
+          <div className="flex items-center justify-end gap-2 border-t pt-4 dark:border-gray-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md cursor-pointer border px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50"
+              className="rounded-md cursor-pointer border dark:border-gray-700 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="rounded-md cursor-pointer bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+              className="rounded-md cursor-pointer bg-black dark:bg-white px-4 py-2 text-sm font-medium text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200"
             >
               Update {isSubtask ? 'Subtask' : 'Task'}
             </button>

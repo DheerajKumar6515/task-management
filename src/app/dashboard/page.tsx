@@ -37,10 +37,11 @@ function page() {
 
   }, [searchQuery,taskColumns]);
 
+  const backendUrl=process.env.NEXT_PUBLIC_baCKEND_URL;
    const fetchTask = async () => {
       try {
       
-        const response = await fetch(`http://localhost:4000/tasks`);
+        const response = await fetch(`${backendUrl}/tasks`);
 
         if (!response.ok) {
           throw new Error(`Error ${response.status}: Task not found`);
