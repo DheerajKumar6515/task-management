@@ -9,6 +9,7 @@ import TaskBoard from "@/components/tasks/TaskBoard";
 import TaskList from "@/components/tasks/TaskList";
 //import { taskColumns } from "@/data/tasks";
 import type {TaskColumn} from '@/types/task'
+import AddColumnModal from "@/components/tasks/taskModel/AddColumnModal";
 
 
 type ViewMode = "list" | "board";
@@ -22,6 +23,8 @@ function page() {
   const [viewMode, setViewMode] = useState<ViewMode>("board");
   //Arraydata
   const [taskColumns,setTaskColumns]=useState<TaskColumn[]>([])
+  //add column for task
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
    // Filter tasks based on search
     const filteredTasks = useMemo(() => {
@@ -80,7 +83,14 @@ function page() {
           onViewChange={setViewMode}
            searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
+          onOpenModal={() => setIsModalOpen(true)}
         />
+
+        <AddColumnModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={() => alert("Column added into database successfully!")}
+      />
 
          {/* Content */}
         {viewMode === "list" ? (

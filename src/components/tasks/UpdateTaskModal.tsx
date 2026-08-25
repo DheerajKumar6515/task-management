@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 
 interface Subtasks{
   id:string;
+  title?:string;
   priority?: string;
   assignee?: string;
   due_date?: string;
@@ -90,7 +91,7 @@ export default function UpdateTaskModal({
   }, [taskToEdit]);
 
   
-//console.log(taskToEdit)
+//console.log(taskToEdit?.subtasks)
 
 if (!isOpen || !mounted || !taskToEdit) return null;
 
@@ -255,7 +256,7 @@ const isSubtask = activeTab === 'subtask';
                 className="w-full rounded-md border dark:border-gray-700 p-2 text-sm focus:outline-none bg-white dark:bg-gray-800 dark:text-gray-100 uppercase font-medium"
               >
                {taskToEdit?.subtasks?.map((task)=>(                
-                <option key={task.id} value={task.id}>{task.id}</option>
+                <option key={task.id} value={task.id}>{`${task.title?.slice(0,16)}/${task.id}`}</option>
                ))}
               </select>
             </div>
@@ -267,6 +268,7 @@ const isSubtask = activeTab === 'subtask';
             </label>
             <input
               type="text"
+              placeholder="Enter New Title..."
               required
               value={subformData.title}
               onChange={(e) =>

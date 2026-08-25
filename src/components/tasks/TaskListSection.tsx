@@ -1,7 +1,10 @@
+"use client";
+import { useState } from "react";
 import { ChevronDown, Plus } from "lucide-react";
 
 import type { Task, TaskColumn } from "@/types/task";
-import TaskRow from "./TaskRow";
+import TaskRow from "@/components/tasks/TaskRow";
+import TaskModal from "@/components/tasks/taskModel/TaskModal";
 
 interface TaskListSectionProps {
   title: string;
@@ -12,6 +15,8 @@ export default function TaskListSection({
   title,
   tasks,
 }: TaskListSectionProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedColumn, setSelectedColumn] = useState("todo");
   return (
     <section className="mb-3">
       {/* Section Header */}
@@ -40,8 +45,23 @@ export default function TaskListSection({
           <TaskRow key={task.id} task={task} />
         ))}
 
+        <TaskModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          defaultColumnId={selectedColumn}
+          column_title={title}
+          existingTasks={tasks}
+          onSuccess={() => {
+            // Refresh tasks list
+          }}
+        />
+
         {/* Add Task */}
         <button
+         onClick={() => {
+          setSelectedColumn(tasks.id);
+          setIsModalOpen(true);
+        }}
           type="button"
           className="flex w-full items-center gap-1 border-t border-gray-200 dark:border-gray-800 px-2 py-2.5 text-xs text-gray-800 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/60 cursor-pointer transition-colors"
         >

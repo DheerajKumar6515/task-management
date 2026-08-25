@@ -5,21 +5,55 @@ import type { TaskColumn } from "@/types/task";
 import TaskCard from "@/components/tasks/TaskCard";
 import { useState } from "react";
 import TaskModal from "@/components/tasks/taskModel/TaskModal";
+import DeleteConfirmModal from "@/components/tasks/DeleteConfirmModal";
 
 interface TaskColumnProps {
   column: TaskColumn;
+  columnId: string;
+  columnTitle: string;
+  onColumnDeleted?: () => void;
 }
 
-function TaskColumn({ column }: TaskColumnProps) {
+function TaskColumn({
+   column ,
+   columnId,
+  columnTitle,
+  onColumnDeleted,
+  }: TaskColumnProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState("todo");
+  const [showMenu, setShowMenu] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Tasks flatten list for subtask dropdown
   const allTask = column?.tasks || [];
   const allTaskItems = allTask.flatMap((col: any) => col.tasks || []);
 
+  const handleDeleteColumn = async () => {
+    setIsDeleting(true);
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_baCKEND_URL}/tasks/column/${column.id}`, {
+        method: 'DELETE',
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to delete column');
+      }
+
+      setIsDeleteModalOpen(false);
+      onColumnDeleted?.(); // UI refreshed
+    } catch (err) {
+      console.error('Column delete error:', err);
+    } finally {
+      setIsDeleting(false);
+    }
+   
+  };
+
   return (
-    <section className="flex w-72.5 h-fit shrink-0 flex-col bg-[#f5f5f5] dark:bg-gray-900/80 rounded-lg border border-[#E5E5E5] dark:border-gray-800 transition-colors duration-200">
+    <section className="flex relative w-72.5 h-fit shrink-0 flex-col bg-[#f5f5f5] dark:bg-gray-900/80 rounded-lg border border-[#E5E5E5] dark:border-gray-800 transition-colors duration-200">
       {/* Column header */}
       <header className="flex h-9.75 items-center justify-between px-3">
         <div className="w-17.5 h-3.5 flex items-center gap-2">
@@ -49,21 +83,55 @@ function TaskColumn({ column }: TaskColumnProps) {
           </button>
 
           <button
+            onClick={() => setShowMenu((prev) => !prev)}
             type="button"
             aria-label={`${column.title} options`}
             className="rounded-md cursor-pointer p-1 text-[#171717] dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 transition-colors"
           >
-            <MoreHorizontal className="h-3.5 w-3.5" />
+            <MoreHorizontal className="h-3.5 w-3.5 text-gray-600 dark:text-gray-300" />
           </button>
         </div>
       </header>
+
+      {/*Dropdown Menu */}
+      {showMenu && (
+              <>
+                {/* Backdrop overlay to close menu on outside click */}
+                <div
+                  className="fixed inset-0 z-10"
+                  onClick={() => setShowMenu(false)}
+                />
+                <div className="absolute right-0 border border-gray-400 top-9 z-20 w-30 rounded-lg bg-white p-1 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-gray-800">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowMenu(false);
+                      setIsDeleteModalOpen(true);
+                    }}
+                    className="w-full cursor-pointer text-left px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-md transition"
+                  >
+                    Delete Column
+                  </button>
+                </div>
+              </>
+            )}
+
+      {/* Warning Popup Modal */}
+      <DeleteConfirmModal
+        isOpen={isDeleteModalOpen}
+        columnTitle={column.title}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteColumn}
+        loading={isDeleting}
+      />
+
       {/* Single Tabbed Modal */}
       <TaskModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         defaultColumnId={selectedColumn}
         column_title={column.title}
-        existingTasks={allTaskItems}
+        existingTasks={allTask}
         onSuccess={() => {
           // Refresh tasks list
         }}

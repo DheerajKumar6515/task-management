@@ -1,11 +1,16 @@
+"use client";
+import { useState } from "react";
 import type { SubTasks } from "@/types/task";
 import { ChevronDown } from "lucide-react";
+import SubTaskModal from "../taskModel/SubTaskModal";
 
 interface SubtaskTableProps {
+  Taskid:string;
   subtasks: SubTasks[];
 }
 
-export default function SubtaskTable({ subtasks }: SubtaskTableProps) {
+export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
+  const [SubtaskModalOpen, setSubtaskModalOpen] = useState(false);
   return (
     <section className="mt-6">
       {/* Heading */}
@@ -55,9 +60,19 @@ export default function SubtaskTable({ subtasks }: SubtaskTableProps) {
               </button>
             </div>
           ))}
+          <SubTaskModal
+            isOpen={SubtaskModalOpen}
+            onClose={() => setSubtaskModalOpen(false)}
+            tasksList={subtasks}
+            selectedTaskId={Taskid}
+            onSuccess={() => {
+              // Refresh tasks list
+            }}
+          />
 
           {/* Add */}
           <button
+          onClick={()=>setSubtaskModalOpen(true)}
             type="button"
             className="w-full border-t border-gray-200 dark:border-gray-800 px-2 py-2.5 text-left text-xs text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 cursor-pointer transition-colors"
           >

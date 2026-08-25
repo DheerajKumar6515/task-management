@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="flex w-full min-h-screen items-center justify-center bg-white md:px-4 overflow-hidden">
+    <main className="flex w-full min-h-screen items-center justify-center bg-white md:px-4 overflow-hidden dark:bg-gray-900">
       <div className="flex h-full max-w-md flex-col items-center justify-center">
         {/* Logo */}
         <div className=" mb-3.5 md:mb-5  md:w-300 h-6 flex items-center justify-center gap-2">
@@ -11,7 +11,7 @@ export default function Home() {
             <Image src="/prisma.png" alt="prisma-icon" width={16} height={16}/>
           </div>
 
-          <span className="text-sm font-sans font-semibold text-[#0A0A0A]">
+          <span className="text-sm font-sans font-semibold text-[#0A0A0A] dark:text-gray-400">
             Pyramid
           </span>
         </div>
