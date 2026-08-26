@@ -30,7 +30,7 @@ function TaskCard({ task }: TaskCardProps) {
               <Avatar name={task.assignee} />
             </span>
 
-            <span className="w-full capitalize h-3 text-xs font-sans font-medium text-[#0A0A0A] dark:text-gray-300 truncate">
+            <span className="w-full capitalize h-4 text-xs font-sans font-medium text-[#0A0A0A] dark:text-gray-300 truncate">
               {task.assignee}
             </span>
           </div>

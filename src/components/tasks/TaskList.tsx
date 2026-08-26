@@ -11,6 +11,7 @@ export default function TaskList({ taskColumns }: TaskListProps) {
       {taskColumns.map((column) => (
         <TaskListSection
           key={column.id}
+          taskid={column.id}
           title={column.title}
           tasks={column.tasks}
         />

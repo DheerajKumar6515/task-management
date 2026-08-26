@@ -1,40 +1,45 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { supabase } from '../supabase.client';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { from } from 'rxjs';
-import { title } from 'process';
 import { randomUUID } from 'crypto';
 import { CreateSubtaskDto } from './dto/create-subtask.dto';
 import { UpdateSubtaskDto } from './dto/update-Subtask.dto';
 import { CreatedColumnDto } from './dto/create-column.dto';
+import { CreateprojectDto } from './dto/create-project.dto';
+import { UpdateprojectDto } from './dto/update-project.dto';
 
 @Injectable()
 export class TasksService {
-
-  async createColumn(createdColumnDto:CreatedColumnDto){
-     const columnPayload={
-      id:createdColumnDto.column_id,
-      title:createdColumnDto.columnName
+  //create new column for tasks
+  async createColumn(createdColumnDto: CreatedColumnDto) {
+    const columnPayload = {
+      id: createdColumnDto.column_id,
+      title: createdColumnDto.columnName,
     };
 
-      const { data, error } = await supabase
+    const { data, error } = await supabase
       .from('columns')
       .insert(columnPayload)
       .select();
 
-       if (error) {
+    if (error) {
       throw new BadRequestException(`Column creation failed: ${error.message}`);
     }
 
     return data;
   }
 
-  async create(createTaskDto:CreateTaskDto) {
+  //create new  task
+  async create(createTaskDto: CreateTaskDto) {
     //Ensure Column exists
-    const columnPayload={
-      id:createTaskDto.column_id,
-      title:createTaskDto.Column_title
+    const columnPayload = {
+      id: createTaskDto.column_id,
+      title: createTaskDto.Column_title,
     };
 
     const { error: columnError } = await supabase
@@ -42,11 +47,13 @@ export class TasksService {
       .upsert([columnPayload], { onConflict: 'id' });
 
     if (columnError) {
-      throw new BadRequestException(`Column setup failed: ${columnError.message}`);
+      throw new BadRequestException(
+        `Column setup failed: ${columnError.message}`,
+      );
     }
 
     //Insert Task linked to column
-      const taskId = `task-${randomUUID().slice(0, 8)}`; // Generating unique task ID (task-1, etc.)
+    const taskId = `task-${randomUUID().slice(0, 8)}`; // Generating unique task ID (task-1, etc.)
     const taskPayload = {
       id: taskId,
       column_id: createTaskDto.column_id, // foreign key link
@@ -56,7 +63,7 @@ export class TasksService {
       assignee: createTaskDto.assignee,
       due_date: createTaskDto.due_date,
       tags: createTaskDto.tags,
-      description: createTaskDto.description
+      description: createTaskDto.description,
     };
 
     const { data: taskData, error: taskError } = await supabase
@@ -65,14 +72,40 @@ export class TasksService {
       .select();
 
     if (taskError) {
-      throw new BadRequestException(`Task creation failed: ${taskError.message}`);
+      throw new BadRequestException(
+        `Task creation failed: ${taskError.message}`,
+      );
     }
 
     return taskData[0];
-    
   }
- 
-  async createSubtask(taskId:string,createdSubtaskDto:CreateSubtaskDto){
+
+  //create new project
+  async createnewproject(createprojectDto: CreateprojectDto) {
+    const projectId = randomUUID().slice(0, 8);
+    const projectPayload = {
+      id: projectId,
+      title: createprojectDto.title,
+      priority: createprojectDto.priority,
+      lead: createprojectDto.lead,
+    };
+
+    const { data: projectData, error: projectError } = await supabase
+      .from('projects')
+      .insert([projectPayload])
+      .select();
+
+    if (projectError) {
+      throw new BadRequestException(
+        `Project creation failed: ${projectError.message}`,
+      );
+    }
+
+    return projectData[0];
+  }
+
+  //create Subtask
+  async createSubtask(taskId: string, createdSubtaskDto: CreateSubtaskDto) {
     // 1. check parent task exist or not
     const { data: parentTask, error: taskCheckError } = await supabase
       .from('tasks')
@@ -80,7 +113,7 @@ export class TasksService {
       .eq('id', taskId)
       .single();
 
-      if (taskCheckError || !parentTask) {
+    if (taskCheckError || !parentTask) {
       throw new NotFoundException(`Parent Task with ID "${taskId}" not found`);
     }
 
@@ -105,9 +138,13 @@ export class TasksService {
     return data[0];
   }
 
-  async updateSubtask(id:string,updateSubtaskDto:UpdateSubtaskDto){
-
-    const {data,error}=await supabase.from('subtasks').update(updateSubtaskDto).eq('id',id).select();
+  //update Subtask
+  async updateSubtask(id: string, updateSubtaskDto: UpdateSubtaskDto) {
+    const { data, error } = await supabase
+      .from('subtasks')
+      .update(updateSubtaskDto)
+      .eq('id', id)
+      .select();
 
     if (error) {
       throw new BadRequestException(error.message);
@@ -118,12 +155,30 @@ export class TasksService {
     }
 
     return data[0];
-
   }
- 
-async findAll() {
-   const {data,error}=await supabase.
-   from('columns').select(`
+
+  //update project
+  async updateproject(id: string, updateprojectDto: UpdateprojectDto) {
+    const { data, error } = await supabase
+      .from('projects')
+      .update(updateprojectDto)
+      .eq('id', id)
+      .select();
+
+    if (error) {
+      throw new BadRequestException(error.message);
+    }
+
+    if (!data || data.length === 0) {
+      throw new NotFoundException(`Project with ID "${id}" not found`);
+    }
+
+    return data[0];
+  }
+
+  //get all tasks
+  async findAll() {
+    const { data, error } = await supabase.from('columns').select(`
     id,
         title,
         tasks (
@@ -143,17 +198,37 @@ async findAll() {
             dueDate:due_date
           )
         )
-    `)
+    `);
 
-    if(error){
+    if (error) {
       throw new Error(error.message);
     }
-    return data
+    return data;
   }
 
-async findOne(id: string) {
-    const {data,error}=await supabase.from('tasks').
-    select(`
+  //get all project
+  async findAllProject(){
+
+    const query = `
+      SELECT id, title, priority, lead, created_at 
+      FROM projects 
+      ORDER BY created_at DESC;
+    `;
+
+      const { data, error } = await supabase.from('projects').select('id, title, priority, lead').order('created_at', { ascending: false });
+
+       if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
+  //get one task by id
+  async findOne(id: string) {
+    const { data, error } = await supabase
+      .from('tasks')
+      .select(
+        `
       id,
         column_id,
         title,
@@ -170,22 +245,27 @@ async findOne(id: string) {
           assignee,
           dueDate:due_date
         )
-    `).eq('id', id)
+    `,
+      )
+      .eq('id', id)
       .single();
 
-      if (error || !data) {
+    if (error || !data) {
       throw new NotFoundException(`Task with ID "${id}" not found`);
     }
 
     return data;
-    
   }
 
- async update(id: string, updateTaskDto: UpdateTaskDto) {
-     const {data,error} = await supabase.from('tasks').update(updateTaskDto).
-     eq('id',id).select();
-    
-     if (error) {
+  //update task
+  async update(id: string, updateTaskDto: UpdateTaskDto) {
+    const { data, error } = await supabase
+      .from('tasks')
+      .update(updateTaskDto)
+      .eq('id', id)
+      .select();
+
+    if (error) {
       throw new BadRequestException(error.message);
     }
 
@@ -194,11 +274,15 @@ async findOne(id: string) {
     }
 
     return data[0];
-
   }
 
- async remove(id: string) {
-    const {data,error} = await supabase.from('tasks').delete().eq('id',id).select();
+  //remove task
+  async remove(id: string) {
+    const { data, error } = await supabase
+      .from('tasks')
+      .delete()
+      .eq('id', id)
+      .select();
 
     if (error) {
       throw new BadRequestException(error.message);
@@ -215,8 +299,12 @@ async findOne(id: string) {
   }
 
   //remove column
-async removeColumn(id:string){
-   const {data,error} = await supabase.from('columns').delete().eq('id',id).select();
+  async removeColumn(id: string) {
+    const { data, error } = await supabase
+      .from('columns')
+      .delete()
+      .eq('id', id)
+      .select();
 
     if (error) {
       throw new BadRequestException(error.message);
@@ -230,6 +318,26 @@ async removeColumn(id:string){
       message: `Column with ID "${id}" successfully deleted`,
       deletedTask: data[0],
     };
-}
+  }
 
+  async removeProject(id:string){
+    const { data, error } = await supabase
+      .from('projects')
+      .delete()
+      .eq('id', id)
+      .select();
+
+    if (error) {
+      throw new BadRequestException(error.message);
+    }
+
+    if (!data || data.length === 0) {
+      throw new NotFoundException(`Project with ID "${id}" not found`);
+    }
+
+    return {
+      message: `Project with ID "${id}" successfully deleted`,
+      deletedTask: data[0],
+    };
+  }
 }

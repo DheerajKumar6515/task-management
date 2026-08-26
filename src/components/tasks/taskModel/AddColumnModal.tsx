@@ -88,14 +88,14 @@ export default function AddColumnModal({ isOpen, onClose, onSuccess }: AddColumn
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 cursor-pointer border border-gray-500 text-gray-300 rounded-md hover:bg-gray-700"
+              className="px-4 py-2 cursor-pointer border border-gray-300 text-gray-500 rounded-md hover:bg-gray-200"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-gray-500 hover:bg-gray-500 text-white rounded-md disabled:opacity-50 dark:bg-black dark:text-gray-400 dark:hover:text-black cursor-pointer"
+              className="px-4 py-2 bg-black hover:bg-black/80 text-white rounded-md disabled:opacity-50 dark:bg-black dark:text-gray-400 dark:hover:text-white cursor-pointer"
             >
               {loading ? "Adding..." : "Add Column"}
             </button>

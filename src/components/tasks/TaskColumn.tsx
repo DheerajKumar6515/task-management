@@ -9,17 +9,9 @@ import DeleteConfirmModal from "@/components/tasks/DeleteConfirmModal";
 
 interface TaskColumnProps {
   column: TaskColumn;
-  columnId: string;
-  columnTitle: string;
-  onColumnDeleted?: () => void;
 }
 
-function TaskColumn({
-   column ,
-   columnId,
-  columnTitle,
-  onColumnDeleted,
-  }: TaskColumnProps) {
+function TaskColumn({ column }: TaskColumnProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState("todo");
   const [showMenu, setShowMenu] = useState(false);
@@ -34,22 +26,23 @@ function TaskColumn({
     setIsDeleting(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_baCKEND_URL}/tasks/column/${column.id}`, {
-        method: 'DELETE',
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_baCKEND_URL}/tasks/column/${column.id}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (!res.ok) {
-        throw new Error('Failed to delete column');
+        throw new Error("Failed to delete column");
       }
 
       setIsDeleteModalOpen(false);
-      onColumnDeleted?.(); // UI refreshed
     } catch (err) {
-      console.error('Column delete error:', err);
+      console.error("Column delete error:", err);
     } finally {
       setIsDeleting(false);
     }
-   
   };
 
   return (
@@ -95,26 +88,26 @@ function TaskColumn({
 
       {/*Dropdown Menu */}
       {showMenu && (
-              <>
-                {/* Backdrop overlay to close menu on outside click */}
-                <div
-                  className="fixed inset-0 z-10"
-                  onClick={() => setShowMenu(false)}
-                />
-                <div className="absolute right-0 border border-gray-400 top-9 z-20 w-30 rounded-lg bg-white p-1 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-gray-800">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowMenu(false);
-                      setIsDeleteModalOpen(true);
-                    }}
-                    className="w-full cursor-pointer text-left px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-md transition"
-                  >
-                    Delete Column
-                  </button>
-                </div>
-              </>
-            )}
+        <>
+          {/* Backdrop overlay to close menu on outside click */}
+          <div
+            className="fixed inset-0 z-10"
+            onClick={() => setShowMenu(false)}
+          />
+          <div className="absolute right-0 border border-gray-400 top-9 z-20 w-30 rounded-lg bg-white p-1 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-gray-800">
+            <button
+              type="button"
+              onClick={() => {
+                setShowMenu(false);
+                setIsDeleteModalOpen(true);
+              }}
+              className="w-full cursor-pointer text-left px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-md transition"
+            >
+              Delete Column
+            </button>
+          </div>
+        </>
+      )}
 
       {/* Warning Popup Modal */}
       <DeleteConfirmModal

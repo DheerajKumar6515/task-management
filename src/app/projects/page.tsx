@@ -4,6 +4,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
 import TaskHeader from "@/components/tasks/TaskHeader";
 import ProjectRow from "@/components/projects/ProjectRow";
+import AddProjectModal from "@/components/projects/AddProjectModal";
 
 
 
@@ -16,7 +17,14 @@ function page() {
       const [sidebarOpen, setSidebarOpen] = useState(false);
       // Board / List state
       const [viewMode, setViewMode] = useState<ViewMode>("board");
-      //colormode
+      //for taskHeader
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      // for project modal
+      const [projectModalOpen,setProjectModalOpen]=useState(false)
+
+      const fetchProjects = async () => {
+    // Database se projects fetch karne ka logic
+     };
 
   return (
     <div className="flex h-screen overflow-hidden bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
@@ -36,6 +44,7 @@ function page() {
       onViewChange={setViewMode}
       searchQuery={searchQuery}
       onSearchChange={setSearchQuery}
+      onOpenModal={() => setIsModalOpen(true)}
     />
 
     <div className="px-3 sm:px-4 py-4">
@@ -74,10 +83,18 @@ function page() {
         {/* Add Button */}
         <button
           type="button"
+          onClick={() => setProjectModalOpen(true)}
           className="w-full border-t border-gray-200 dark:border-gray-800 px-3 py-2 text-left text-[10px] text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 transition-colors cursor-pointer"
         >
           + Add Projects
         </button>
+
+        {/* Add Project Form Modal */}
+      <AddProjectModal
+        isOpen={projectModalOpen}
+        onClose={() => setProjectModalOpen(false)}
+        onProjectAdded={fetchProjects}
+      />
 
       </div>
 

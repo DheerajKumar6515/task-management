@@ -5,6 +5,8 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { CreateSubtaskDto } from './dto/create-subtask.dto';
 import { UpdateSubtaskDto } from './dto/update-Subtask.dto';
 import { CreatedColumnDto } from './dto/create-column.dto';
+import { CreateprojectDto } from './dto/create-project.dto';
+import { UpdateprojectDto } from './dto/update-project.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -20,6 +22,18 @@ export class TasksController {
   @Post('create')
   create(@Body() createTaskDto: CreateTaskDto) {
     return this.tasksService.create(createTaskDto);
+  }
+
+  //for new project
+  @Post('createproject')
+  createnewproject(@Body() createprojectDto:CreateprojectDto){
+    return this.tasksService.createnewproject(createprojectDto)
+  }
+
+  //update project
+  @Patch('project/:id')
+  updateproject(@Param('id') id:string, @Body() updateprojectDto:UpdateprojectDto){
+    return this.tasksService.updateproject(id,updateprojectDto);
   }
 
   //for new subtask
@@ -41,6 +55,12 @@ export class TasksController {
   @Get()
   findAll() {
     return this.tasksService.findAll();
+  }
+
+  //get all projects
+  @Get('allproject')
+  findAllProject(){
+    return this.tasksService.findAllProject();
   }
 
   //get one task
@@ -66,4 +86,11 @@ export class TasksController {
   removeColumn(@Param('id') id:string){
     return this.tasksService.removeColumn(id);
   }
+
+  @Delete('delproject/:id')
+  removeProject(@Param('id') id:string){
+    return this.tasksService.removeProject(id);
+  }
+
+
 }

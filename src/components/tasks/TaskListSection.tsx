@@ -7,18 +7,20 @@ import TaskRow from "@/components/tasks/TaskRow";
 import TaskModal from "@/components/tasks/taskModel/TaskModal";
 
 interface TaskListSectionProps {
+  taskid:string;
   title: string;
   tasks: Task[];
 }
 
 export default function TaskListSection({
+  taskid,
   title,
   tasks,
 }: TaskListSectionProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState("todo");
   return (
-    <section className="mb-3">
+    <section className=" mb-3">
       {/* Section Header */}
       <button
         type="button"
@@ -59,7 +61,7 @@ export default function TaskListSection({
         {/* Add Task */}
         <button
          onClick={() => {
-          setSelectedColumn(tasks.id);
+          setSelectedColumn(taskid);
           setIsModalOpen(true);
         }}
           type="button"

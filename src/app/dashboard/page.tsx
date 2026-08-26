@@ -25,6 +25,8 @@ function page() {
   const [taskColumns,setTaskColumns]=useState<TaskColumn[]>([])
   //add column for task
   const [isModalOpen, setIsModalOpen] = useState(false);
+  //fix hydration error
+  const [hasHydrated,setHashydrated]=useState(false)
 
    // Filter tasks based on search
     const filteredTasks = useMemo(() => {
@@ -59,7 +61,10 @@ function page() {
 
     useEffect(()=>{
        fetchTask();
+       setHashydrated(true)
     },[])
+
+    if(!hasHydrated) return null
 
   return (
    <div className="flex h-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">

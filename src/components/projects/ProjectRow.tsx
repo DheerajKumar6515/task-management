@@ -1,12 +1,23 @@
+import { useState } from "react";
 import { useContextData } from "@/Context/GlobalContext";
+import ActionDropdown from "@/components/projects/ActionDropdown";
+import EditProjectModal from "@/components/projects/EditProjectModal";
+import DeleteWarnModal from "@/components/projects/DeleteWarnModal";
 
 interface ProjectRowProps {
+  id?:string;
   title: string;
   priority: "High" | "Medium" | "Low";
+  lead?: string;
+  onRefresh?: () => void;
 }
 
-export default function ProjectRow({ title, priority }: ProjectRowProps) {
+export default function ProjectRow({
+   title, priority ,id='1',lead="Admin",onRefresh
+  }: ProjectRowProps) {
   const { color } = useContextData();
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const textColorMap: Record<string, string> = {
     amber: "text-amber-500",
@@ -31,15 +42,48 @@ export default function ProjectRow({ title, priority }: ProjectRowProps) {
       <span className={priorityStyles[priority]}>{priority}</span>
 
       {/* Lead */}
-      <span>Admin</span>
+      <span>{lead}</span>
 
       {/* Actions */}
-      <button
+      {/* <button
         type="button"
         className="text-left text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 cursor-pointer transition-colors"
       >
         ...
-      </button>
+      </button> */}
+      {/* Actions Dropdown Button */}
+        <div className="flex justify-start">
+          <ActionDropdown
+            onEdit={() => setIsEditOpen(true)}
+            onDelete={() => setIsDeleteOpen(true)}
+          />
+        </div>
+      
+      {/* 1. Update/Edit Modal Popup */}
+      {isEditOpen && (
+        <EditProjectModal
+          project={{ id, title, priority, lead }}
+          onClose={() => setIsEditOpen(false)}
+          onSuccess={() => {
+            setIsEditOpen(false);
+            if (onRefresh) onRefresh();
+          }}
+        />
+      )}
+
+      {/* 2. Delete Confirmation Modal Popup */}
+      {isDeleteOpen && (
+        <DeleteWarnModal
+          projectId={id}
+          projectTitle={title}
+          onClose={() => setIsDeleteOpen(false)}
+          onSuccess={() => {
+            setIsDeleteOpen(false);
+            if (onRefresh) onRefresh();
+          }}
+        />
+      )}
+
     </div>
   );
 }

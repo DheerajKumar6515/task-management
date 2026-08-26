@@ -140,7 +140,7 @@ export default function TaskModal({
             <input
               type="text"
               required
-              placeholder="e.g. Write API Documentation"
+              placeholder="Enter Task Title..."
               value={taskData.title}
               onChange={(e) =>
                 setTaskData({ ...taskData, title: e.target.value })
