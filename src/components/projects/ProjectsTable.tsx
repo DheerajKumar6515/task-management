@@ -7,11 +7,14 @@ import EditProjectModal, {
   Project,
 } from "@/components/projects/EditProjectModal";
 import DeleteWarnModal from "@/components/projects/DeleteWarnModal";
+import AddProjectModal from "@/components/projects/AddProjectModal";
 
 export default function ProjectsTable() {
   const backendUrl = process.env.NEXT_PUBLIC_baCKEND_URL;
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  // for project modal
+  const [projectModalOpen,setProjectModalOpen]=useState(false)
 
   // Active Modals state
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -35,6 +38,8 @@ export default function ProjectsTable() {
   useEffect(() => {
     fetchProjects();
   }, []);
+
+//  console.log(projects)
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
@@ -88,21 +93,26 @@ export default function ProjectsTable() {
         {/* Footer Add Project */}
         <div className="border-t border-gray-100 dark:border-gray-800 p-3">
           <button
-            onClick={() => setIsAddOpen(true)}
-            className="flex items-center gap-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
+            onClick={() =>{
+               setIsAddOpen(true);
+                setProjectModalOpen(true)
+              }}
+            className="flex items-center cursor-pointer gap-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
           >
             <Plus className="w-4 h-4" /> Add Projects
           </button>
         </div>
+
       </div>
 
       {/* Component 2: Add Modal */}
-      {/* {isAddOpen && (
+      {isAddOpen && (
         <AddProjectModal
+         isOpen={projectModalOpen}
           onClose={() => setIsAddOpen(false)}
-          onSuccess={fetchProjects}
+          onProjectAdded={fetchProjects}
         />
-      )} */}
+      )}
 
       {/* Component 3: Edit Modal */}
       {editingProject && (

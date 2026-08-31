@@ -2,6 +2,7 @@
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
 import React, { useState } from "react";
+import { useContextData } from "@/Context/GlobalContext";
 import {
   ArrowLeft,
   Search,
@@ -19,11 +20,12 @@ interface ProfileFormData {
 }
 
 export default function ProfileSettings() {
+   const {userDetails}=useContextData();
     // Mobile sidebar state
     const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formData, setFormData] = useState<ProfileFormData>({
-    email: "dexter@gmail.com",
-    fullName: "Dexter",
+    email: `${userDetails? userDetails.email :'guest@gmail.com'}`,
+    fullName: `${userDetails? userDetails.googleName :'Guest'}`,
     title: "Designer",
     username: "Dexuser",
   });
@@ -61,7 +63,7 @@ export default function ProfileSettings() {
             </span>
             <div className="w-10 h-10 rounded-full overflow-hidden bg-purple-100 border border-gray-200">
               <img
-                src="https://api.dicebear.com/7.x/avataaars/svg?seed=Dexter"
+                src={`${userDetails? userDetails.googleAvatar:'/defaultimg.png'}`}
                 alt="Profile"
                 className="w-full h-full object-cover"
               />

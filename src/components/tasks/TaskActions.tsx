@@ -54,13 +54,18 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
     setIsUpdateModalOpen(true);
   };
 
-  const handleDelete =async (e:React.MouseEvent) => {
+  const handleDelete =async (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
     try {
       
-        const response = await fetch(`${backendUrl}/tasks/${taskId}`);
+        const response = await fetch(`${backendUrl}/tasks/${taskId}`,{
+          method: "DELETE",
+          headers: {
+           "Content-Type": "application/json",
+      },
+        });
 
         if (!response.ok) {
           throw new Error(`Error ${response.status}: Task not found`);

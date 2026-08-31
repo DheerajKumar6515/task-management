@@ -14,13 +14,13 @@ function LoginCard() {
   };
 
   const handleGoogleLogin = async () => {
-    redirect("/dashboard");
-    // await supabase.auth.signInWithOAuth({
-    //   provider: 'google',
-    //   options: {
-    //     redirectTo: `${location.origin}/dashboard`,
-    //   },
-    // });
+    // redirect("/dashboard");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+      },
+    });
   };
 
   return (

@@ -11,6 +11,8 @@ import Image from "next/image";
 import Link from "next/link";
 import ProfileMenu from "@/components/layout/ProfileMenu";
 import { usePathname } from "next/navigation";
+import UserProfile from "@/components/ui/UserProfile"
+import { useContextData } from "@/Context/GlobalContext";
 
 interface SidebarProps {
   open: boolean;
@@ -18,6 +20,7 @@ interface SidebarProps {
 }
 
 function Sidebar({ open, onClose }: SidebarProps) {
+  const {userDetails}=useContextData();
   const [profileOpen, setProfileOpen] = useState(false);
   const path = usePathname();
 
@@ -50,17 +53,18 @@ function Sidebar({ open, onClose }: SidebarProps) {
               className="h-8 w-8 overflow-hidden rounded-full cursor-pointer ring-1 ring-gray-200 dark:ring-gray-700"
             >
               {/* Image here */}
-              <Image
+              {/* <Image
                 src="/avatar.jpg"
                 alt="avtar-img"
                 width={16}
                 height={16}
                 className="object-cover w-full h-full"
-              />
+              /> */}
+              <UserProfile/>
             </div>
 
             <span className="w-38 h-3.5 font-sans text-sm font-semibold text-[#0A0A0A] dark:text-gray-100 tracking-wide">
-              Dexter
+              {userDetails? userDetails.googleName:"Guest"}
             </span>
           </div>
         </div>

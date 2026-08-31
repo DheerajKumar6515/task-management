@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import { ChevronRight, Moon, Settings, Sun, User } from "lucide-react";
+import { useContextData } from "@/Context/GlobalContext";
+import { CleanAvatar } from "@/components/ui/CleanAvatar";
 
 import ThemeMenu from "@/components/layout/ThemeMemu";
 import ColorMode from "@/components/layout/ColorMode";
 import Link from "next/link";
 
 export default function ProfileMenu() {
+  const {userDetails}=useContextData();
   const [themeOpen, setThemeOpen] = useState(false);
   const [colorModeOpen, setColorModeOpen] = useState(false);
 
@@ -18,19 +21,19 @@ export default function ProfileMenu() {
         <div className="flex flex-col items-center">
           {/* Avatar */}
           <img
-            src="/avatar.jpg"
-            alt="Dexter"
+            src={`${userDetails? CleanAvatar(userDetails?.googleAvatar): '/defaultimg.png'}`}
+            alt="UserImg"
             className="h-10 w-10 rounded-full object-cover border border-gray-200 dark:border-gray-700"
           />
 
           {/* Name */}
           <p className="mt-2 text-[10px] font-medium text-gray-900 dark:text-gray-100">
-            Dexter
+            {userDetails? userDetails?.googleName : "Guest"}
           </p>
 
           {/* Email */}
           <p className="text-[9px] text-gray-400 dark:text-gray-500">
-            Dexter@gmail.com
+           {userDetails? userDetails?.email : "Guest@gmail.com"}
           </p>
         </div>
       </div>

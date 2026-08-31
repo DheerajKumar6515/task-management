@@ -54,7 +54,7 @@ export default function TaskRow({
       </div>
 
       {/* Members */}
-      <div className="flex items-center">
+      <div className="flex items-center h-5 w-5">
         <Avatar name={task.assignee} />
       </div>
 

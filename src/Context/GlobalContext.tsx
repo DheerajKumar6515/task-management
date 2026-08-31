@@ -5,16 +5,25 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 export type Color = "amber" | "blue" | "pink" | "rose" | "emerald" | "black";
 type Theme = "light" | "dark";
 
+export interface userProps{
+  googleName:string;
+  googleAvatar:string;
+  email:string;
+}
+
 interface ColorContextType{
     color:Color;
     theme:Theme;
-    setColor:(newColor:Color)=>void
-    changeTheme:(newTheme:Theme)=>void
+    userDetails:userProps | null;
+    setColor:(newColor:Color)=>void;
+    changeTheme:(newTheme:Theme)=>void;
+    setUserDetails:(user:any)=>void;
 }
 
 const GlobalContext = createContext<ColorContextType | undefined>(undefined);
 
 export function ColorProvider({children}:{children:React.ReactNode}){
+    const [userDetails,setUserDetails]=useState<userProps | null>(null)
     const [color, setColorState] = useState<Color>("black");
     const [theme, setTheme] = useState<Theme>("light");
 
@@ -53,7 +62,7 @@ export function ColorProvider({children}:{children:React.ReactNode}){
     };
 
   return (
-    <GlobalContext.Provider value={{ color,theme, setColor, changeTheme }}>
+    <GlobalContext.Provider value={{ color,theme, setColor, changeTheme, userDetails,setUserDetails }}>
       {children}
     </GlobalContext.Provider>
   );

@@ -7,13 +7,17 @@ import DeleteWarnModal from "@/components/projects/DeleteWarnModal";
 interface ProjectRowProps {
   id?:string;
   title: string;
-  priority: "High" | "Medium" | "Low";
+  priority:"High" | "Medium" | "Low";
   lead?: string;
   onRefresh?: () => void;
 }
 
 export default function ProjectRow({
-   title, priority ,id='1',lead="Admin",onRefresh
+   title, 
+   priority ,
+   id='1',
+   lead="Admin",
+   onRefresh
   }: ProjectRowProps) {
   const { color } = useContextData();
   const [isEditOpen, setIsEditOpen] = useState(false);

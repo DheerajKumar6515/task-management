@@ -5,6 +5,7 @@ import TaskTag from "./TaskTag";
 import Link from "next/link";
 import TaskActions from "@/components/tasks/TaskActions";
 
+
 interface TaskCardProps {
   task: Task;
 }
@@ -26,9 +27,9 @@ function TaskCard({ task }: TaskCardProps) {
         <div className="w-61.75 h-13 flex items-center justify-between">
           <div className="w-22.5 h-5 flex min-w-0 items-center gap-1">
             {/* Avatar IMage here */}
-            <span className="w-5 h-5 rounded-full">
-              <Avatar name={task.assignee} />
-            </span>
+            <div className="w-6.5 h-5 rounded-full">
+              <Avatar name={task.assignee} src={task.assigneeImage}/>
+            </div>
 
             <span className="w-full capitalize h-4 text-xs font-sans font-medium text-[#0A0A0A] dark:text-gray-300 truncate">
               {task.assignee}

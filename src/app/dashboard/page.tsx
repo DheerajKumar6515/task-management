@@ -12,6 +12,7 @@ import type {TaskColumn} from '@/types/task'
 import AddColumnModal from "@/components/tasks/taskModel/AddColumnModal";
 
 
+
 type ViewMode = "list" | "board";
 
 function page() {

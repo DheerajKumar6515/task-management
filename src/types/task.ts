@@ -21,7 +21,8 @@ export interface Task {
   dueDate: string;
   tags: string[];
   description?:string;
-  subtasks?:SubTasks[]
+  subtasks?:SubTasks[];
+  assigneeImage?: string
 }
 
 export interface TaskColumn {
