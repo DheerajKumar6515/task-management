@@ -48,13 +48,6 @@ export default function ProjectRow({
       {/* Lead */}
       <span>{lead}</span>
 
-      {/* Actions */}
-      {/* <button
-        type="button"
-        className="text-left text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 cursor-pointer transition-colors"
-      >
-        ...
-      </button> */}
       {/* Actions Dropdown Button */}
         <div className="flex justify-start">
           <ActionDropdown

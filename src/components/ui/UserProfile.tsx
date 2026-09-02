@@ -8,7 +8,7 @@ import { CleanAvatar } from '@/components/ui/CleanAvatar';
 
 
 export default function UserProfile() {
-  const {setUserDetails}=useContextData();
+  const {userDetails,setUserDetails}=useContextData();
   const [userName, setUserName] = useState<string>('Guest');
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
@@ -20,21 +20,17 @@ export default function UserProfile() {
      try{
       const { data: { user },error } = await supabase.auth.getUser();
 
-    //   if (error) {
-    //   console.error("Get user error:", error.message);
-    //   return;
-    // }
-
       if (user) {
         // Google OAuth user data metadata me hota hai
         const googleName = user.user_metadata?.full_name || user.user_metadata?.name || user.email || "Users";
         const googleAvatar = user.user_metadata?.avatar_url || user.user_metadata?.picture;
         const email=user.email || '';
+        const userId=user.id || "";
         
         setUserName(googleName);
         setAvatarUrl(googleAvatar); 
         //for context 
-         setUserDetails({googleName,googleAvatar,email});
+         setUserDetails({userId,googleName,googleAvatar,email});
       } else {
          setUserDetails(null);
          // console.log("No logged-in user");
@@ -49,7 +45,6 @@ export default function UserProfile() {
     setLoading(false);
   }
     }
-
  
   useEffect(() => {
     getUserData();

@@ -1,8 +1,11 @@
 "use client";
 import { useState } from "react";
 import type { SubTasks } from "@/types/task";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Edit, Trash2 } from "lucide-react";
 import SubTaskModal from "../taskModel/SubTaskModal";
+import UpdateSubtaskModal from "@/components/tasks/TaskDetails/UpdateSubtaskModal";
+import SubtaskDeleteWarning from "@/components/tasks/TaskDetails/SubtaskDeleteWarning";
+
 
 interface SubtaskTableProps {
   Taskid:string;
@@ -11,6 +14,16 @@ interface SubtaskTableProps {
 
 export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
   const [SubtaskModalOpen, setSubtaskModalOpen] = useState(false);
+  const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
+  const [editingSubtask, setEditingSubtask] = useState<SubTasks | null>(null);
+  const [deletingSubtaskId, setDeletingSubtaskId] = useState<string | null>(null);
+
+  const openUpdateModal=(subtasks:SubTasks)=>{
+    setEditingSubtask(subtasks);
+    setActiveMenuId(null);
+  }
+
+   
   return (
     <section className="mt-6">
       {/* Heading */}
@@ -53,13 +66,48 @@ export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
               </span>
 
               <button
+               onClick={()=>setActiveMenuId(activeMenuId === subtask.id ? null : subtask.id)}
                 type="button"
                 className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer"
               >
                 ...
               </button>
+
+              {/* Actions Dropdown Popup */}
+                {activeMenuId === subtask.id && (
+                  <div className="absolute right-4 mt-1 w-36 bg-gray-900 border border-gray-800 rounded-lg shadow-xl z-20 py-1 text-left">
+                    <button
+                      onClick={() => openUpdateModal(subtask)}
+                      className="w-full px-3 py-2 text-xs text-gray-300 hover:bg-gray-800 flex items-center gap-2"
+                    >
+                      <Edit className="w-3.5 h-3.5 text-blue-400" /> Update
+                    </button>
+                    <button
+                      onClick={() => {
+                        setDeletingSubtaskId(subtask.id);
+                        setActiveMenuId(null);
+                      }}
+                      className="w-full px-3 py-2 text-xs text-red-400 hover:bg-gray-800 flex items-center gap-2"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Delete
+                    </button>
+                  </div>
+                )}
+
+                 {deletingSubtaskId && <SubtaskDeleteWarning
+           taskId={subtask.id}
+           setDeletingSubtaskId={setDeletingSubtaskId}
+           />}
+
             </div>
           ))}
+          
+          {/*Udate Modal */}
+          {editingSubtask &&
+           <UpdateSubtaskModal
+            editingSubtask={editingSubtask}
+             setEditingSubtask={setEditingSubtask}/>}
+          
           <SubTaskModal
             isOpen={SubtaskModalOpen}
             onClose={() => setSubtaskModalOpen(false)}

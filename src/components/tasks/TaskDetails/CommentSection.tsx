@@ -4,7 +4,7 @@ export default function CommentSection() {
   return (
     <section className="mt-6">
       <h2 className="mb-3 text-xs font-semibold text-gray-900 dark:text-gray-100">
-        Subtasks
+        Comments
       </h2>
 
       {/* Existing comment */}

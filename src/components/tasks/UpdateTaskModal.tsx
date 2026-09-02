@@ -3,13 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from "react-dom";
 
-interface Subtasks{
-  id:string;
-  title?:string;
-  priority?: string;
-  assignee?: string;
-  due_date?: string;
-} 
 
 export interface TaskToEdit {
   id: string;
@@ -21,9 +14,7 @@ export interface TaskToEdit {
   due_date?: string;
   tags?: string[] | string;
   description?: string;
-  type?: 'task' | 'subtask';
   task_id?: string; 
-  subtasks?:Subtasks[];
 }
 
 
@@ -44,7 +35,7 @@ export default function UpdateTaskModal({
   const [mounted, setMounted] = useState(false);
   //for task
   const [formData, setFormData] = useState({
-    title: '',
+    title:'',
     column_id: 'todo',
     priority: 'medium',
     assignee: '',
@@ -53,18 +44,7 @@ export default function UpdateTaskModal({
     description: '',
   });
 
-  //for subtask
-     const [subformData, setsubFormData] = useState({
-    title: '',
-    column_id: '',
-    priority: '',
-    assignee: '',
-    due_date: '', 
-  });
-
-  const [activeTab, setActiveTab] = useState<'task' | 'subtask'>('task');
- 
- 
+  
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -72,10 +52,7 @@ export default function UpdateTaskModal({
 
   useEffect(() => {
     if (taskToEdit) {
-      //
-     const initialType = taskToEdit.type === 'subtask' ? 'subtask' : 'task';
-      setActiveTab(initialType);
-
+  
       setFormData({
         title: taskToEdit.title || '',
         column_id: taskToEdit.column_id || 'todo',
@@ -90,12 +67,10 @@ export default function UpdateTaskModal({
     }
   }, [taskToEdit]);
 
-  
-//console.log(taskToEdit?.subtasks)
 
 if (!isOpen || !mounted || !taskToEdit) return null;
 
-const isSubtask = activeTab === 'subtask';
+const isSubtask = 'task';
 
   const handleUpdateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,28 +84,18 @@ const isSubtask = activeTab === 'subtask';
       due_date: formData.due_date,
     };
 
-    if (!isSubtask) {
+    if (isSubtask) {
       payload.column_id = formData.column_id;
       payload.status = formData.column_id;
       payload.description = formData.description;
       payload.tags = formData.tags
         ? formData.tags.split(',').map((t) => t.trim())
         : [];
-    }
-
-    if (isSubtask) {
-      payload.title=subformData.title;
-     //payload.column_id = subformData.column_id;
-      payload.priority = subformData.priority;
-      payload.assignee = subformData.assignee;
-      payload.due_date = subformData.due_date
-    }
+    }  
 
     try {
       // Direct request to backend PATCH endpoint
-      const endpoint = isSubtask
-        ? `http://localhost:4000/tasks/subtask/${subformData.column_id}`
-        : `http://localhost:4000/tasks/${taskToEdit.id}`;
+      const endpoint = `${process.env.NEXT_PUBLIC_baCKEND_URL}/tasks/${taskToEdit.id}`;
 
       const res = await fetch(endpoint, {
         method: 'PATCH',
@@ -141,7 +106,6 @@ const isSubtask = activeTab === 'subtask';
 
       if (!res.ok) throw new Error('Update failed');
 
-      // console.log(`${isSubtask ? 'Subtask' : 'Task'} updated successfully`)
       onSuccess?.();
       onClose();
 
@@ -166,7 +130,7 @@ const isSubtask = activeTab === 'subtask';
         {/* Header with Close Icon */}
         <div className="flex items-center justify-between pb-3 sticky top-0 bg-white dark:bg-gray-900 z-10 border-b dark:border-gray-800">
           <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">
-            Update Details ({taskToEdit.id})
+            Update Task ({taskToEdit.id})
           </h2>
           <button
             type="button"
@@ -176,37 +140,11 @@ const isSubtask = activeTab === 'subtask';
             ✕
           </button>
         </div>
-
-        {/* Tab Switcher (Login / Signup Tab Style) */}
-        <div className="flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1 mt-4">
-          <button
-            type="button"
-            onClick={() => setActiveTab('task')}
-            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all ${
-              activeTab === 'task'
-                ? 'bg-white dark:bg-gray-950 text-black dark:text-white shadow-sm'
-                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-            }`}
-          >
-            Update Task
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('subtask')}
-            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all ${
-              activeTab === 'subtask'
-                ? 'bg-white dark:bg-gray-950 text-black dark:text-white shadow-sm'
-                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-            }`}
-          >
-            Update Subtask
-          </button>
-        </div>
-
+        
         {/* Dynamic Form */}
         <form onSubmit={handleUpdateSubmit} className="mt-4 space-y-4">
           {/* Column / Status (Task Only) */}
-          {!isSubtask && (
+          {isSubtask && (
             <div>
               <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
                 Column / Status
@@ -227,7 +165,7 @@ const isSubtask = activeTab === 'subtask';
           )}
 
           {/* Title */}
-          {!isSubtask && <div>
+          {isSubtask && <div>
             <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
               Title *
             </label>
@@ -241,94 +179,31 @@ const isSubtask = activeTab === 'subtask';
               className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 p-2 text-sm focus:outline-none focus:border-black dark:focus:border-gray-400"
             />
           </div> }
-
-          {/*subtask ID Select */}
-           {isSubtask && (
-            <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
-                 id
-              </label>
-              <select
-                value={subformData.column_id}
-                onChange={(e) =>
-                  setsubFormData({ ...subformData, column_id: e.target.value })
-                }
-                className="w-full rounded-md border dark:border-gray-700 p-2 text-sm focus:outline-none bg-white dark:bg-gray-800 dark:text-gray-100 uppercase font-medium"
-              >
-               {taskToEdit?.subtasks?.map((task)=>(                
-                <option key={task.id} value={task.id}>{`${task.title?.slice(0,16)}/${task.id}`}</option>
-               ))}
-              </select>
-            </div>
-          )}           
-           
-            {isSubtask && <div>
-            <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
-              Title *
-            </label>
-            <input
-              type="text"
-              placeholder="Enter New Title..."
-              required
-              value={subformData.title}
-              onChange={(e) =>
-                setsubFormData({ ...subformData, title: e.target.value })
-              }
-              className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 p-2 text-sm focus:outline-none focus:border-black dark:focus:border-gray-400"
-            />
-          </div> }
-
-          {/* Assignee & Priority  for subtask*/}
-         {isSubtask && <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
-                Assignee
-              </label>
-              <input
-                type="text"
-                value={subformData.assignee}
-                placeholder='Admin, dev, Cn'
-                onChange={(e) =>
-                  setsubFormData({ ...subformData, assignee: e.target.value })
-                }
-                className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 p-2 text-sm focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 ark:text-gray-400 mb-1">
-                Priority
-              </label>
-              <select
-                value={subformData.priority}
-                onChange={(e) =>
-                  setsubFormData({ ...subformData, priority: e.target.value })
-                }
-                className="w-full rounded-md border dark:border-gray-700 p-2 text-sm focus:outline-none bg-white dark:bg-gray-800 dark:text-gray-100"
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </div>
-          </div>
-         }
-
+          
           {/* Assignee & Priority */}
-         {!isSubtask && <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
+         {isSubtask && <div className="grid grid-cols-2 gap-4">
+             <div>
+              <label className="block text-xs font-semibold uppercase text-gray-500">
                 Assignee
               </label>
-              <input
-                type="text"
+              <select
                 value={formData.assignee}
                 onChange={(e) =>
                   setFormData({ ...formData, assignee: e.target.value })
                 }
-                className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 p-2 text-sm focus:outline-none"
-              />
+                className="mt-1 w-full rounded-md border border-gray-600 p-2 text-black dark:text-gray-400 text-sm focus:outline-none"
+              >
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+                <option value="developer">Developer</option>
+                <option value="qa team">QA Team</option>
+                <option value="designer">Designer</option>
+                <option value="security">Security</option>
+                <option value="product">Product</option>
+                <option value="engineering">Engineering</option>
+              </select>
             </div>
+
 
             <div>
               <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-g mb-1">
@@ -347,11 +222,11 @@ const isSubtask = activeTab === 'subtask';
               </select>
             </div>
           </div>
-}
+         }
 
           {/* Due Date & Tags */}
           <div className="grid grid-cols-2 gap-4">
-           {!isSubtask && <div>
+           {isSubtask && <div>
               <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
                 Due Date
               </label>
@@ -366,7 +241,7 @@ const isSubtask = activeTab === 'subtask';
               />
             </div>}
 
-            {isSubtask &&
+            {/* {isSubtask &&
                <div>
               <label className="block text-xs font-semibold uppercase text-gray-50 dark:text-gray-400 mb-1">
                 Due Date
@@ -381,9 +256,9 @@ const isSubtask = activeTab === 'subtask';
                 className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 p-2 text-sm focus:outline-none"
               />
             </div>
-            }
+            } */}
 
-            {!isSubtask && (
+            {isSubtask && (
               <div>
                 <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
                   Tags (Comma separated)
@@ -401,7 +276,7 @@ const isSubtask = activeTab === 'subtask';
           </div>
 
           {/* Description (Task Only) */}
-          {!isSubtask && (
+          {isSubtask && (
             <div>
               <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
                 Description
@@ -430,7 +305,7 @@ const isSubtask = activeTab === 'subtask';
               type="submit"
               className="rounded-md cursor-pointer bg-black dark:bg-white px-4 py-2 text-sm font-medium text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200"
             >
-              Update {isSubtask ? 'Subtask' : 'Task'}
+              Update Task
             </button>
           </div>
         </form>

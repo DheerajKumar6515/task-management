@@ -7,15 +7,16 @@ import Topbar from "@/components/layout/Topbar";
 import TaskHeader from "@/components/tasks/TaskHeader";
 import TaskBoard from "@/components/tasks/TaskBoard";
 import TaskList from "@/components/tasks/TaskList";
-//import { taskColumns } from "@/data/tasks";
 import type {TaskColumn} from '@/types/task'
 import AddColumnModal from "@/components/tasks/taskModel/AddColumnModal";
+import { createClient } from "@/lib/supabaseClient";
 
 
 
 type ViewMode = "list" | "board";
 
 function page() {
+  const supabase=createClient();
    // Search state
   const [searchQuery, setSearchQuery] = useState("");
   // Mobile sidebar state
@@ -63,9 +64,42 @@ function page() {
     useEffect(()=>{
        fetchTask();
        setHashydrated(true)
+       //Realtime data
+      //  const channel=supabase.channel('realtime-tasks').on('postgres_changes',{
+      //   event:"*",
+      //   schema:'public',
+      //   table:"tasks"
+      //  },(payload)=>{
+         
+      //    //Insert task data
+      //     if(payload.eventType === 'INSERT'){
+      //       const newTask = payload.new as TaskColumn;
+      //       setTaskColumns((prev) =>[newTask, ...prev]);
+      //     }
+
+      //     //Update status/Data 
+      //     if(payload.eventType === 'UPDATE'){
+      //       const updateTask = payload.new as TaskColumn;
+      //       setTaskColumns((prev)=>prev.map((task)=>(task.id === updateTask.id ? updateTask : task)))
+      //     }
+
+      //     //Deleted Task
+      //     if(payload.eventType === 'DELETE'){
+      //       const deletedId = payload.old.id;
+      //       setTaskColumns((prev)=>prev.filter((task)=> task.id !== deletedId))
+      //     }
+
+      //  }
+      // )
+      //Cleanup component unmount
+      // return ()=>{
+      //   supabase.removeChannel(channel)
+      // };
+
     },[])
 
     if(!hasHydrated) return null
+
 
   return (
    <div className="flex h-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
@@ -95,12 +129,14 @@ function page() {
         <AddColumnModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSuccess={() => alert("Column added into database successfully!")}
+        onSuccess={fetchTask}
       />
 
          {/* Content */}
         {viewMode === "list" ? (
-          <TaskList taskColumns={filteredTasks}/>
+          <TaskList
+           taskColumns={filteredTasks}
+           />
         ) : (
           <div className="min-h-0 flex-1 px-3 sm:px-4 bg-gray-50 dark:bg-gray-900">
             <TaskBoard taskColumns={filteredTasks}/>

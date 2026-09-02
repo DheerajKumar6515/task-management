@@ -56,7 +56,7 @@ export class TasksService {
     const taskId = `task-${randomUUID().slice(0, 8)}`; // Generating unique task ID (task-1, etc.)
     const taskPayload = {
       id: taskId,
-      column_id: createTaskDto.column_id, // foreign key link
+      column_id: createTaskDto.column_id, 
       title: createTaskDto.title,
       status: createTaskDto.status,
       priority: createTaskDto.priority,
@@ -64,6 +64,7 @@ export class TasksService {
       due_date: createTaskDto.due_date,
       tags: createTaskDto.tags,
       description: createTaskDto.description,
+      user_id: createTaskDto.user_id,
     };
 
     const { data: taskData, error: taskError } = await supabase
@@ -298,6 +299,28 @@ export class TasksService {
     };
   }
 
+  //remove subtask
+  async removeSubtask(id:string){
+     const { data, error } = await supabase
+      .from('subtasks')
+      .delete()
+      .eq('id', id)
+      .select();
+
+    if (error) {
+      throw new BadRequestException(error.message);
+    }
+
+    if (!data || data.length === 0) {
+      throw new NotFoundException(`SubTask with ID "${id}" not found`);
+    }
+
+    return {
+      message: `SubTask with ID "${id}" successfully deleted`,
+      deletedTask: data[0],
+    };
+  }
+
   //remove column
   async removeColumn(id: string) {
     const { data, error } = await supabase
@@ -320,6 +343,7 @@ export class TasksService {
     };
   }
 
+  //remove project
   async removeProject(id:string){
     const { data, error } = await supabase
       .from('projects')

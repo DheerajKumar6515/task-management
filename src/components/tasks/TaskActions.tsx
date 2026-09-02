@@ -54,7 +54,7 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
     setIsUpdateModalOpen(true);
   };
 
-  const handleDelete =async (e:React.MouseEvent<HTMLButtonElement>) => {
+  const handleDelete = async (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
 

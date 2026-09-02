@@ -4,13 +4,14 @@ import Avatar from "@/components/ui/Avatar";
 import TaskTag from "./TaskTag";
 import Link from "next/link";
 import TaskActions from "@/components/tasks/TaskActions";
-
+import { useContextData } from "@/Context/GlobalContext";
 
 interface TaskCardProps {
   task: Task;
 }
 
 function TaskCard({ task }: TaskCardProps) {
+  const {userDetails}=useContextData();
   return (
     <Link href={`/task/${task.id}`}>
       <article className="w-68.25 h-28.5 rounded-md border border-[#E5E5E5] bg-white dark:bg-gray-900 dark:border-gray-800 p-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:shadow-sm gap-2 mb-1.5 dark:shadow-none transition-all dark:hover:border-gray-700">
@@ -28,7 +29,9 @@ function TaskCard({ task }: TaskCardProps) {
           <div className="w-22.5 h-5 flex min-w-0 items-center gap-1">
             {/* Avatar IMage here */}
             <div className="w-6.5 h-5 rounded-full">
-              <Avatar name={task.assignee} src={task.assigneeImage}/>
+              <Avatar 
+              name={task.assignee} 
+              src={`${userDetails? userDetails.googleAvatar : task.assigneeImage}`}/>
             </div>
 
             <span className="w-full capitalize h-4 text-xs font-sans font-medium text-[#0A0A0A] dark:text-gray-300 truncate">

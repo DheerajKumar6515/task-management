@@ -84,128 +84,7 @@ function SubTaskModal({
       };
 
   return (
-    // <div>
-    //    <form onSubmit={handleSubtaskSubmit} className="mt-4 space-y-4">
-    //         <div>
-    //           <label className="block text-xs font-semibold uppercase text-gray-500">
-    //             Select Parent Task *
-    //           </label>
-    //           <select
-    //             value={subtaskData.task_id}
-    //             onChange={(e) =>
-    //               setSubtaskData({ ...subtaskData, task_id: e.target.value })
-    //             }
-    //             className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none focus:border-black"
-    //           >
-    //             {existingTasks.length === 0 ? (
-    //               <option value="">No tasks available</option>
-    //             ) : (
-    //               existingTasks.map((t) => (
-    //                 <option key={t.id} value={t.id}>
-    //                   {t.title} ({t.id})
-    //                 </option>
-    //               ))
-    //             )}
-    //           </select>
-    //         </div>
-
-    //         <div>
-    //           <label className="block text-xs font-semibold uppercase text-gray-500">
-    //             Subtask Title *
-    //           </label>
-    //           <input
-    //             type="text"
-    //             required
-    //             placeholder="e.g. Write Unit Tests"
-    //             value={subtaskData.title}
-    //             onChange={(e) =>
-    //               setSubtaskData({ ...subtaskData, title: e.target.value })
-    //             }
-    //             className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none focus:border-black placeholder:text-gray-400"
-    //           />
-    //         </div>
-
-    //         <div className="grid grid-cols-2 gap-4">
-    //           <div>
-    //             <label className="block text-xs font-semibold uppercase text-gray-500">
-    //               Assignee
-    //             </label>
-    //             <input
-    //               type="text"
-    //               value={subtaskData.assignee}
-    //               onChange={(e) =>
-    //                 setSubtaskData({
-    //                   ...subtaskData,
-    //                   assignee: e.target.value,
-    //                 })
-    //               }
-    //               className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none"
-    //             />
-    //           </div>
-
-    //           <div>
-    //             <label className="block text-xs font-semibold uppercase text-gray-500">
-    //               Priority
-    //             </label>
-    //             <select
-    //               value={subtaskData.priority}
-    //               onChange={(e) =>
-    //                 setSubtaskData({
-    //                   ...subtaskData,
-    //                   priority: e.target.value,
-    //                 })
-    //               }
-    //               className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none"
-    //             >
-    //               <option value="low">Low</option>
-    //               <option value="medium">Medium</option>
-    //               <option value="high">High</option>
-    //             </select>
-    //           </div>
-    //         </div>
-
-    //         <div>
-    //           <label className="block text-xs font-semibold uppercase text-gray-500">
-    //             Due Date
-    //           </label>
-    //           <input
-    //             type="text"
-    //             placeholder="e.g. 15 Sep 2026"
-    //             value={subtaskData.due_date}
-    //             onChange={(e) =>
-    //               setSubtaskData({ ...subtaskData, due_date: e.target.value })
-    //             }
-    //             className="mt-1 w-full rounded-md border border-gray-600 text-black dark:text-gray-400 p-2 text-sm focus:outline-none placeholder:text-gray-400"
-    //           />
-    //         </div>
-
-    //         <div className="flex items-center justify-between border-t pt-4">
-    //           <button
-    //             type="button"
-    //            // onClick={() => setActiveTab('task')}
-    //             className="text-xs text-blue-600 hover:underline"
-    //           >
-    //             Switch to Task Form
-    //           </button>
-    //           <div className="flex gap-2">
-    //             <button
-    //               type="button"
-    //              onClick={onClose}
-    //               className="rounded-md cursor-pointer border px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50"
-    //             >
-    //               Cancel
-    //             </button>
-    //             <button
-    //               type="submit"
-    //               className="rounded-md cursor-pointer bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
-    //             >
-    //               Create Subtask
-    //             </button>
-    //           </div>
-    //         </div>
-    //       </form>
-    // </div>
-
+    
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
         
@@ -293,10 +172,14 @@ function SubTaskModal({
                 }
                 className="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2 text-sm focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
               >
-                <option value="Admin">Admin</option>
-                <option value="Developer">Developer</option>
-                <option value="QA Team">QA Team</option>
-                <option value="Designer">Designer</option>
+              <option value="admin">Admin</option>
+                <option value="user">User</option>
+                <option value="developer">Developer</option>
+                <option value="qa team">QA Team</option>
+                <option value="designer">Designer</option>
+                <option value="security">Security</option>
+                <option value="product">Product</option>
+                <option value="engineering">Engineering</option>
               </select>
             </div>
           </div>

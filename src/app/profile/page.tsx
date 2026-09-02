@@ -11,6 +11,7 @@ import {
   Palette,
   Pencil,
 } from "lucide-react";
+import { createClient } from "@/lib/supabaseClient";
 
 interface ProfileFormData {
   email: string;
@@ -20,6 +21,7 @@ interface ProfileFormData {
 }
 
 export default function ProfileSettings() {
+  const supabase=createClient();
    const {userDetails}=useContextData();
     // Mobile sidebar state
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -30,10 +32,22 @@ export default function ProfileSettings() {
     username: "Dexuser",
   });
 
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  //Logout function
+   const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error("Logout error:", error.message);
+      return;
+    }
+
+    // Login page par redirect
+    window.location.href = "/";
   };
 
   return (
@@ -148,7 +162,7 @@ export default function ProfileSettings() {
           <span className="text-sm text-gray-400">
             Remove yourself from the workspace
           </span>
-          <button className="bg-red-100 hover:bg-red-200 text-red-600 text-sm font-medium px-4 py-2 rounded-lg transition-colors cursor-pointer">
+          <button onClick={handleLogout} className="bg-red-100 hover:bg-red-200 text-red-600 text-sm font-medium px-4 py-2 rounded-lg transition-colors cursor-pointer">
             Leave Workspace
           </button>
         </div>

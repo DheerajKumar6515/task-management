@@ -13,6 +13,10 @@ export class CreateTaskDto {
 
   @IsString()
   @IsNotEmpty()
+  user_id!:string;
+
+  @IsString()
+  @IsNotEmpty()
   title!: string;
 
   @IsString()
@@ -43,4 +47,6 @@ export class CreateTaskDto {
   @IsString()
   @IsOptional()
   description?: string;
+
+
 }

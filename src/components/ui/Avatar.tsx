@@ -12,7 +12,6 @@ interface AvatarProps {
 
 function Avatar({name,src,size = "sm",}:AvatarProps) {
   const [imageError, setImageError] = useState(false);
-  const [hasError, setHasError] = useState(false);
 
    const initials = name
     .split(" ")

@@ -6,7 +6,7 @@ import { X } from 'lucide-react';
 interface AddProjectModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onProjectAdded: () => void; // Table list refresh karne ke liye callback function
+  onProjectAdded: () => void;
 }
 
 export default function AddProjectModal({

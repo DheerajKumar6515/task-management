@@ -81,12 +81,19 @@ export class TasksController {
     return this.tasksService.remove(id);
   }
 
+  //delete subtask
+  @Delete('delsubtask/:id')
+  removeSubtask(@Param('id') id:string){
+    return this.tasksService.removeSubtask(id);
+  }
+
   //delete column
   @Delete('/column/:id')
   removeColumn(@Param('id') id:string){
     return this.tasksService.removeColumn(id);
   }
 
+  //delete project
   @Delete('delproject/:id')
   removeProject(@Param('id') id:string){
     return this.tasksService.removeProject(id);

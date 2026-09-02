@@ -8,9 +8,11 @@ import EditProjectModal, {
 } from "@/components/projects/EditProjectModal";
 import DeleteWarnModal from "@/components/projects/DeleteWarnModal";
 import AddProjectModal from "@/components/projects/AddProjectModal";
+import { useContextData } from "@/Context/GlobalContext";
 
 export default function ProjectsTable() {
   const backendUrl = process.env.NEXT_PUBLIC_baCKEND_URL;
+  const { color } = useContextData();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   // for project modal
@@ -20,6 +22,20 @@ export default function ProjectsTable() {
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [deletingProject, setDeletingProject] = useState<Project | null>(null);
+
+   const textColorMap: Record<string, string> = {
+    amber: "text-amber-500",
+    blue: "text-purple-600",
+    pink: "text-pink-500",
+    rose: "text-rose-600",
+    emerald: "text-emerald-600",
+    black: "text-black",
+  };
+  // const priorityStyles = {
+  //   High: "text-red-500",
+  //   Medium: "text-orange-500",
+  //   Low: "text-gray-400",
+  // };
 
   const fetchProjects = async () => {
     try {
@@ -38,8 +54,6 @@ export default function ProjectsTable() {
   useEffect(() => {
     fetchProjects();
   }, []);
-
-//  console.log(projects)
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
@@ -67,13 +81,15 @@ export default function ProjectsTable() {
             ) : (
               projects.map((project) => (
                 <tr
-                  key={project.id}
+                key={project.id}
                   className="hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition"
                 >
-                  <td className="py-3.5 px-6 font-medium text-gray-800 dark:text-gray-200">
-                    {project.title}
+                  <td className={`py-3.5 px-6 font-medium `}>
+                   <span className={textColorMap[color || "text-gray-800"]}>{project.title}</span> 
                   </td>
-                  <td className="py-3.5 px-6">{project.priority}</td>
+                  <td className="py-3.5 px-6">
+                    <span>{project.priority}</span>
+                    </td>
                   <td className="py-3.5 px-6 text-gray-600 dark:text-gray-300">
                     {project.lead}
                   </td>

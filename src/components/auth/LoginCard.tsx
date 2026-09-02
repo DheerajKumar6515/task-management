@@ -8,9 +8,28 @@ function LoginCard() {
   const supabase = createClient();
   const router = useRouter();
 
-  const handleGuestLogin = () => {
-    redirect("/dashboard");
-    //console.log("Continue as Guest");
+  const handleGuestLogin = async () => {
+  
+    try {
+      //Current session Check 
+      const {data:{session}}=await supabase.auth.getSession();
+      if(session?.user){
+        console.log('Existing session found. User ID:', session?.user.id);
+      }else{
+         const { data, error } = await supabase.auth.signInAnonymously();
+         
+          if (error) {
+           console.error("Guest login error:", error?.message);
+           return;
+          }
+          // Dashboard par redirect
+         window.location.href = "/dashboard";
+          
+      }
+      
+    } catch (err) {
+      console.error('Unexpected Auth Error:', err);
+    }
   };
 
   const handleGoogleLogin = async () => {

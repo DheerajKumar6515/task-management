@@ -1,5 +1,6 @@
 "use client";
 
+import { useContextData } from "@/Context/GlobalContext";
 import React, { useState, useEffect } from "react";
 
 interface TaskItem {
@@ -25,9 +26,7 @@ export default function TaskModal({
   onSuccess,
 }: TaskModalProps) {
   const backendUrl = process.env.NEXT_PUBLIC_baCKEND_URL;
-
-  // Tab state: 'task' | 'subtask'
-  const [activeTab, setActiveTab] = useState<"task" | "subtask">("task");
+  const {userDetails}=useContextData();
 
   // Task Form State
   const [taskData, setTaskData] = useState({
@@ -40,6 +39,7 @@ export default function TaskModal({
     due_date: "",
     tags: "",
     description: "",
+    user_id:userDetails?.userId,
   });
 
   // Subtask Form State
@@ -71,7 +71,7 @@ export default function TaskModal({
       ...taskData,
       tags: taskData.tags ? taskData.tags.split(",").map((t) => t.trim()) : [],
     };
-
+   
     try {
       const res = await fetch(`${backendUrl}/tasks/create`, {
         method: "POST",
@@ -97,6 +97,7 @@ export default function TaskModal({
       due_date: "",
       tags: "",
       description: "",
+      user_id:userDetails?.userId
     });
   };
 
@@ -159,7 +160,7 @@ export default function TaskModal({
                 onChange={(e) =>
                   setTaskData({ ...taskData, assignee: e.target.value })
                 }
-                className="mt-1 w-full rounded-md border border-gray-600 p-2 text-black dark:text-gray-400 text-sm focus:outline-none"
+                className="mt-1 w-full rounded-md border border-gray-600 p-2 text-black dark:text-gray-400 dark:bg-gray-800 text-sm focus:outline-none"
               >
                 <option value="admin">Admin</option>
                 <option value="user">User</option>

@@ -6,6 +6,7 @@ export type Color = "amber" | "blue" | "pink" | "rose" | "emerald" | "black";
 type Theme = "light" | "dark";
 
 export interface userProps{
+  userId:string;
   googleName:string;
   googleAvatar:string;
   email:string;
