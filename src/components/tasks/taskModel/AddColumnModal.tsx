@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 interface AddColumnModalProps {
   isOpen: boolean;
@@ -35,11 +36,13 @@ export default function AddColumnModal({ isOpen, onClose, onSuccess }: AddColumn
       if (!res.ok) {
         throw new Error(data.message || "Something went wrong");
       }
+      toast.success("Column created successfully!");
 
       setColumnName("");
       onClose();
       if (onSuccess) onSuccess();
     } catch (err: any) {
+      toast.error("Failed to create column.");
       setError(err.message);
     } finally {
       setLoading(false);

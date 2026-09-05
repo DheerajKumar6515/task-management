@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 interface Props {
   projectTitle: string;
@@ -19,10 +20,11 @@ export default function DeleteWarnModal({ projectTitle, projectId, onClose, onSu
     try {
       const res = await fetch(`${backendUrl}/tasks/delproject/${projectId}`, { method: 'DELETE' });
       if (res.ok) {
+        toast.success("Project deleted successfully!");
         onSuccess();
         onClose();
       } else {
-        console.log('Delete failed');
+        toast.error("Failed to delete project.");
       }
     } catch (err) {
       console.error(err);

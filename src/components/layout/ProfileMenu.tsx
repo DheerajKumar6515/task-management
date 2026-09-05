@@ -8,9 +8,11 @@ import { CleanAvatar } from "@/components/ui/CleanAvatar";
 import ThemeMenu from "@/components/layout/ThemeMemu";
 import ColorMode from "@/components/layout/ColorMode";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ProfileMenu() {
   const {userDetails}=useContextData();
+  const AvatarUrl=CleanAvatar(userDetails?.googleAvatar);
   const [themeOpen, setThemeOpen] = useState(false);
   const [colorModeOpen, setColorModeOpen] = useState(false);
 
@@ -20,8 +22,9 @@ export default function ProfileMenu() {
       <div className="border-b border-gray-100 dark:border-gray-800 px-4 py-4">
         <div className="flex flex-col items-center">
           {/* Avatar */}
-          <img
-            src={`${userDetails? CleanAvatar(userDetails?.googleAvatar): '/defaultimg.png'}`}
+          <Image
+            src={`${userDetails ? AvatarUrl : '/defaultimg.png'}`}
+            width={30} height={30}
             alt="UserImg"
             className="h-10 w-10 rounded-full object-cover border border-gray-200 dark:border-gray-700"
           />

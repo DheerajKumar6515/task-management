@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
 import React, { useState } from "react";
@@ -12,6 +13,7 @@ import {
   Pencil,
 } from "lucide-react";
 import { createClient } from "@/lib/supabaseClient";
+import { CleanAvatar } from "@/components/ui/CleanAvatar";
 
 interface ProfileFormData {
   email: string;
@@ -23,6 +25,7 @@ interface ProfileFormData {
 export default function ProfileSettings() {
   const supabase=createClient();
    const {userDetails}=useContextData();
+   const AvatarUrl=CleanAvatar(userDetails?.googleAvatar);
     // Mobile sidebar state
     const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formData, setFormData] = useState<ProfileFormData>({
@@ -62,22 +65,25 @@ export default function ProfileSettings() {
       {/* Main Content Area */}
       <main className="flex min-w-0 flex-1 flex-col">
         <Topbar onMenuClick={() => setSidebarOpen(true)}/>
-        <div className="w-full px-2 md:w-[70%] mx-auto">
+        <div className="w-full flex items-center justify-center px-2">
+
+        <div>       
         {/* Header */}      
-        <div className="flex items-center gap-4 mt-3 md:mt-8 mb-5">
-          <h1 className="text-xl font-medium text-gray-900 dark:text-gray-400">Profile</h1>
+        <div className="flex items-center gap-4 mt-3 xl:mt-8 mb-3 xl:mb-5">
+          <h1 className="text-xl md:text-2xl font-sans font-medium text-black dark:text-gray-400">Profile</h1>
         </div>
 
         {/* Profile Card */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-5 space-y-6 dark:bg-gray-900">
+        <div className="w-full xl:w-160 bg-white rounded-xl border border-gray-200 p-3 md:p-6 shadow-sm mb-5 space-y-6 dark:bg-gray-900">
           {/* Profile Picture Row */}
           <div className="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
             <span className="text-sm font-medium text-gray-800 dark:text-gray-400">
               Profile picture
             </span>
             <div className="w-10 h-10 rounded-full overflow-hidden bg-purple-100 border border-gray-200">
-              <img
-                src={`${userDetails? userDetails.googleAvatar:'/defaultimg.png'}`}
+              <Image
+                src={`${userDetails ? AvatarUrl : '/defaultimg.png'}`}
+                width={30} height={30}
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
@@ -158,7 +164,7 @@ export default function ProfileSettings() {
           Workspace access
         </h2>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm flex items-center justify-between dark:bg-gray-900">
+        <div className="w-full xl:w-160 bg-white rounded-xl border border-gray-200 p-3 md:p-6 shadow-sm flex items-center justify-between dark:bg-gray-900">
           <span className="text-sm text-gray-400">
             Remove yourself from the workspace
           </span>
@@ -166,6 +172,8 @@ export default function ProfileSettings() {
             Leave Workspace
           </button>
         </div>
+      </div>
+
       </div>
       </main>
     </div>

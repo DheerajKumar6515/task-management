@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 interface AddProjectModalProps {
   isOpen: boolean;
@@ -39,6 +40,7 @@ export default function AddProjectModal({
       if (!response.ok) {
         throw new Error('Project add karne me error aaya');
       }
+      toast.success("Project created successfully!");
 
       // Reset form & close modal
       setTitle('');
@@ -47,8 +49,8 @@ export default function AddProjectModal({
       onProjectAdded(); 
       onClose();
     } catch (error) {
+      toast.error("Failed to create project.");
       console.error('Error adding project:', error);
-      console.log('Project save nahi ho paya!');
     } finally {
       setLoading(false);
     }

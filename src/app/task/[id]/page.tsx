@@ -57,12 +57,12 @@ function page() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+    <div className="flex h-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
       {/* Existing Sidebar */}
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main */}
-      <main className="flex min-w-0 flex-1 flex-col bg-white dark:bg-gray-950">
+      <main className="flex min-w-0 flex-1 flex-col bg-white dark:bg-gray-900">
         {/* Existing Topbar */}
         <Topbar onMenuClick={() => setSidebarOpen(true)} />
 
@@ -92,7 +92,7 @@ function page() {
 
                 <SubtaskTable subtasks={task.subtasks ?? []} Taskid={task.id}/>
 
-                <CommentSection />
+                <CommentSection task={task}/>
               </div>
 
               {/* =====================

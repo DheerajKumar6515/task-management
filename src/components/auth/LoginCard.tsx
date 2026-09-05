@@ -3,6 +3,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 function LoginCard() {
   const supabase = createClient();
@@ -14,7 +15,8 @@ function LoginCard() {
       //Current session Check 
       const {data:{session}}=await supabase.auth.getSession();
       if(session?.user){
-        console.log('Existing session found. User ID:', session?.user.id);
+       toast.error("Please log in to perform this action.");
+       return
       }else{
          const { data, error } = await supabase.auth.signInAnonymously();
          
@@ -24,6 +26,7 @@ function LoginCard() {
           }
           // Dashboard par redirect
          window.location.href = "/dashboard";
+         toast.success("You're in Guest Mode. Log in to sync your tasks across devices.")
           
       }
       
@@ -40,6 +43,10 @@ function LoginCard() {
         redirectTo: `${location.origin}/auth/callback`,
       },
     });
+
+    if (error) {
+    toast.error("Failed to initiate Google login.");
+  }
   };
 
   return (

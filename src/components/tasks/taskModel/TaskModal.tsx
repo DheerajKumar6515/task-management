@@ -2,6 +2,7 @@
 
 import { useContextData } from "@/Context/GlobalContext";
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 interface TaskItem {
   id: string;
@@ -43,13 +44,13 @@ export default function TaskModal({
   });
 
   // Subtask Form State
-  const [subtaskData, setSubtaskData] = useState({
-    task_id: existingTasks[0]?.id || "",
-    title: "",
-    priority: "medium",
-    assignee: "Admin",
-    due_date: "",
-  });
+  // const [subtaskData, setSubtaskData] = useState({
+  //   task_id: existingTasks[0]?.id || "",
+  //   title: "",
+  //   priority: "medium",
+  //   assignee: "Admin",
+  //   due_date: "",
+  // });
 
   useEffect(() => {
     setTaskData((prev) => ({
@@ -57,9 +58,9 @@ export default function TaskModal({
       column_id: defaultColumnId,
       status: defaultColumnId,
     }));
-    if (existingTasks.length > 0 && !subtaskData.task_id) {
-      setSubtaskData((prev) => ({ ...prev, task_id: existingTasks[0].id }));
-    }
+    // if (existingTasks.length > 0 && !subtaskData.task_id) {
+    //   setSubtaskData((prev) => ({ ...prev, task_id: existingTasks[0].id }));
+    // }
   }, [defaultColumnId, existingTasks]);
 
   if (!isOpen) return null;
@@ -80,10 +81,12 @@ export default function TaskModal({
       });
 
       if (!res.ok) throw new Error("Failed to create task");
+      toast.success("Task created successfully!");
 
       onSuccess?.();
       onClose();
     } catch (err) {
+      toast.error("Failed to create task.");
       console.log("Task save nahi ho paya.");
     }
 
@@ -104,7 +107,7 @@ export default function TaskModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-900">
-        {/* Header & Toggle Tabs (Login/Signup style) */}
+        {/* Header */}
         <div className="flex items-center justify-between border-b pb-2 ">
           <div className="p-1">
             <h1 className="font-sans font-bold text-base text-black dark:text-gray-300">

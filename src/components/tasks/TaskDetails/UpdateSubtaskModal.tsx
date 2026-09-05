@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import type { SubTasks } from '@/types/task';
 import { X } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 interface UpdatesubtasksProps{
     editingSubtask:SubTasks;
@@ -39,10 +40,10 @@ function UpdateSubtaskModal({ editingSubtask,setEditingSubtask}:UpdatesubtasksPr
 
       if (!res.ok) throw new Error('Update failed');
 
-       console.log('Update subtask successfully');
+      toast.success("Subtask updated successfully!");
        setEditingSubtask(null);
     } catch (err) {
-      console.log('Update process failed. Check backend console.');
+      toast.error('Subtask Update process failed.');
     }
 
     setEditingSubtask(null);

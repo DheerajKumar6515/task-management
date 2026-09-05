@@ -1,6 +1,7 @@
 "use client";
 import { SubTasks } from "@/types/task";
 import { useState,useEffect } from "react";
+import { toast } from "react-toastify";
 
 export interface SubtaskFormData {
   task_id: string;
@@ -65,6 +66,7 @@ function SubTaskModal({
           );
     
           if (!res.ok) throw new Error('Failed to create subtask');
+          toast.success("SubTask created successfully!");
 
            setSubtaskData({
         task_id: selectedTaskId || '',
@@ -77,7 +79,8 @@ function SubTaskModal({
           onSuccess?.();
           onClose();
         } catch (err:any) {
-          setError(err.message || 'Subtask save nahi ho paya.');
+          toast.error("Failed to create subtask.");
+          setError(err.message || 'Failed to create subtask.');
         }
     
           

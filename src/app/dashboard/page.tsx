@@ -10,6 +10,8 @@ import TaskList from "@/components/tasks/TaskList";
 import type {TaskColumn} from '@/types/task'
 import AddColumnModal from "@/components/tasks/taskModel/AddColumnModal";
 import { createClient } from "@/lib/supabaseClient";
+import { useSearchParams, useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 
 
@@ -17,6 +19,9 @@ type ViewMode = "list" | "board";
 
 function page() {
   const supabase=createClient();
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
    // Search state
   const [searchQuery, setSearchQuery] = useState("");
   // Mobile sidebar state
@@ -64,39 +69,17 @@ function page() {
     useEffect(()=>{
        fetchTask();
        setHashydrated(true)
-       //Realtime data
-      //  const channel=supabase.channel('realtime-tasks').on('postgres_changes',{
-      //   event:"*",
-      //   schema:'public',
-      //   table:"tasks"
-      //  },(payload)=>{
-         
-      //    //Insert task data
-      //     if(payload.eventType === 'INSERT'){
-      //       const newTask = payload.new as TaskColumn;
-      //       setTaskColumns((prev) =>[newTask, ...prev]);
-      //     }
-
-      //     //Update status/Data 
-      //     if(payload.eventType === 'UPDATE'){
-      //       const updateTask = payload.new as TaskColumn;
-      //       setTaskColumns((prev)=>prev.map((task)=>(task.id === updateTask.id ? updateTask : task)))
-      //     }
-
-      //     //Deleted Task
-      //     if(payload.eventType === 'DELETE'){
-      //       const deletedId = payload.old.id;
-      //       setTaskColumns((prev)=>prev.filter((task)=> task.id !== deletedId))
-      //     }
-
-      //  }
-      // )
-      //Cleanup component unmount
-      // return ()=>{
-      //   supabase.removeChannel(channel)
-      // };
-
     },[])
+
+   useEffect(() => {
+    if (searchParams.get("login") === "success") {
+      toast.success("Successfully logged in with Google! 🎉");
+
+      // Clean URL
+      const newUrl = window.location.pathname;
+      router.replace(newUrl, { scroll: false });
+    }
+  }, [searchParams, router]);
 
     if(!hasHydrated) return null
 

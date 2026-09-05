@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { createPortal } from "react-dom";
+import { toast } from 'react-toastify';
 
 
 export interface TaskToEdit {
@@ -104,13 +105,15 @@ const isSubtask = 'task';
       });
       
 
-      if (!res.ok) throw new Error('Update failed');
+      if (!res.ok) throw new Error('Update task failed');
+      toast.success("Task updated successfully!");
 
       onSuccess?.();
       onClose();
 
     } catch (err) {
-      console.log('Update process failed. Check backend console.');
+      toast.error("Failed to update task.");
+      console.log('Update process failed.');
     }
 
     onClose()
@@ -191,7 +194,7 @@ const isSubtask = 'task';
                 onChange={(e) =>
                   setFormData({ ...formData, assignee: e.target.value })
                 }
-                className="mt-1 w-full rounded-md border border-gray-600 p-2 text-black dark:text-gray-400 text-sm focus:outline-none"
+                className="mt-1 w-full rounded-md border border-gray-600 p-2 text-black dark:bg-gray-800 dark:text-gray-400 text-sm focus:outline-none"
               >
                 <option value="admin">Admin</option>
                 <option value="user">User</option>

@@ -7,6 +7,7 @@ import { UpdateSubtaskDto } from './dto/update-Subtask.dto';
 import { CreatedColumnDto } from './dto/create-column.dto';
 import { CreateprojectDto } from './dto/create-project.dto';
 import { UpdateprojectDto } from './dto/update-project.dto';
+import { CreateCommentDto } from './dto/create-comment.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -49,6 +50,18 @@ export class TasksController {
   @Patch('subtask/:id')
   updateSubtask(@Param('id') id:string, @Body() updateSubtaskDto:UpdateSubtaskDto){
     return this.tasksService.updateSubtask(id,updateSubtaskDto);
+  }
+
+  //create comments
+  @Post('comments')
+  createComment(@Body() createCommentDto:CreateCommentDto){
+    return this.tasksService.createComment(createCommentDto);
+  }
+
+  //fetch comments
+  @Get('comment/:taskid')
+  getCommentsByTaskId(@Param('taskid') taskid:string){
+    return this.tasksService.getCommentsByTaskId(taskid);
   }
 
   //get all tasks

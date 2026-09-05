@@ -84,7 +84,7 @@ export default function ProjectsTable() {
                 key={project.id}
                   className="hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition"
                 >
-                  <td className={`py-3.5 px-6 font-medium `}>
+                  <td className={`py-1 px-6 font-medium`}>
                    <span className={textColorMap[color || "text-gray-800"]}>{project.title}</span> 
                   </td>
                   <td className="py-3.5 px-6">

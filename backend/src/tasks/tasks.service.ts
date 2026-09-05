@@ -12,6 +12,7 @@ import { UpdateSubtaskDto } from './dto/update-Subtask.dto';
 import { CreatedColumnDto } from './dto/create-column.dto';
 import { CreateprojectDto } from './dto/create-project.dto';
 import { UpdateprojectDto } from './dto/update-project.dto';
+import { CreateCommentDto } from './dto/create-comment.dto';
 
 @Injectable()
 export class TasksService {
@@ -139,6 +140,31 @@ export class TasksService {
     return data[0];
   }
 
+  //create comments
+  async createComment(createCommentDto:CreateCommentDto){
+
+     const commentPayload = {
+       task_id:createCommentDto.task_id,
+        content:createCommentDto.content,
+        user_id:createCommentDto.user_id || null,
+        user_name:createCommentDto.user_name || 'Guest',
+        parent_id:createCommentDto.parent_id || null
+    };
+
+    const { data, error } = await supabase
+      .from('comments')
+      .insert([commentPayload])
+      .select();
+
+    if (error) {
+      throw new BadRequestException(
+        `Failed to create comment: ${error.message}`,
+      );
+    }
+
+    return data[0];
+  }
+
   //update Subtask
   async updateSubtask(id: string, updateSubtaskDto: UpdateSubtaskDto) {
     const { data, error } = await supabase
@@ -256,6 +282,30 @@ export class TasksService {
     }
 
     return data;
+  }
+
+  //get comments
+  async getCommentsByTaskId(taskid:string){
+     
+    if(!taskid){
+       throw new BadRequestException(
+        `Failed to fetch comments. TaskId required!`,
+      );
+    }
+
+     const { data, error } = await supabase
+      .from('comments')
+      .select('*')
+      .eq('task_id', taskid)
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      throw new BadRequestException(
+        `Failed to fetch comments: ${error.message}`,
+      );
+    }
+
+    return data || [];
   }
 
   //update task

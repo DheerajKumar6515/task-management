@@ -36,7 +36,7 @@ export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors duration-200 scrollbar-thin">
+      <div className="relative overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors duration-200 scrollbar-thin">
         <div className="min-w-150">
           {/* Header */}
           <div className="grid grid-cols-[1fr_90px_100px_110px_45px] bg-gray-50 dark:bg-gray-800/50 px-2 py-2 text-[10px] font-medium text-gray-600 dark:text-gray-400">
@@ -68,14 +68,14 @@ export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
               <button
                onClick={()=>setActiveMenuId(activeMenuId === subtask.id ? null : subtask.id)}
                 type="button"
-                className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer"
+                className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer"
               >
                 ...
               </button>
 
               {/* Actions Dropdown Popup */}
                 {activeMenuId === subtask.id && (
-                  <div className="absolute right-4 mt-1 w-36 bg-gray-900 border border-gray-800 rounded-lg shadow-xl z-20 py-1 text-left">
+                  <div className="absolute top-16 right-4 mt-1 w-36 bg-gray-900 border border-gray-800 rounded-lg shadow-xl z-50 py-1 text-left">
                     <button
                       onClick={() => openUpdateModal(subtask)}
                       className="w-full px-3 py-2 text-xs text-gray-300 hover:bg-gray-800 flex items-center gap-2"

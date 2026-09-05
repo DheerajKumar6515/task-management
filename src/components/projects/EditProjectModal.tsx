@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 export interface Project {
   id: string;
@@ -35,10 +36,11 @@ export default function EditProjectModal({ project, onClose, onSuccess }: Props)
       });
 
       if (res.ok) {
+        toast.success("Project updated successfully!")
         onSuccess();
         onClose();
       } else {
-        console.log('Update failed');
+        toast.error("Unable to update changes.");
       }
     } catch (err) {
       console.error(err);

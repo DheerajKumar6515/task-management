@@ -6,6 +6,7 @@ import TaskCard from "@/components/tasks/TaskCard";
 import { useState } from "react";
 import TaskModal from "@/components/tasks/taskModel/TaskModal";
 import DeleteConfirmModal from "@/components/tasks/DeleteConfirmModal";
+import { toast } from "react-toastify";
 
 interface TaskColumnProps {
   column: TaskColumn;
@@ -20,7 +21,7 @@ function TaskColumn({ column }: TaskColumnProps) {
 
   // Tasks flatten list for subtask dropdown
   const allTask = column?.tasks || [];
-  const allTaskItems = allTask.flatMap((col: any) => col.tasks || []);
+  //const allTaskItems = allTask.flatMap((col: any) => col.tasks || []);
 
   const handleDeleteColumn = async () => {
     setIsDeleting(true);
@@ -36,9 +37,11 @@ function TaskColumn({ column }: TaskColumnProps) {
       if (!res.ok) {
         throw new Error("Failed to delete column");
       }
+      toast.success("Column deleted successfully!");
 
       setIsDeleteModalOpen(false);
     } catch (err) {
+      toast.error("Failed to delete column.");
       console.error("Column delete error:", err);
     } finally {
       setIsDeleting(false);

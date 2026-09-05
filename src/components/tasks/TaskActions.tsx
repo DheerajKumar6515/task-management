@@ -5,6 +5,7 @@ import UpdateTaskModal, {
   TaskToEdit,
 } from "@/components/tasks/UpdateTaskModal";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { toast } from "react-toastify";
 
 
 interface TaskActionsProps {
@@ -50,7 +51,7 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
     e.preventDefault();
     e.stopPropagation();
     setIsOpen(false);
-    setSelectedTaskToEdit({ ...task, type:"task"});
+    setSelectedTaskToEdit({ ...task});
     setIsUpdateModalOpen(true);
   };
 
@@ -70,8 +71,9 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
         if (!response.ok) {
           throw new Error(`Error ${response.status}: Task not found`);
         }
-        console.log("data successfully deleted")
+       toast.success("Task deleted successfully!");
       } catch (err: any) {
+        toast.error("Failed to delete task.");
         console.log(err.message || 'Failed to task delete');
       } 
 
