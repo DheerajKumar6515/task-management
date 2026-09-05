@@ -31,7 +31,7 @@ function TaskCard({ task }: TaskCardProps) {
             <div className="w-6.5 h-5 rounded-full">
               <Avatar 
               name={task.assignee} 
-              src={`${userDetails? userDetails.googleAvatar : task.assigneeImage}`}/>
+              src={`${userDetails? userDetails?.googleAvatar : '/defaultimg.png'}`}/>
             </div>
 
             <span className="w-full capitalize h-4 text-xs font-sans font-medium text-[#0A0A0A] dark:text-gray-300 truncate">

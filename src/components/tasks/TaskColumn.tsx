@@ -7,12 +7,15 @@ import { useState } from "react";
 import TaskModal from "@/components/tasks/taskModel/TaskModal";
 import DeleteConfirmModal from "@/components/tasks/DeleteConfirmModal";
 import { toast } from "react-toastify";
+import { useContextData } from "@/Context/GlobalContext";
 
 interface TaskColumnProps {
   column: TaskColumn;
 }
 
 function TaskColumn({ column }: TaskColumnProps) {
+  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_baCKEND_URL;
+  const {fetchTask}=useContextData()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState("todo");
   const [showMenu, setShowMenu] = useState(false);
@@ -28,7 +31,7 @@ function TaskColumn({ column }: TaskColumnProps) {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_baCKEND_URL}/tasks/column/${column.id}`,
+        `${baseUrl}/tasks/column/${column.id}`,
         {
           method: "DELETE",
         },
@@ -38,6 +41,8 @@ function TaskColumn({ column }: TaskColumnProps) {
         throw new Error("Failed to delete column");
       }
       toast.success("Column deleted successfully!");
+      //refresh fetch function
+      fetchTask();
 
       setIsDeleteModalOpen(false);
     } catch (err) {

@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useContextData } from "@/Context/GlobalContext";
 
 interface AddColumnModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface AddColumnModalProps {
 }
 
 export default function AddColumnModal({ isOpen, onClose, onSuccess }: AddColumnModalProps) {
+  const {fetchTask}=useContextData()
   const [columnName, setColumnName] = useState("");
   const [column_id, setColumnID] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,7 +20,7 @@ export default function AddColumnModal({ isOpen, onClose, onSuccess }: AddColumn
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleCreateColumn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
@@ -37,6 +39,8 @@ export default function AddColumnModal({ isOpen, onClose, onSuccess }: AddColumn
         throw new Error(data.message || "Something went wrong");
       }
       toast.success("Column created successfully!");
+      //refresh fetch function
+      fetchTask()
 
       setColumnName("");
       onClose();
@@ -58,7 +62,7 @@ export default function AddColumnModal({ isOpen, onClose, onSuccess }: AddColumn
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleCreateColumn} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Column_id

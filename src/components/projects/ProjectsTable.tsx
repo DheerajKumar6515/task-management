@@ -84,16 +84,16 @@ export default function ProjectsTable() {
                 key={project.id}
                   className="hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition"
                 >
-                  <td className={`py-1 px-6 font-medium`}>
-                   <span className={textColorMap[color || "text-gray-800"]}>{project.title}</span> 
+                  <td className={`py-1 px-6 `}>
+                   <span className={`${textColorMap[color || "text-gray-800"]} text-xs font-medium`}>{project.title}</span> 
                   </td>
-                  <td className="py-3.5 px-6">
-                    <span>{project.priority}</span>
+                  <td className="py-1 px-6">
+                    <span className="text-xs text-gray-600">{project.priority}</span>
                     </td>
-                  <td className="py-3.5 px-6 text-gray-600 dark:text-gray-300">
+                  <td className="py-3.5 px-6 text-xs text-gray-600 dark:text-gray-300">
                     {project.lead}
                   </td>
-                  <td className="py-3.5 px-6 text-right">
+                  <td className="py-1 px-6 text-right">
                     {/* Component 1: Action Dropdown */}
                     <ActionDropdown
                       onEdit={() => setEditingProject(project)}
@@ -113,7 +113,7 @@ export default function ProjectsTable() {
                setIsAddOpen(true);
                 setProjectModalOpen(true)
               }}
-            className="flex items-center cursor-pointer gap-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
+            className="flex items-center cursor-pointer gap-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
           >
             <Plus className="w-4 h-4" /> Add Projects
           </button>

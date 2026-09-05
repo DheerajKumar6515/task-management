@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
-
+import { useContextData } from "@/Context/GlobalContext";
 import TaskDetailsHeader from "@/components/tasks/TaskDetails/TaskDetailsHeader";
 import TaskProperties from "@/components/tasks/TaskDetails/TaskProperties";
 import TaskLabels from "@/components/tasks/TaskDetails/TaskLabels";
@@ -13,38 +13,19 @@ import SubtaskTable from "@/components/tasks/TaskDetails/SubtaskTable";
 import DetailsPanel from "@/components/tasks/TaskDetails/DetailsPanel";
 import CommentSection from "@/components/tasks/TaskDetails/CommentSection";
 import ActivityUpdates from "@/components/tasks/TaskDetails/ActivityUpdates";
-import type { Task, TaskColumn } from "@/types/task";
-import SubTaskModal from "@/components/tasks/taskModel/SubTaskModal";
+
 
 
 function page() {
-  const backendUrl = process.env.NEXT_PUBLIC_baCKEND_URL;
   const params = useParams();
   const taskId = params.id as string;
+  const {task,fetchTaskById}=useContextData();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [task, setTask] = useState<Task | null>(null);
+
   
- 
-  const fetchTaskById = async () => {
-    try {
-      const response = await fetch(`${backendUrl}/tasks/${taskId}`);
-
-      if (!response.ok) {
-        throw new Error(`Error ${response.status}: Task not found`);
-      }
-
-      const data = await response.json();
-      //console.log(data)
-      setTask(data);
-    } catch (err: any) {
-      setTask(null);
-      console.log(err.message || "Failed to fetch task");
-    }
-  };
-
   useEffect(() => {
     if (!taskId) return;
-    fetchTaskById();
+    fetchTaskById(taskId);
   }, [taskId]);
 
   // Agar task nahi mila

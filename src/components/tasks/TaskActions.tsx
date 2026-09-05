@@ -1,4 +1,6 @@
 "use client";
+
+import { useContextData } from "@/Context/GlobalContext";
 import type { Task } from "@/types/task";
 import { useEffect, useRef, useState } from "react";
 import UpdateTaskModal, {
@@ -15,8 +17,10 @@ interface TaskActionsProps {
 
 export default function TaskActions({ taskId, task }: TaskActionsProps) {
   const backendUrl=process.env.NEXT_PUBLIC_baCKEND_URL;
+  const {fetchTask}=useContextData()
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [deleteLoading,setDeleteLoading]=useState(false)
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [selectedTaskToEdit, setSelectedTaskToEdit] =
     useState<TaskToEdit | null>(null);
@@ -58,6 +62,7 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
   const handleDelete = async (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
+    setDeleteLoading(true)
 
     try {
       
@@ -72,6 +77,9 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
           throw new Error(`Error ${response.status}: Task not found`);
         }
        toast.success("Task deleted successfully!");
+       setDeleteLoading(false)
+       //refresh fech function
+       fetchTask()
       } catch (err: any) {
         toast.error("Failed to delete task.");
         console.log(err.message || 'Failed to task delete');
@@ -114,7 +122,7 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
             className="flex cursor-pointer w-full items-center gap-2 px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
           >
             <Trash2 size={15} />
-            Delete
+           {deleteLoading ? 'Deleting..':'Delete'}
           </button>
         </div>
       )}

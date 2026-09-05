@@ -6,6 +6,7 @@ import Avatar from "@/components/ui/Avatar";
 import type { Task } from "@/types/task";
 import FormateTime from "@/components/tasks/FormateTime";
 import { toast } from "react-toastify";
+import { CleanAvatar } from "@/components/ui/CleanAvatar";
 
 interface commentsProps {
   task: Task;
@@ -120,6 +121,10 @@ export default function CommentSection({ task }: commentsProps) {
     }
   }, [task.id]);
 
+   const avatarSrc = userDetails?.googleAvatar 
+      ? CleanAvatar(userDetails.googleAvatar) 
+      : '/defaultimg.png';
+
   return (
     <section className="mt-6">
       <h2 className="mb-3 text-xs font-semibold text-gray-900 dark:text-gray-100">
@@ -146,7 +151,7 @@ export default function CommentSection({ task }: commentsProps) {
                     <div className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-500 text-[9px] text-white">
                       <Avatar
                         name={task.assignee}
-                        src={`${userDetails ? userDetails.googleAvatar : task.assigneeImage}`}
+                        src={avatarSrc || '/defaultimg.png'}
                       />
                     </div>
 

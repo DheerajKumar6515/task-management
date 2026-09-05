@@ -27,7 +27,7 @@ export default function TaskModal({
   onSuccess,
 }: TaskModalProps) {
   const backendUrl = process.env.NEXT_PUBLIC_baCKEND_URL;
-  const {userDetails}=useContextData();
+  const {userDetails,fetchTask}=useContextData();
 
   // Task Form State
   const [taskData, setTaskData] = useState({
@@ -82,7 +82,9 @@ export default function TaskModal({
 
       if (!res.ok) throw new Error("Failed to create task");
       toast.success("Task created successfully!");
-
+      //refresh fetch function
+      fetchTask();
+      
       onSuccess?.();
       onClose();
     } catch (err) {

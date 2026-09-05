@@ -7,29 +7,26 @@ import Topbar from "@/components/layout/Topbar";
 import TaskHeader from "@/components/tasks/TaskHeader";
 import TaskBoard from "@/components/tasks/TaskBoard";
 import TaskList from "@/components/tasks/TaskList";
-import type {TaskColumn} from '@/types/task'
 import AddColumnModal from "@/components/tasks/taskModel/AddColumnModal";
-import { createClient } from "@/lib/supabaseClient";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useContextData } from "@/Context/GlobalContext";
 
 
 
 type ViewMode = "list" | "board";
 
 function page() {
-  const supabase=createClient();
-
+  
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { fetchTask,taskColumns}=useContextData()
    // Search state
   const [searchQuery, setSearchQuery] = useState("");
   // Mobile sidebar state
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // Board / List state
   const [viewMode, setViewMode] = useState<ViewMode>("board");
-  //Arraydata
-  const [taskColumns,setTaskColumns]=useState<TaskColumn[]>([])
   //add column for task
   const [isModalOpen, setIsModalOpen] = useState(false);
   //fix hydration error
@@ -49,23 +46,7 @@ function page() {
 
   }, [searchQuery,taskColumns]);
 
-  const backendUrl=process.env.NEXT_PUBLIC_baCKEND_URL;
-   const fetchTask = async () => {
-      try {
-      
-        const response = await fetch(`${backendUrl}/tasks`);
-
-        if (!response.ok) {
-          throw new Error(`Error ${response.status}: Task not found`);
-        }
-
-        const data = await response.json();
-        setTaskColumns(data);
-      } catch (err: any) {
-        console.log(err.message || 'Failed to fetch task');
-      } 
-    };
-
+ 
     useEffect(()=>{
        fetchTask();
        setHashydrated(true)
@@ -89,7 +70,7 @@ function page() {
       {/* Sidebar */}
       <Sidebar
         open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        onClose={() => setSidebarOpen(prev=>!prev)}
       />
 
       {/* Main */}

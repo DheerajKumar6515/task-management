@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from "react-dom";
 import { toast } from 'react-toastify';
+import { useContextData } from '@/Context/GlobalContext';
 
 
 export interface TaskToEdit {
@@ -32,6 +33,8 @@ export default function UpdateTaskModal({
   taskToEdit,
   onSuccess,
 }: UpdateTaskModalProps) {
+
+  const {fetchTask}=useContextData()
 
   const [mounted, setMounted] = useState(false);
   //for task
@@ -107,6 +110,8 @@ const isSubtask = 'task';
 
       if (!res.ok) throw new Error('Update task failed');
       toast.success("Task updated successfully!");
+      //refresh fetch function
+      fetchTask();
 
       onSuccess?.();
       onClose();

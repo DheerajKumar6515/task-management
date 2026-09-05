@@ -7,7 +7,6 @@ import {
   ChevronsUpDown,
   GalleryVerticalEnd,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import ProfileMenu from "@/components/layout/ProfileMenu";
 import { usePathname } from "next/navigation";
@@ -53,13 +52,6 @@ function Sidebar({ open, onClose }: SidebarProps) {
               className="h-8 w-8 overflow-hidden rounded-full cursor-pointer ring-1 ring-gray-200 dark:ring-gray-700"
             >
               {/* Image here */}
-              {/* <Image
-                src="/avatar.jpg"
-                alt="avtar-img"
-                width={16}
-                height={16}
-                className="object-cover w-full h-full"
-              /> */}
               <UserProfile/>
             </div>
 

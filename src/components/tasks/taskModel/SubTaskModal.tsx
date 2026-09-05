@@ -2,6 +2,7 @@
 import { SubTasks } from "@/types/task";
 import { useState,useEffect } from "react";
 import { toast } from "react-toastify";
+import { useContextData } from "@/Context/GlobalContext";
 
 export interface SubtaskFormData {
   task_id: string;
@@ -15,7 +16,7 @@ interface SubtaskModalProps {
   isOpen: boolean;
   onClose: () => void;
   tasksList: SubTasks[];
-  selectedTaskId?: string;
+  selectedTaskId: string;
   onSuccess?: () => void;
 }
 
@@ -26,6 +27,8 @@ function SubTaskModal({
   selectedTaskId,
   onSuccess,
 }: SubtaskModalProps) {
+
+  const {fetchTaskById}=useContextData();
     // Subtask Form State
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -67,6 +70,8 @@ function SubTaskModal({
     
           if (!res.ok) throw new Error('Failed to create subtask');
           toast.success("SubTask created successfully!");
+          //refresh subtask fetch function
+          fetchTaskById(selectedTaskId)
 
            setSubtaskData({
         task_id: selectedTaskId || '',

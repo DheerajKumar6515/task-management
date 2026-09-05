@@ -8,9 +8,7 @@ import { CleanAvatar } from '@/components/ui/CleanAvatar';
 
 
 export default function UserProfile() {
-  const {userDetails,setUserDetails}=useContextData();
-  const [userName, setUserName] = useState<string>('Guest');
-  const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
+  const {userDetails,setUserDetails}=useContextData(); 
   const [loading, setLoading] = useState(true);
 
   const supabase = createClient();
@@ -27,16 +25,12 @@ export default function UserProfile() {
         const email=user.email || '';
         const userId=user.id || "";
         
-        setUserName(googleName);
-        setAvatarUrl(googleAvatar); 
         //for context 
          setUserDetails({userId,googleName,googleAvatar,email});
       } else {
          setUserDetails(null);
          // console.log("No logged-in user");
-        // Guest User
-        setUserName('Guest User');
-        setAvatarUrl(undefined);
+    
       }
       setLoading(false);
     }catch(error){
@@ -53,11 +47,15 @@ export default function UserProfile() {
 
   if (loading) return null;
 
+  const avatarSrc = userDetails?.googleAvatar 
+    ? CleanAvatar(userDetails.googleAvatar) 
+    : '/defaultimg.png';
+
   return (
     <div className="h-full">
       <Avatar 
-        name={userName} 
-        src={CleanAvatar(avatarUrl)} 
+        name={userDetails?.googleName || 'Guest'}
+        src={avatarSrc || '/defaultimg.png'}
         size="md" 
       />
     </div>

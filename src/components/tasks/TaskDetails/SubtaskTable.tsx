@@ -51,7 +51,7 @@ export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
           {subtasks.map((subtask) => (
             <div
               key={subtask.id}
-              className="grid grid-cols-[1fr_90px_100px_110px_45px] items-center border-t border-gray-200 dark:border-gray-800 px-2 py-2.5 text-[11px] text-gray-800 dark:text-gray-200 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors"
+              className="grid grid-cols-[1fr_90px_100px_110px_45px] items-center relative border-t border-gray-200 dark:border-gray-800 px-2 py-2.5 text-[11px] text-gray-800 dark:text-gray-200 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors"
             >
               <span className="font-medium text-gray-900 dark:text-gray-100">
                 {subtask.title}
@@ -75,10 +75,10 @@ export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
 
               {/* Actions Dropdown Popup */}
                 {activeMenuId === subtask.id && (
-                  <div className="absolute top-16 right-4 mt-1 w-36 bg-gray-900 border border-gray-800 rounded-lg shadow-xl z-50 py-1 text-left">
+                  <div className="absolute top-8 right-4 mt-1 w-36 bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-800 rounded-lg shadow-xl z-50 py-1 text-left">
                     <button
                       onClick={() => openUpdateModal(subtask)}
-                      className="w-full px-3 py-2 text-xs text-gray-300 hover:bg-gray-800 flex items-center gap-2"
+                      className="w-full px-3 py-2 text-xs dark:text-gray-300 hover:bg-gray-200 flex dark:hover:bg-gray-600 items-center gap-2"
                     >
                       <Edit className="w-3.5 h-3.5 text-blue-400" /> Update
                     </button>
@@ -87,17 +87,19 @@ export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
                         setDeletingSubtaskId(subtask.id);
                         setActiveMenuId(null);
                       }}
-                      className="w-full px-3 py-2 text-xs text-red-400 hover:bg-gray-800 flex items-center gap-2"
+                      className="w-full px-3 py-2 text-xs text-red-400 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center gap-2"
                     >
                       <Trash2 className="w-3.5 h-3.5" /> Delete
                     </button>
                   </div>
                 )}
 
-                 {deletingSubtaskId && <SubtaskDeleteWarning
-           taskId={subtask.id}
-           setDeletingSubtaskId={setDeletingSubtaskId}
-           />}
+                 {deletingSubtaskId &&
+                  <SubtaskDeleteWarning
+                   taskId={subtask.id}
+                   setDeletingSubtaskId={setDeletingSubtaskId}
+                   Taskid={Taskid}
+                 />}
 
             </div>
           ))}
@@ -106,7 +108,9 @@ export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
           {editingSubtask &&
            <UpdateSubtaskModal
             editingSubtask={editingSubtask}
-             setEditingSubtask={setEditingSubtask}/>}
+             setEditingSubtask={setEditingSubtask}
+             taskId={Taskid}
+             />}
           
           <SubTaskModal
             isOpen={SubtaskModalOpen}
