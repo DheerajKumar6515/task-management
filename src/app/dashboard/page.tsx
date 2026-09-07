@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect,Suspense } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
 import TaskHeader from "@/components/tasks/TaskHeader";
@@ -13,7 +13,7 @@ import { useContextData } from "@/Context/GlobalContext";
 
 type ViewMode = "list" | "board";
 
-function page() {
+function DashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { fetchTask, taskColumns } = useContextData();
@@ -102,4 +102,17 @@ function page() {
   );
 }
 
-export default page;
+// Main Export Component jisme Suspense Boundary hai
+export default function DashboardPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-screen items-center justify-center bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+          Loading dashboard...
+        </div>
+      }
+    >
+      <DashboardContent />
+    </Suspense>
+  );
+}
