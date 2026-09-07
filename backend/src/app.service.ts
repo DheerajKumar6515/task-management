@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { error } from 'console';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello people!';
+  getHello(): object {
+    return {
+      activeStatus:"true",
+      message:"deploy backend successfully.",
+      error:false
+    };
   }
 }
 
