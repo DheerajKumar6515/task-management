@@ -48,5 +48,9 @@ export class CreateTaskDto {
   @IsOptional()
   description?: string;
 
+  @IsString()
+  @IsOptional()
+  avatar?:string 
+
 
 }

@@ -8,6 +8,7 @@ import { CreatedColumnDto } from './dto/create-column.dto';
 import { CreateprojectDto } from './dto/create-project.dto';
 import { UpdateprojectDto } from './dto/update-project.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -50,6 +51,20 @@ export class TasksController {
   @Patch('subtask/:id')
   updateSubtask(@Param('id') id:string, @Body() updateSubtaskDto:UpdateSubtaskDto){
     return this.tasksService.updateSubtask(id,updateSubtaskDto);
+  }
+
+  //Update UserProfile
+  @Post('profile/:userId')
+  async UpdateProfile(@Param('userId') userId: string,
+    @Body() updateProfileDto: UpdateProfileDto,
+  ) {
+    return this.tasksService.UpdateProfile(userId, updateProfileDto);
+  }
+
+  //Profile Data fetch endpoint
+  @Get('profileUser/:userId')
+  async getProfile(@Param('userId') userId: string) {
+    return this.tasksService.getProfile(userId);
   }
 
   //create comments

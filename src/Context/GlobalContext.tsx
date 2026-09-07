@@ -1,7 +1,6 @@
 "use client";
 
 import { Task, TaskColumn } from "@/types/task";
-import { promises } from "dns";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 export type Color = "amber" | "blue" | "pink" | "rose" | "emerald" | "black";
@@ -12,6 +11,8 @@ export interface userProps{
   googleName:string;
   googleAvatar:string;
   email:string;
+  title?:string;
+  username?:string;
 }
 
 interface ColorContextType{

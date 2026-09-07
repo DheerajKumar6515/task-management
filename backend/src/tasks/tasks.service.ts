@@ -13,6 +13,7 @@ import { CreatedColumnDto } from './dto/create-column.dto';
 import { CreateprojectDto } from './dto/create-project.dto';
 import { UpdateprojectDto } from './dto/update-project.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class TasksService {
@@ -66,6 +67,7 @@ export class TasksService {
       tags: createTaskDto.tags,
       description: createTaskDto.description,
       user_id: createTaskDto.user_id,
+      avatar:createTaskDto.avatar,
     };
 
     const { data: taskData, error: taskError } = await supabase
@@ -148,7 +150,8 @@ export class TasksService {
         content:createCommentDto.content,
         user_id:createCommentDto.user_id || null,
         user_name:createCommentDto.user_name || 'Guest',
-        parent_id:createCommentDto.parent_id || null
+        parent_id:createCommentDto.parent_id || null,
+        avatar:createCommentDto.avatar || null
     };
 
     const { data, error } = await supabase
@@ -203,6 +206,55 @@ export class TasksService {
     return data[0];
   }
 
+  //Update / Upsert User Profile
+  async UpdateProfile (userId:string,updateProfileDto:UpdateProfileDto){
+
+    const { data, error } = await supabase
+      .from('profiles')
+      .upsert(
+        {
+          id:userId,
+          name: updateProfileDto.name,
+          email: updateProfileDto.email,
+          title: updateProfileDto.title,
+          username: updateProfileDto.username,
+          avatar: updateProfileDto.avatar,
+        },
+        { onConflict: 'id' },
+      )
+      .select()
+      .single();
+
+    if (error) {
+      throw new BadRequestException(`Failed to update profile: ${error.message}`);
+    }
+
+    return {
+      message: 'Profile updated successfully',
+      data,
+    };
+
+  }
+
+  //Profile Fetch Function 
+  async getProfile(userId: string) {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('id, name, email, title, username, avatar')
+      .eq('id', userId)
+      .maybeSingle();
+
+    if (error) {
+      throw new BadRequestException(`Error fetching profile: ${error.message}`);
+    }
+
+    if (!data) {
+      throw new NotFoundException('Profile not found');
+    }
+
+    return data;
+  }
+
   //get all tasks
   async findAll() {
     const { data, error } = await supabase.from('columns').select(`
@@ -216,6 +268,7 @@ export class TasksService {
           assignee,
           dueDate:due_date,
           tags,
+          avatar,
           description,
           subtasks (
             id,

@@ -17,7 +17,7 @@ export interface Task {
   column_id:string;
   priority: TaskPriority;
   assignee: string;
-  avatar?: string;
+  avatar?: string | null;
   dueDate: string;
   tags: string[];
   description?:string;

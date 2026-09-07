@@ -28,7 +28,6 @@ export default function TaskModal({
 }: TaskModalProps) {
   const backendUrl = process.env.NEXT_PUBLIC_baCKEND_URL;
   const {userDetails,fetchTask}=useContextData();
-
   // Task Form State
   const [taskData, setTaskData] = useState({
     title: "",
@@ -37,20 +36,12 @@ export default function TaskModal({
     status: defaultColumnId,
     priority: "medium",
     assignee: "Admin",
+    avatar:userDetails?.googleAvatar || "",
     due_date: "",
     tags: "",
     description: "",
-    user_id:userDetails?.userId,
+    user_id:userDetails?.userId || "",
   });
-
-  // Subtask Form State
-  // const [subtaskData, setSubtaskData] = useState({
-  //   task_id: existingTasks[0]?.id || "",
-  //   title: "",
-  //   priority: "medium",
-  //   assignee: "Admin",
-  //   due_date: "",
-  // });
 
   useEffect(() => {
     setTaskData((prev) => ({
@@ -68,6 +59,7 @@ export default function TaskModal({
   // Task Submission Logic
   const handleTaskSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const payload = {
       ...taskData,
       tags: taskData.tags ? taskData.tags.split(",").map((t) => t.trim()) : [],
@@ -99,10 +91,11 @@ export default function TaskModal({
       status: defaultColumnId,
       priority: "",
       assignee: "",
+      avatar:userDetails?.googleAvatar || "" ,
       due_date: "",
       tags: "",
       description: "",
-      user_id:userDetails?.userId
+      user_id:userDetails?.userId || ""
     });
   };
 

@@ -78,10 +78,11 @@ function LoginCard() {
         </div>
 
         {/* Google Login */}
-        <div className="w-full h-9 rounded-4xl border border-[#E5E5E5] dark:border-gray-700 px-3 py-2 gap-1.5 flex items-center justify-center bg-[#FAFAFA] dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors">
+        <div
+         onClick={handleGoogleLogin}
+         className="w-full h-9 rounded-4xl border border-[#E5E5E5] dark:border-gray-700 px-3 py-2 gap-1.5 flex items-center justify-center bg-[#FAFAFA] dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors">
           <button
-            type="button"
-            onClick={handleGoogleLogin}
+            type="button"          
             className="flex h-5 w-40 font-sans leading-5 gap-2 text-xs md:text-sm font-medium text-[#0A0A0A] dark:text-gray-200 cursor-pointer items-center justify-center"
           >
             <Image src="/google.png" alt="google-icon" width={20} height={16} />

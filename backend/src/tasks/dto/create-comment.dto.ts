@@ -13,6 +13,10 @@ export class CreateCommentDto {
   @IsOptional()
   user_name?: string; 
 
+  @IsString()
+  @IsOptional()
+  avatar?:string
+
   @IsUUID()
   @IsOptional()
   user_id?: string; 

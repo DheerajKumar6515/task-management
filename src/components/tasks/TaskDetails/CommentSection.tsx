@@ -19,6 +19,7 @@ interface CommentItem {
   content: string;
   created_at: string;
   parent_id: string | null;
+  avatar:string
 }
 
 export default function CommentSection({ task }: commentsProps) {
@@ -62,6 +63,7 @@ export default function CommentSection({ task }: commentsProps) {
       content: newComment,
       user_id: userDetails?.userId,
       user_name: userDetails?.googleName,
+      avatar:userDetails?.googleAvatar,
     };
 
     try {
@@ -94,6 +96,7 @@ export default function CommentSection({ task }: commentsProps) {
       user_id: userDetails?.userId || null,
       user_name: userDetails?.googleName,
       parent_id: parentId,
+      avatar:userDetails?.googleAvatar || null,
     };
 
     try {
@@ -121,9 +124,6 @@ export default function CommentSection({ task }: commentsProps) {
     }
   }, [task.id]);
 
-   const avatarSrc = userDetails?.googleAvatar 
-      ? CleanAvatar(userDetails.googleAvatar) 
-      : '/defaultimg.png';
 
   return (
     <section className="mt-6">
@@ -150,8 +150,8 @@ export default function CommentSection({ task }: commentsProps) {
                   <div className="flex gap-2 p-3">
                     <div className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-500 text-[9px] text-white">
                       <Avatar
-                        name={task.assignee}
-                        src={avatarSrc || '/defaultimg.png'}
+                        name={comment.user_name}
+                        src={comment?.avatar || '/defaultimg.png'}
                       />
                     </div>
 
