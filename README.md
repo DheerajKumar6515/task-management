@@ -38,14 +38,30 @@ task-management/
 ├── backend/                  # Additional backend configuration/scripts
 ├── src/
 │   ├── app/                  # Next.js App Router routes
+|   |   |__auth/              # For Google Authentication 
 │   │   ├── dashboard/        # Main Dashboard view
+|   |   |__profile/           # User Profile
+|   |   |__project/           # Display Project
 │   │   ├── task/[id]/        # Dynamic task details page
 │   │   ├── globals.css       # Tailwind directives & dark mode overrides
 │   │   └── page.tsx          # Landing / Entry page
 │   ├── components/
 │   │   ├── auth/             # Auth UI components (LoginCard, etc.)
-│   │   └── tasks/            # Task management UI components
-│   │       ├── TaskBoard.tsx
+|   |   |__layout/
+|   |   |  ├──ColorMode.tsx
+|   |   |  ├──ProfileMenu.tsx
+|   |   |  ├──Sidebar.tsx
+|   |   |  ├──ThemeMenu.tsx
+|   |   |  ├──Topbar.tsx      
+|   |   |__projects/
+|   |   |  ├──ActionDropdown.tsx
+|   |   |  ├──AddProjectModal.tsx
+|   |   |  ├──DeleteWarnModal.tsx
+|   |   |  ├──EditProjectModal.tsx
+|   |   |  ├──ProjectRow.tsx
+|   |   |  ├──ProjctTable.tsx                  
+│   │   └── tasks/                 # Task management UI components
+│   │       ├── TaskBoard.tsx   
 │   │       ├── TaskCard.tsx
 │   │       ├── TaskColumn.tsx
 │   │       ├── TaskList.tsx
