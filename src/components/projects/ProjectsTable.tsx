@@ -51,13 +51,13 @@ export default function ProjectsTable() {
   }, []);
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-4">
+    <div className="w-full max-w-6xl mx-auto p-4 overflow-scroll ">
       <h1 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
         Projects
       </h1>
 
       <div className="overflow-visible rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse ">
           <thead>
             <tr className="border-b border-gray-200 dark:border-gray-800 text-xs font-semibold text-gray-500">
               <th className="py-3 px-6">Projects</th>
@@ -108,7 +108,7 @@ export default function ProjectsTable() {
         </table>
 
         {/* Footer Add Project */}
-        <div className="border-t border-gray-100 dark:border-gray-800 p-3">
+        <div className="border-t border-gray-200 dark:border-gray-800 p-3">
           <button
             onClick={() => {
               setIsAddOpen(true);
