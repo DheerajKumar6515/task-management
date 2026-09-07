@@ -1,37 +1,35 @@
 "use client";
 import Image from "next/image";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabaseClient";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 function LoginCard() {
   const supabase = createClient();
-  const router = useRouter();
 
   const handleGuestLogin = async () => {
-  
     try {
-      //Current session Check 
-      const {data:{session}}=await supabase.auth.getSession();
-      if(session?.user){
-       toast.error("Please log in to perform this action.");
-       return
-      }else{
-         const { data, error } = await supabase.auth.signInAnonymously();
-         
-          if (error) {
-           console.error("Guest login error:", error?.message);
-           return;
-          }
-          // Dashboard par redirect
-         window.location.href = "/dashboard";
-         toast.success("You're in Guest Mode. Log in to sync your tasks across devices.")
-          
+      //Current session Check
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (session?.user) {
+        toast.error("Please log in to perform this action.");
+        return;
+      } else {
+        const { data, error } = await supabase.auth.signInAnonymously();
+
+        if (error) {
+          console.error("Guest login error:", error?.message);
+          return;
+        }
+        // Dashboard par redirect
+        window.location.href = "/dashboard";
+        toast.success(
+          "You're in Guest Mode. Log in to sync your tasks across devices.",
+        );
       }
-      
     } catch (err) {
-      console.error('Unexpected Auth Error:', err);
+      console.error("Unexpected Auth Error:", err);
     }
   };
 
@@ -45,8 +43,8 @@ function LoginCard() {
     });
 
     if (error) {
-    toast.error("Failed to initiate Google login.");
-  }
+      toast.error("Failed to initiate Google login.");
+    }
   };
 
   return (
@@ -79,10 +77,11 @@ function LoginCard() {
 
         {/* Google Login */}
         <div
-         onClick={handleGoogleLogin}
-         className="w-full h-9 rounded-4xl border border-[#E5E5E5] dark:border-gray-700 px-3 py-2 gap-1.5 flex items-center justify-center bg-[#FAFAFA] dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors">
+          onClick={handleGoogleLogin}
+          className="w-full h-9 rounded-4xl border border-[#E5E5E5] dark:border-gray-700 px-3 py-2 gap-1.5 flex items-center justify-center bg-[#FAFAFA] dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors"
+        >
           <button
-            type="button"          
+            type="button"
             className="flex h-5 w-40 font-sans leading-5 gap-2 text-xs md:text-sm font-medium text-[#0A0A0A] dark:text-gray-200 cursor-pointer items-center justify-center"
           >
             <Image src="/google.png" alt="google-icon" width={20} height={16} />

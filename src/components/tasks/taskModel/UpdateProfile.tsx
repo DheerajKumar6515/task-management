@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useContextData } from "@/Context/GlobalContext";
 import { X } from "lucide-react";
 import { createClient } from "@/lib/supabaseClient";
-import { title } from "process";
 import { toast } from "react-toastify";
 
 interface ProfileProps {

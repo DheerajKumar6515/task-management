@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { X } from 'lucide-react';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { X } from "lucide-react";
+import { toast } from "react-toastify";
 
 export interface Project {
   id: string;
@@ -17,8 +17,12 @@ interface Props {
   onSuccess: () => void;
 }
 
-export default function EditProjectModal({ project, onClose, onSuccess }: Props) {
-  const backendUrl=process.env.NEXT_PUBLIC_baCKEND_URL;
+export default function EditProjectModal({
+  project,
+  onClose,
+  onSuccess,
+}: Props) {
+  const backendUrl = process.env.NEXT_PUBLIC_baCKEND_URL;
   const [title, setTitle] = useState(project.title);
   const [priority, setPriority] = useState(project.priority);
   const [lead, setLead] = useState(project.lead);
@@ -30,13 +34,13 @@ export default function EditProjectModal({ project, onClose, onSuccess }: Props)
 
     try {
       const res = await fetch(`${backendUrl}/tasks/project/${project.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, priority, lead }),
       });
 
       if (res.ok) {
-        toast.success("Project updated successfully!")
+        toast.success("Project updated successfully!");
         onSuccess();
         onClose();
       } else {
@@ -47,22 +51,28 @@ export default function EditProjectModal({ project, onClose, onSuccess }: Props)
     } finally {
       setLoading(false);
     }
-
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-base font-bold text-gray-900 dark:text-white">Update Project</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <h2 className="text-base font-bold text-gray-900 dark:text-white">
+            Update Project
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600"
+          >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <form onSubmit={handleUpdate} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">Project Name</label>
+            <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+              Project Name
+            </label>
             <input
               type="text"
               required
@@ -74,7 +84,9 @@ export default function EditProjectModal({ project, onClose, onSuccess }: Props)
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">Priority</label>
+              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+                Priority
+              </label>
               <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value)}
@@ -86,7 +98,9 @@ export default function EditProjectModal({ project, onClose, onSuccess }: Props)
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">Lead</label>
+              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">
+                Lead
+              </label>
               <input
                 type="text"
                 value={lead}
@@ -109,7 +123,7 @@ export default function EditProjectModal({ project, onClose, onSuccess }: Props)
               disabled={loading}
               className="px-4 py-2 text-sm bg-black dark:bg-white text-white dark:text-black rounded-md font-medium"
             >
-              {loading ? 'Saving...' : 'Save Changes'}
+              {loading ? "Saving..." : "Save Changes"}
             </button>
           </div>
         </form>

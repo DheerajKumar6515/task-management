@@ -14,15 +14,12 @@ import DetailsPanel from "@/components/tasks/TaskDetails/DetailsPanel";
 import CommentSection from "@/components/tasks/TaskDetails/CommentSection";
 import ActivityUpdates from "@/components/tasks/TaskDetails/ActivityUpdates";
 
-
-
 function page() {
   const params = useParams();
   const taskId = params.id as string;
-  const {task,fetchTaskById}=useContextData();
+  const { task, fetchTaskById } = useContextData();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  
   useEffect(() => {
     if (!taskId) return;
     fetchTaskById(taskId);
@@ -71,9 +68,9 @@ function page() {
 
                 <TaskResources />
 
-                <SubtaskTable subtasks={task.subtasks ?? []} Taskid={task.id}/>
+                <SubtaskTable subtasks={task.subtasks ?? []} Taskid={task.id} />
 
-                <CommentSection task={task}/>
+                <CommentSection task={task} />
               </div>
 
               {/* =====================

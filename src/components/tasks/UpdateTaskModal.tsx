@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { toast } from 'react-toastify';
-import { useContextData } from '@/Context/GlobalContext';
-
+import { toast } from "react-toastify";
+import { useContextData } from "@/Context/GlobalContext";
 
 export interface TaskToEdit {
   id: string;
@@ -16,9 +15,8 @@ export interface TaskToEdit {
   due_date?: string;
   tags?: string[] | string;
   description?: string;
-  task_id?: string; 
+  task_id?: string;
 }
-
 
 interface UpdateTaskModalProps {
   isOpen: boolean;
@@ -33,48 +31,43 @@ export default function UpdateTaskModal({
   taskToEdit,
   onSuccess,
 }: UpdateTaskModalProps) {
-
-  const {fetchTask}=useContextData()
+  const { fetchTask } = useContextData();
 
   const [mounted, setMounted] = useState(false);
   //for task
   const [formData, setFormData] = useState({
-    title:'',
-    column_id: 'todo',
-    priority: 'medium',
-    assignee: '',
-    due_date: '',
-    tags: '',
-    description: '',
+    title: "",
+    column_id: "todo",
+    priority: "medium",
+    assignee: "",
+    due_date: "",
+    tags: "",
+    description: "",
   });
 
-  
   useEffect(() => {
     setMounted(true);
   }, []);
 
-
   useEffect(() => {
     if (taskToEdit) {
-  
       setFormData({
-        title: taskToEdit.title || '',
-        column_id: taskToEdit.column_id || 'todo',
-        priority: taskToEdit.priority || 'medium',
-        assignee: taskToEdit.assignee || '',
-        due_date: taskToEdit.due_date || '',
+        title: taskToEdit.title || "",
+        column_id: taskToEdit.column_id || "todo",
+        priority: taskToEdit.priority || "medium",
+        assignee: taskToEdit.assignee || "",
+        due_date: taskToEdit.due_date || "",
         tags: Array.isArray(taskToEdit.tags)
-          ? taskToEdit.tags.join(', ')
-          : taskToEdit.tags || '',
-        description: taskToEdit.description || '',
+          ? taskToEdit.tags.join(", ")
+          : taskToEdit.tags || "",
+        description: taskToEdit.description || "",
       });
     }
   }, [taskToEdit]);
 
+  if (!isOpen || !mounted || !taskToEdit) return null;
 
-if (!isOpen || !mounted || !taskToEdit) return null;
-
-const isSubtask = 'task';
+  const isSubtask = "task";
 
   const handleUpdateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,36 +86,33 @@ const isSubtask = 'task';
       payload.status = formData.column_id;
       payload.description = formData.description;
       payload.tags = formData.tags
-        ? formData.tags.split(',').map((t) => t.trim())
+        ? formData.tags.split(",").map((t) => t.trim())
         : [];
-    }  
+    }
 
     try {
       // Direct request to backend PATCH endpoint
       const endpoint = `${process.env.NEXT_PUBLIC_baCKEND_URL}/tasks/${taskToEdit.id}`;
 
       const res = await fetch(endpoint, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      
 
-      if (!res.ok) throw new Error('Update task failed');
+      if (!res.ok) throw new Error("Update task failed");
       toast.success("Task updated successfully!");
       //refresh fetch function
       fetchTask();
 
       onSuccess?.();
       onClose();
-
     } catch (err) {
       toast.error("Failed to update task.");
-      console.log('Update process failed.');
+      console.log("Update process failed.");
     }
 
-    onClose()
-    
+    onClose();
   };
 
   return createPortal(
@@ -132,8 +122,8 @@ const isSubtask = 'task';
     >
       <div
         className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-white dark:bg-gray-900 dark:border dark:border-gray-800 p-6 shadow-2xl transition-colors duration-200"
-        onClick={(e) => e.stopPropagation()} 
-        onMouseDown={(e) => e.stopPropagation()} 
+        onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
       >
         {/* Header with Close Icon */}
         <div className="flex items-center justify-between pb-3 sticky top-0 bg-white dark:bg-gray-900 z-10 border-b dark:border-gray-800">
@@ -148,7 +138,7 @@ const isSubtask = 'task';
             ✕
           </button>
         </div>
-        
+
         {/* Dynamic Form */}
         <form onSubmit={handleUpdateSubmit} className="mt-4 space-y-4">
           {/* Column / Status (Task Only) */}
@@ -173,81 +163,85 @@ const isSubtask = 'task';
           )}
 
           {/* Title */}
-          {isSubtask && <div>
-            <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
-              Title *
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.title}
-              onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
-              }
-              className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 p-2 text-sm focus:outline-none focus:border-black dark:focus:border-gray-400"
-            />
-          </div> }
-          
-          {/* Assignee & Priority */}
-         {isSubtask && <div className="grid grid-cols-2 gap-4">
-             <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500">
-                Assignee
-              </label>
-              <select
-                value={formData.assignee}
-                onChange={(e) =>
-                  setFormData({ ...formData, assignee: e.target.value })
-                }
-                className="mt-1 w-full rounded-md border border-gray-600 p-2 text-black dark:bg-gray-800 dark:text-gray-400 text-sm focus:outline-none"
-              >
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-                <option value="developer">Developer</option>
-                <option value="qa team">QA Team</option>
-                <option value="designer">Designer</option>
-                <option value="security">Security</option>
-                <option value="product">Product</option>
-                <option value="engineering">Engineering</option>
-              </select>
-            </div>
-
-
+          {isSubtask && (
             <div>
-              <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-g mb-1">
-                Priority
-              </label>
-              <select
-                value={formData.priority}
-                onChange={(e) =>
-                  setFormData({ ...formData, priority: e.target.value })
-                }
-                className="w-full rounded-md border dark:border-gray-700 p-2 text-sm focus:outline-none bg-white dark:bg-gray-800 dark:text-gray-100"
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </div>
-          </div>
-         }
-
-          {/* Due Date & Tags */}
-          <div className="grid grid-cols-2 gap-4">
-           {isSubtask && <div>
               <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
-                Due Date
+                Title *
               </label>
               <input
                 type="text"
-                value={formData.due_date}
-                placeholder='Date Month '
+                required
+                value={formData.title}
                 onChange={(e) =>
-                  setFormData({ ...formData, due_date: e.target.value })
+                  setFormData({ ...formData, title: e.target.value })
                 }
-                className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 p-2 text-sm focus:outline-none"
+                className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 p-2 text-sm focus:outline-none focus:border-black dark:focus:border-gray-400"
               />
-            </div>}
+            </div>
+          )}
+
+          {/* Assignee & Priority */}
+          {isSubtask && (
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold uppercase text-gray-500">
+                  Assignee
+                </label>
+                <select
+                  value={formData.assignee}
+                  onChange={(e) =>
+                    setFormData({ ...formData, assignee: e.target.value })
+                  }
+                  className="mt-1 w-full rounded-md border border-gray-600 p-2 text-black dark:bg-gray-800 dark:text-gray-400 text-sm focus:outline-none"
+                >
+                  <option value="admin">Admin</option>
+                  <option value="user">User</option>
+                  <option value="developer">Developer</option>
+                  <option value="qa team">QA Team</option>
+                  <option value="designer">Designer</option>
+                  <option value="security">Security</option>
+                  <option value="product">Product</option>
+                  <option value="engineering">Engineering</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-g mb-1">
+                  Priority
+                </label>
+                <select
+                  value={formData.priority}
+                  onChange={(e) =>
+                    setFormData({ ...formData, priority: e.target.value })
+                  }
+                  className="w-full rounded-md border dark:border-gray-700 p-2 text-sm focus:outline-none bg-white dark:bg-gray-800 dark:text-gray-100"
+                >
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </div>
+            </div>
+          )}
+
+          {/* Due Date & Tags */}
+          <div className="grid grid-cols-2 gap-4">
+            {isSubtask && (
+              <div>
+                <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1">
+                  Due Date
+                </label>
+                <input
+                  type="text"
+                  value={formData.due_date}
+                  placeholder="Date Month "
+                  onChange={(e) =>
+                    setFormData({ ...formData, due_date: e.target.value })
+                  }
+                  className="w-full rounded-md border dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 p-2 text-sm focus:outline-none"
+                />
+              </div>
+            )}
 
             {/* {isSubtask &&
                <div>
@@ -319,7 +313,6 @@ const isSubtask = 'task';
         </form>
       </div>
     </div>,
-    document.body
-
+    document.body,
   );
 }

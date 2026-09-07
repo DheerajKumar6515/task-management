@@ -2,15 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ColorProvider } from "@/Context/GlobalContext";
-import { ToastContainer, toast } from 'react-toastify';
-
-
+import { ToastContainer, toast } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
 
 export const metadata: Metadata = {
   title: "Task_Management App",
@@ -19,26 +16,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={` h-full antialiased`}
-    >
+    <html lang="en" className={` h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <ColorProvider>
-        {children}
-        </ColorProvider>
-      <ToastContainer
-      position="top-center" 
-      autoClose={3000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-    />
+        <ColorProvider>{children}</ColorProvider>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </body>
     </html>
   );

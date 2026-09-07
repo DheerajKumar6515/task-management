@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { useContextData } from "@/Context/GlobalContext";
 import ActionDropdown from "@/components/projects/ActionDropdown";

@@ -14,8 +14,9 @@ interface TaskColumnProps {
 }
 
 function TaskColumn({ column }: TaskColumnProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_baCKEND_URL;
-  const {fetchTask}=useContextData()
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_baCKEND_URL;
+  const { fetchTask } = useContextData();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState("todo");
   const [showMenu, setShowMenu] = useState(false);
@@ -30,12 +31,9 @@ function TaskColumn({ column }: TaskColumnProps) {
     setIsDeleting(true);
 
     try {
-      const res = await fetch(
-        `${baseUrl}/tasks/column/${column.id}`,
-        {
-          method: "DELETE",
-        },
-      );
+      const res = await fetch(`${baseUrl}/tasks/column/${column.id}`, {
+        method: "DELETE",
+      });
 
       if (!res.ok) {
         throw new Error("Failed to delete column");

@@ -9,18 +9,17 @@ import UpdateTaskModal, {
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 
-
 interface TaskActionsProps {
   taskId: string;
   task: Task;
 }
 
 export default function TaskActions({ taskId, task }: TaskActionsProps) {
-  const backendUrl=process.env.NEXT_PUBLIC_baCKEND_URL;
-  const {fetchTask}=useContextData()
+  const backendUrl = process.env.NEXT_PUBLIC_baCKEND_URL;
+  const { fetchTask } = useContextData();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const [deleteLoading,setDeleteLoading]=useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [selectedTaskToEdit, setSelectedTaskToEdit] =
     useState<TaskToEdit | null>(null);
@@ -29,19 +28,26 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
-   
-    if (menuRef.current && menuRef.current.contains(target as Node)) {
-      return;
-    }
 
-    if (!target || target.tagName === "SELECT" || target.tagName === "OPTION") {
-      return;
-    }
+      if (menuRef.current && menuRef.current.contains(target as Node)) {
+        return;
+      }
 
-    if (target.closest("[role='dialog']") || target.closest(".modal-container")) {
-      return;
-    }
-    setIsOpen(false);
+      if (
+        !target ||
+        target.tagName === "SELECT" ||
+        target.tagName === "OPTION"
+      ) {
+        return;
+      }
+
+      if (
+        target.closest("[role='dialog']") ||
+        target.closest(".modal-container")
+      ) {
+        return;
+      }
+      setIsOpen(false);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -55,35 +61,34 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
     e.preventDefault();
     e.stopPropagation();
     setIsOpen(false);
-    setSelectedTaskToEdit({ ...task});
+    setSelectedTaskToEdit({ ...task });
     setIsUpdateModalOpen(true);
   };
 
-  const handleDelete = async (e:React.MouseEvent<HTMLButtonElement>) => {
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    setDeleteLoading(true)
+    setDeleteLoading(true);
 
     try {
-      
-        const response = await fetch(`${backendUrl}/tasks/${taskId}`,{
-          method: "DELETE",
-          headers: {
-           "Content-Type": "application/json",
-      },
-        });
+      const response = await fetch(`${backendUrl}/tasks/${taskId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        if (!response.ok) {
-          throw new Error(`Error ${response.status}: Task not found`);
-        }
-       toast.success("Task deleted successfully!");
-       setDeleteLoading(false)
-       //refresh fech function
-       fetchTask()
-      } catch (err: any) {
-        toast.error("Failed to delete task.");
-        console.log(err.message || 'Failed to task delete');
-      } 
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: Task not found`);
+      }
+      toast.success("Task deleted successfully!");
+      setDeleteLoading(false);
+      //refresh fech function
+      fetchTask();
+    } catch (err: any) {
+      toast.error("Failed to delete task.");
+      console.log(err.message || "Failed to task delete");
+    }
 
     setIsOpen(false);
   };
@@ -101,7 +106,9 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
         aria-label="Task actions"
       >
         <span>
-        <span><MoreHorizontal size={18} /></span>
+          <span>
+            <MoreHorizontal size={18} />
+          </span>
         </span>
       </button>
 
@@ -122,7 +129,7 @@ export default function TaskActions({ taskId, task }: TaskActionsProps) {
             className="flex cursor-pointer w-full items-center gap-2 px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
           >
             <Trash2 size={15} />
-           {deleteLoading ? 'Deleting..':'Delete'}
+            {deleteLoading ? "Deleting.." : "Delete"}
           </button>
         </div>
       )}

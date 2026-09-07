@@ -1,3 +1,4 @@
+"use client";
 import FieldsMenu from "@/components/tasks/FieldsMenu";
 import SearchInput from "@/components/tasks/SearchInput";
 import FilterDropdown from "@/components/tasks/filters/FilterDropdown";
@@ -10,16 +11,15 @@ interface TaskHeaderProps {
   onViewChange: (view: "list" | "board") => void;
   searchQuery: string;
   onSearchChange: (value: string) => void;
-  onOpenModal:()=>void;
+  onOpenModal: () => void;
 }
-
 
 function TaskHeader({
   viewMode,
   onViewChange,
   searchQuery,
   onSearchChange,
-  onOpenModal
+  onOpenModal,
 }: TaskHeaderProps) {
   const [fieldsOpen, setFieldsOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -85,7 +85,7 @@ function TaskHeader({
         </div>
 
         <button
-        onClick={onOpenModal}
+          onClick={onOpenModal}
           type="button"
           className={`w-10 md:w-24 h-8 flex items-center justify-center gap-1 rounded-md bg-[#171717] md:px-3 py-2 hover:bg-black cursor-pointer dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors`}
         >

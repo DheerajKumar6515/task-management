@@ -1,6 +1,6 @@
 "use client";
 import { SubTasks } from "@/types/task";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useContextData } from "@/Context/GlobalContext";
 
@@ -27,75 +27,69 @@ function SubTaskModal({
   selectedTaskId,
   onSuccess,
 }: SubtaskModalProps) {
+  const { fetchTaskById } = useContextData();
+  // Subtask Form State
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [subtaskData, setSubtaskData] = useState<SubtaskFormData>({
+    task_id: selectedTaskId || "",
+    title: "",
+    priority: "medium",
+    assignee: "Admin",
+    due_date: "",
+  });
 
-  const {fetchTaskById}=useContextData();
-    // Subtask Form State
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-      const [subtaskData, setSubtaskData] = useState<SubtaskFormData>({
-        task_id: selectedTaskId || '',
-    title: '',
-    priority: 'medium',
-    assignee: 'Admin',
-    due_date: '',
-      });
-
-    useEffect(() => {
+  useEffect(() => {
     if (selectedTaskId) {
       setSubtaskData((prev) => ({ ...prev, task_id: selectedTaskId }));
-    } 
+    }
   }, [selectedTaskId]);
-      
+
   if (!isOpen) return null;
 
-    const handleSubtaskSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
-        if (!subtaskData.task_id) {
-         setError('Please select a parent task.');
+  const handleSubtaskSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    if (!subtaskData.task_id) {
+      setError("Please select a parent task.");
       return;
-        }
-        setLoading(true);
-        
-        
-        try {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_baCKEND_URL}/tasks/${subtaskData.task_id}/subtasks`,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(subtaskData),
-            }
-          );
-    
-          if (!res.ok) throw new Error('Failed to create subtask');
-          toast.success("SubTask created successfully!");
-          //refresh subtask fetch function
-          fetchTaskById(selectedTaskId)
+    }
+    setLoading(true);
 
-           setSubtaskData({
-        task_id: selectedTaskId || '',
-        title: '',
-        priority: '',
-        assignee: '',
-        due_date: '',
-        })
-    
-          onSuccess?.();
-          onClose();
-        } catch (err:any) {
-          toast.error("Failed to create subtask.");
-          setError(err.message || 'Failed to create subtask.');
-        }
-    
-          
-      };
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_baCKEND_URL}/tasks/${subtaskData.task_id}/subtasks`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(subtaskData),
+        },
+      );
+
+      if (!res.ok) throw new Error("Failed to create subtask");
+      toast.success("SubTask created successfully!");
+      //refresh subtask fetch function
+      fetchTaskById(selectedTaskId);
+
+      setSubtaskData({
+        task_id: selectedTaskId || "",
+        title: "",
+        priority: "",
+        assignee: "",
+        due_date: "",
+      });
+
+      onSuccess?.();
+      onClose();
+    } catch (err: any) {
+      toast.error("Failed to create subtask.");
+      setError(err.message || "Failed to create subtask.");
+    }
+  };
 
   return (
-    
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
-        
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-3">
           <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">
@@ -117,9 +111,8 @@ function SubTaskModal({
 
         {/* Form Fields */}
         <form onSubmit={handleSubtaskSubmit} className="mt-4 space-y-4">
-          
           {/* Task ID  */}
-           <div>
+          <div>
             <label className="block text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
               Task_id
             </label>
@@ -180,7 +173,7 @@ function SubTaskModal({
                 }
                 className="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2 text-sm focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
               >
-              <option value="admin">Admin</option>
+                <option value="admin">Admin</option>
                 <option value="user">User</option>
                 <option value="developer">Developer</option>
                 <option value="qa team">QA Team</option>
@@ -221,13 +214,13 @@ function SubTaskModal({
               disabled={loading}
               className="rounded-md cursor-pointer bg-black dark:bg-gray-100 px-4 py-2 text-sm font-medium text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 disabled:opacity-50"
             >
-              {loading ? 'Creating...' : 'Create Subtask'}
+              {loading ? "Creating..." : "Create Subtask"}
             </button>
           </div>
         </form>
       </div>
     </div>
-  )
+  );
 }
 
-export default SubTaskModal
+export default SubTaskModal;

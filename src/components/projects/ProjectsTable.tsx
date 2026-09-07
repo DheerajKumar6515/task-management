@@ -16,14 +16,14 @@ export default function ProjectsTable() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   // for project modal
-  const [projectModalOpen,setProjectModalOpen]=useState(false)
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
 
   // Active Modals state
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [deletingProject, setDeletingProject] = useState<Project | null>(null);
 
-   const textColorMap: Record<string, string> = {
+  const textColorMap: Record<string, string> = {
     amber: "text-amber-500",
     blue: "text-purple-600",
     pink: "text-pink-500",
@@ -31,11 +31,6 @@ export default function ProjectsTable() {
     emerald: "text-emerald-600",
     black: "text-black",
   };
-  // const priorityStyles = {
-  //   High: "text-red-500",
-  //   Medium: "text-orange-500",
-  //   Low: "text-gray-400",
-  // };
 
   const fetchProjects = async () => {
     try {
@@ -81,15 +76,21 @@ export default function ProjectsTable() {
             ) : (
               projects.map((project) => (
                 <tr
-                key={project.id}
+                  key={project.id}
                   className="hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition"
                 >
                   <td className={`py-1 px-6 `}>
-                   <span className={`${textColorMap[color || "text-gray-800"]} text-xs font-medium`}>{project.title}</span> 
+                    <span
+                      className={`${textColorMap[color || "text-gray-800"]} text-xs font-medium`}
+                    >
+                      {project.title}
+                    </span>
                   </td>
                   <td className="py-1 px-6">
-                    <span className="text-xs text-gray-600">{project.priority}</span>
-                    </td>
+                    <span className="text-xs text-gray-600">
+                      {project.priority}
+                    </span>
+                  </td>
                   <td className="py-3.5 px-6 text-xs text-gray-600 dark:text-gray-300">
                     {project.lead}
                   </td>
@@ -109,22 +110,21 @@ export default function ProjectsTable() {
         {/* Footer Add Project */}
         <div className="border-t border-gray-100 dark:border-gray-800 p-3">
           <button
-            onClick={() =>{
-               setIsAddOpen(true);
-                setProjectModalOpen(true)
-              }}
+            onClick={() => {
+              setIsAddOpen(true);
+              setProjectModalOpen(true);
+            }}
             className="flex items-center cursor-pointer gap-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
           >
             <Plus className="w-4 h-4" /> Add Projects
           </button>
         </div>
-
       </div>
 
       {/* Component 2: Add Modal */}
       {isAddOpen && (
         <AddProjectModal
-         isOpen={projectModalOpen}
+          isOpen={projectModalOpen}
           onClose={() => setIsAddOpen(false)}
           onProjectAdded={fetchProjects}
         />

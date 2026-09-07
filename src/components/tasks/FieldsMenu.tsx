@@ -55,9 +55,6 @@ export default function FieldsMenu({
   viewMode,
   onViewChange,
 }: FieldsMenuProps) {
-  // const [viewMode, setViewMode] =
-  //   useState<ViewMode>("board");
-
   const [fields, setFields] = useState<FieldOption[]>(initialFields);
 
   const toggleField = (fieldId: string) => {

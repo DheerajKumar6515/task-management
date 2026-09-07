@@ -1,4 +1,3 @@
-// components/AddColumnModal.tsx
 "use client";
 
 import { useState } from "react";
@@ -11,8 +10,12 @@ interface AddColumnModalProps {
   onSuccess?: () => void;
 }
 
-export default function AddColumnModal({ isOpen, onClose, onSuccess }: AddColumnModalProps) {
-  const {fetchTask}=useContextData()
+export default function AddColumnModal({
+  isOpen,
+  onClose,
+  onSuccess,
+}: AddColumnModalProps) {
+  const { fetchTask } = useContextData();
   const [columnName, setColumnName] = useState("");
   const [column_id, setColumnID] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,13 +28,15 @@ export default function AddColumnModal({ isOpen, onClose, onSuccess }: AddColumn
     setLoading(true);
     setError("");
 
-
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_baCKEND_URL}/tasks/column`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ columnName, column_id }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_baCKEND_URL}/tasks/column`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ columnName, column_id }),
+        },
+      );
 
       const data = await res.json();
 
@@ -40,7 +45,7 @@ export default function AddColumnModal({ isOpen, onClose, onSuccess }: AddColumn
       }
       toast.success("Column created successfully!");
       //refresh fetch function
-      fetchTask()
+      fetchTask();
 
       setColumnName("");
       onClose();
@@ -77,7 +82,7 @@ export default function AddColumnModal({ isOpen, onClose, onSuccess }: AddColumn
             />
           </div>
 
-         <div>
+          <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Column Name
             </label>

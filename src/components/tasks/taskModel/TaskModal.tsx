@@ -27,7 +27,7 @@ export default function TaskModal({
   onSuccess,
 }: TaskModalProps) {
   const backendUrl = process.env.NEXT_PUBLIC_baCKEND_URL;
-  const {userDetails,fetchTask}=useContextData();
+  const { userDetails, fetchTask } = useContextData();
   // Task Form State
   const [taskData, setTaskData] = useState({
     title: "",
@@ -36,11 +36,11 @@ export default function TaskModal({
     status: defaultColumnId,
     priority: "medium",
     assignee: "Admin",
-    avatar:userDetails?.googleAvatar || "",
+    avatar: userDetails?.googleAvatar || "",
     due_date: "",
     tags: "",
     description: "",
-    user_id:userDetails?.userId || "",
+    user_id: userDetails?.userId || "",
   });
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function TaskModal({
       ...taskData,
       tags: taskData.tags ? taskData.tags.split(",").map((t) => t.trim()) : [],
     };
-   
+
     try {
       const res = await fetch(`${backendUrl}/tasks/create`, {
         method: "POST",
@@ -76,7 +76,7 @@ export default function TaskModal({
       toast.success("Task created successfully!");
       //refresh fetch function
       fetchTask();
-      
+
       onSuccess?.();
       onClose();
     } catch (err) {
@@ -91,11 +91,11 @@ export default function TaskModal({
       status: defaultColumnId,
       priority: "",
       assignee: "",
-      avatar:userDetails?.googleAvatar || "" ,
+      avatar: userDetails?.googleAvatar || "",
       due_date: "",
       tags: "",
       description: "",
-      user_id:userDetails?.userId || ""
+      user_id: userDetails?.userId || "",
     });
   };
 

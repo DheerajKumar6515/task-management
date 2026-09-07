@@ -41,16 +41,8 @@ export default function ProfileSettings() {
 
       const data = await response.json();
       setUserData(data);
-      // setUserDetails({
-      //   userId:data.id,
-      //   email:data.email,
-      //   googleName:data.name,
-      //   title:data.title,
-      //   username:data.username,
-      //   googleAvatar:data.avatar
-      // })
     } catch (err: any) {
-      //setTask(null);
+      setUserData(null)
       console.log(err.message || "Failed to fetch UserProfile");
     }
   };

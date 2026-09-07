@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { AlertTriangle } from 'lucide-react';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { AlertTriangle } from "lucide-react";
+import { toast } from "react-toastify";
 
 interface Props {
   projectTitle: string;
@@ -11,14 +11,21 @@ interface Props {
   onSuccess: () => void;
 }
 
-export default function DeleteWarnModal({ projectTitle, projectId, onClose, onSuccess }: Props) {
-  const backendUrl=process.env.NEXT_PUBLIC_baCKEND_URL;
+export default function DeleteWarnModal({
+  projectTitle,
+  projectId,
+  onClose,
+  onSuccess,
+}: Props) {
+  const backendUrl = process.env.NEXT_PUBLIC_baCKEND_URL;
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${backendUrl}/tasks/delproject/${projectId}`, { method: 'DELETE' });
+      const res = await fetch(`${backendUrl}/tasks/delproject/${projectId}`, {
+        method: "DELETE",
+      });
       if (res.ok) {
         toast.success("Project deleted successfully!");
         onSuccess();
@@ -40,9 +47,15 @@ export default function DeleteWarnModal({ projectTitle, projectId, onClose, onSu
           <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
         </div>
 
-        <h3 className="text-base font-bold text-gray-900 dark:text-white mb-1">Delete Project?</h3>
+        <h3 className="text-base font-bold text-gray-900 dark:text-white mb-1">
+          Delete Project?
+        </h3>
         <p className="text-xs text-gray-500 dark:text-gray-400 mb-5">
-          Are you sure you want to delete <span className="font-semibold text-gray-800 dark:text-gray-200">"{projectTitle}"</span> This action cannot be undone?
+          Are you sure you want to delete{" "}
+          <span className="font-semibold text-gray-800 dark:text-gray-200">
+            "{projectTitle}"
+          </span>{" "}
+          This action cannot be undone?
         </p>
 
         <div className="flex justify-center gap-3">
@@ -59,7 +72,7 @@ export default function DeleteWarnModal({ projectTitle, projectId, onClose, onSu
             onClick={handleDelete}
             className="w-1/2 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition disabled:opacity-50 cursor-pointer"
           >
-            {loading ? 'Deleting...' : 'Yes, Delete'}
+            {loading ? "Deleting..." : "Yes, Delete"}
           </button>
         </div>
       </div>

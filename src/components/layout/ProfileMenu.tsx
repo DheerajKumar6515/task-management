@@ -11,8 +11,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function ProfileMenu() {
-  const {userDetails}=useContextData();
-  const AvatarUrl=CleanAvatar(userDetails?.googleAvatar);
+  const { userDetails } = useContextData();
+  const AvatarUrl = CleanAvatar(userDetails?.googleAvatar);
   const [themeOpen, setThemeOpen] = useState(false);
   const [colorModeOpen, setColorModeOpen] = useState(false);
 
@@ -23,20 +23,21 @@ export default function ProfileMenu() {
         <div className="flex flex-col items-center">
           {/* Avatar */}
           <Image
-            src={`${userDetails ? AvatarUrl : '/defaultimg.png'}`}
-            width={30} height={30}
+            src={`${userDetails ? AvatarUrl : "/defaultimg.png"}`}
+            width={30}
+            height={30}
             alt="UserImg"
             className="h-10 w-10 rounded-full object-cover border border-gray-200 dark:border-gray-700"
           />
 
           {/* Name */}
           <p className="mt-2 text-[10px] font-medium text-gray-900 dark:text-gray-100">
-            {userDetails? userDetails?.googleName : "Guest"}
+            {userDetails ? userDetails?.googleName : "Guest"}
           </p>
 
           {/* Email */}
           <p className="text-[9px] text-gray-400 dark:text-gray-500">
-           {userDetails? userDetails?.email : "Guest@gmail.com"}
+            {userDetails ? userDetails?.email : "Guest@gmail.com"}
           </p>
         </div>
       </div>

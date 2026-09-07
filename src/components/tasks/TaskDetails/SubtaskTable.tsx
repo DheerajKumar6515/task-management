@@ -6,24 +6,24 @@ import SubTaskModal from "../taskModel/SubTaskModal";
 import UpdateSubtaskModal from "@/components/tasks/TaskDetails/UpdateSubtaskModal";
 import SubtaskDeleteWarning from "@/components/tasks/TaskDetails/SubtaskDeleteWarning";
 
-
 interface SubtaskTableProps {
-  Taskid:string;
+  Taskid: string;
   subtasks: SubTasks[];
 }
 
-export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
+export default function SubtaskTable({ subtasks, Taskid }: SubtaskTableProps) {
   const [SubtaskModalOpen, setSubtaskModalOpen] = useState(false);
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
   const [editingSubtask, setEditingSubtask] = useState<SubTasks | null>(null);
-  const [deletingSubtaskId, setDeletingSubtaskId] = useState<string | null>(null);
+  const [deletingSubtaskId, setDeletingSubtaskId] = useState<string | null>(
+    null,
+  );
 
-  const openUpdateModal=(subtasks:SubTasks)=>{
+  const openUpdateModal = (subtasks: SubTasks) => {
     setEditingSubtask(subtasks);
     setActiveMenuId(null);
-  }
+  };
 
-   
   return (
     <section className="mt-6">
       {/* Heading */}
@@ -66,7 +66,11 @@ export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
               </span>
 
               <button
-               onClick={()=>setActiveMenuId(activeMenuId === subtask.id ? null : subtask.id)}
+                onClick={() =>
+                  setActiveMenuId(
+                    activeMenuId === subtask.id ? null : subtask.id,
+                  )
+                }
                 type="button"
                 className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer"
               >
@@ -74,44 +78,45 @@ export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
               </button>
 
               {/* Actions Dropdown Popup */}
-                {activeMenuId === subtask.id && (
-                  <div className="absolute top-8 right-4 mt-1 w-36 bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-800 rounded-lg shadow-xl z-50 py-1 text-left">
-                    <button
-                      onClick={() => openUpdateModal(subtask)}
-                      className="w-full px-3 py-2 text-xs dark:text-gray-300 hover:bg-gray-200 flex dark:hover:bg-gray-600 items-center gap-2"
-                    >
-                      <Edit className="w-3.5 h-3.5 text-blue-400" /> Update
-                    </button>
-                    <button
-                      onClick={() => {
-                        setDeletingSubtaskId(subtask.id);
-                        setActiveMenuId(null);
-                      }}
-                      className="w-full px-3 py-2 text-xs text-red-400 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center gap-2"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" /> Delete
-                    </button>
-                  </div>
-                )}
+              {activeMenuId === subtask.id && (
+                <div className="absolute top-8 right-4 mt-1 w-36 bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-800 rounded-lg shadow-xl z-50 py-1 text-left">
+                  <button
+                    onClick={() => openUpdateModal(subtask)}
+                    className="w-full px-3 py-2 text-xs dark:text-gray-300 hover:bg-gray-200 flex dark:hover:bg-gray-600 items-center gap-2"
+                  >
+                    <Edit className="w-3.5 h-3.5 text-blue-400" /> Update
+                  </button>
+                  <button
+                    onClick={() => {
+                      setDeletingSubtaskId(subtask.id);
+                      setActiveMenuId(null);
+                    }}
+                    className="w-full px-3 py-2 text-xs text-red-400 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center gap-2"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" /> Delete
+                  </button>
+                </div>
+              )}
 
-                 {deletingSubtaskId &&
-                  <SubtaskDeleteWarning
-                   taskId={subtask.id}
-                   setDeletingSubtaskId={setDeletingSubtaskId}
-                   Taskid={Taskid}
-                 />}
-
+              {deletingSubtaskId && (
+                <SubtaskDeleteWarning
+                  taskId={subtask.id}
+                  setDeletingSubtaskId={setDeletingSubtaskId}
+                  Taskid={Taskid}
+                />
+              )}
             </div>
           ))}
-          
+
           {/*Udate Modal */}
-          {editingSubtask &&
-           <UpdateSubtaskModal
-            editingSubtask={editingSubtask}
-             setEditingSubtask={setEditingSubtask}
-             taskId={Taskid}
-             />}
-          
+          {editingSubtask && (
+            <UpdateSubtaskModal
+              editingSubtask={editingSubtask}
+              setEditingSubtask={setEditingSubtask}
+              taskId={Taskid}
+            />
+          )}
+
           <SubTaskModal
             isOpen={SubtaskModalOpen}
             onClose={() => setSubtaskModalOpen(false)}
@@ -124,7 +129,7 @@ export default function SubtaskTable({ subtasks,Taskid }: SubtaskTableProps) {
 
           {/* Add */}
           <button
-          onClick={()=>setSubtaskModalOpen(true)}
+            onClick={() => setSubtaskModalOpen(true)}
             type="button"
             className="w-full border-t border-gray-200 dark:border-gray-800 px-2 py-2.5 text-left text-xs text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 cursor-pointer transition-colors"
           >

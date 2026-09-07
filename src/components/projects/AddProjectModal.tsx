@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { X } from 'lucide-react';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { X } from "lucide-react";
+import { toast } from "react-toastify";
 
 interface AddProjectModalProps {
   isOpen: boolean;
@@ -15,11 +15,10 @@ export default function AddProjectModal({
   onClose,
   onProjectAdded,
 }: AddProjectModalProps) {
-
-  const backendUrl=process.env.NEXT_PUBLIC_baCKEND_URL;
-  const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState('Medium');
-  const [lead, setLead] = useState('');
+  const backendUrl = process.env.NEXT_PUBLIC_baCKEND_URL;
+  const [title, setTitle] = useState("");
+  const [priority, setPriority] = useState("Medium");
+  const [lead, setLead] = useState("");
   const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
@@ -32,25 +31,25 @@ export default function AddProjectModal({
 
     try {
       const response = await fetch(`${backendUrl}/tasks/createproject`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, priority, lead }),
       });
 
       if (!response.ok) {
-        throw new Error('Project add karne me error aaya');
+        throw new Error("Project add karne me error aaya");
       }
       toast.success("Project created successfully!");
 
       // Reset form & close modal
-      setTitle('');
-      setPriority('Medium');
-      setLead('');
-      onProjectAdded(); 
+      setTitle("");
+      setPriority("Medium");
+      setLead("");
+      onProjectAdded();
       onClose();
     } catch (error) {
       toast.error("Failed to create project.");
-      console.error('Error adding project:', error);
+      console.error("Error adding project:", error);
     } finally {
       setLoading(false);
     }
@@ -111,7 +110,7 @@ export default function AddProjectModal({
               <input
                 type="text"
                 value={lead}
-                placeholder='eg. Admin,Dev,Qa'
+                placeholder="eg. Admin,Dev,Qa"
                 onChange={(e) => setLead(e.target.value)}
                 className="w-full rounded-lg border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
               />
@@ -132,7 +131,7 @@ export default function AddProjectModal({
               disabled={loading}
               className="px-4 py-2 text-sm font-medium rounded-lg bg-black dark:bg-white text-white dark:text-black hover:opacity-90 transition disabled:opacity-50 cursor-pointer"
             >
-              {loading ? 'Creating...' : 'Add Project'}
+              {loading ? "Creating..." : "Add Project"}
             </button>
           </div>
         </form>
