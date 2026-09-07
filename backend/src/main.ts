@@ -7,7 +7,11 @@ async function bootstrap() {
 
   // Enable CORS for Frontend
   app.enableCors({
-    origin: process.env.FRONTEND_URL || '*', // frontend ka URL
+    origin: [
+      process.env.FRONTEND_UR,
+      'https://task-management-ruby-sigma.vercel.app/', 
+      /\.vercel\.app$/,                   
+    ], // frontend ka URL
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
