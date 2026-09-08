@@ -59,22 +59,6 @@ A modern, full-stack Task Management application built using **Next.js (App Rout
 * **Theme & UI:**
   * **Dark & Light Mode:** Custom class-based theme toggle utilizing Tailwind CSS and client-side `localStorage` state synchronization.
   * **Responsive Design:** Mobile-first layout with collapsible sidebars and responsive navigation components (`Topbar`, `Sidebar`, `TaskHeader`).
-
----
-
-## 🛠️ Tech Stack
-
-### **Frontend**
-* **Framework:** Next.js (App Router)
-* **Language:** TypeScript
-* **Styling:** Tailwind CSS (v4 configuration with custom CSS directives)
-* **Icons & Components:** Lucide React 
-
-### **Backend & Database**
-* **Backend as a Service (BaaS):**Nest.js, Supabase
-* **Auth SDK:** `@supabase/supabase-js`
-* **Session Strategy:** Local browser storage & Supabase Auth Tokens
-
 ---
 
 ## 📁 Repository Structure
