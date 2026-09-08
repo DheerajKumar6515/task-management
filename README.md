@@ -46,7 +46,8 @@ task-management/
 │   │   ├── globals.css       # Tailwind directives & dark mode overrides
 │   │   └── page.tsx          # Landing / Entry page
 │   ├── components/
-│   │   ├── auth/             # Auth UI components (LoginCard, etc.)
+│   │   ├── auth/            # Auth UI components (LoginCard, etc.)
+|   |   |   ├──LoginCard.tsx       
 |   |   |__layout/
 |   |   |  ├──ColorMode.tsx
 |   |   |  ├──ProfileMenu.tsx
@@ -61,6 +62,33 @@ task-management/
 |   |   |  ├──ProjectRow.tsx
 |   |   |  ├──ProjctTable.tsx                  
 │   │   └── tasks/                 # Task management UI components
+|   |       ├── filters/
+|   |       |     └── FilterDropdown.tsx
+|   |       |     └── PriorityFilter.tsx
+|   |       ├── TaskDetails/
+|   |       |     └── ActivityUpdates.tsx
+|   |       |     └── CommentSection.tsx
+|   |       |     └── DateButton.tsx
+|   |       |     └── DetailsPanel.tsx
+|   |       |     └── PriorityDropdown.tsx
+|   |       |     └── SubtaskDeleteWarning.tsx
+|   |       |     └── SubtaskTable.tsx
+|   |       |     └── TaskDetailsHeader.tsx
+|   |       |     └── TaskLabels.tsx
+|   |       |     └── TaskProperties.tsx
+|   |       |     └── TaskResources.tsx
+|   |       |     └── UpdateSubtaskModal.tsx
+|   |       ├── taskModel/
+|   |       |     └── AddColumnModal.tsx
+|   |       |     └── SubTaskModal.tsx
+|   |       |     └── TaskModal.tsx
+|   |       |     └── UpdateProfile.tsx
+|   |       ├── TaskHeader.tsx 
+|   |       ├── TaskListSection.tsx 
+|   |       ├── SearchInput.tsx 
+|   |       ├── FormateTime.tsx 
+|   |       ├── FieldsMenu.tsx 
+|   |       ├── DeleteConfirmModal.tsx               
 │   │       ├── TaskBoard.tsx   
 │   │       ├── TaskCard.tsx
 │   │       ├── TaskColumn.tsx
@@ -69,6 +97,13 @@ task-management/
 │   │       ├── TaskTag.tsx
 │   │       ├── TaskActions.tsx
 │   │       └── UpdateTaskModal.tsx
+|   ├── ui/
+|   |   └── Avatar.tsx
+|   |   └── CleanAvatar.tsx
+|   |   └── IconButton.tsx
+|   |   └── UserProfile.tsx
+|   ├── Context/
+|   |   └── GlobalContext.tsx
 │   ├── lib/                  # Helper utilities and Supabase client setup
 │   │   └── supabaseClient.ts
 │   ├── data/                 # Sample data & mock fallbacks (tasks.ts)
